@@ -25,6 +25,7 @@ namespace CompleteSQL.Merge
         public void Merge()
         {
             var e = m_usingDataSource.ToArray();
+
         }
     }
 }
