@@ -10,7 +10,7 @@ namespace CompleteSQL.Merge
     {
         private IEnumerable<TSource> m_usingDataSource;
         internal OperationClass(IEnumerable<TSource> usingDataSource)
-        {
+        {  
             m_usingDataSource = usingDataSource;
         }
         public OperationClass<TSource> WhenMatchedThenUpdate()
@@ -25,7 +25,7 @@ namespace CompleteSQL.Merge
         public void Merge()
         {
             var e = m_usingDataSource.ToArray();
-
+             
         }
     }
 }
