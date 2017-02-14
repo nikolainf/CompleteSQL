@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace CompleteSQL.Merge
 {
-    public sealed class WhenMatchedThenUpdateQueryPart : MergeQueryPartDecorator
+    public sealed class WhenMatchedQueryPart : MergeQueryPartDecorator
     {
         public override string GetQueryPart()
         {
-            throw new NotImplementedException();
+            return string.Concat(base.GetQueryPart() ,"When Matched");
         }
     }
 }

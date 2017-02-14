@@ -6,15 +6,13 @@ using System.Threading.Tasks;
 
 namespace CompleteSQL.Merge
 {
-    public sealed class WhenNotMatchedThenInsertQueryPart : MergeQueryPartDecorator
+    public sealed class WhenNotMatchedQueryPart : MergeQueryPartDecorator
     {
         internal MergeQueryPartComponent PreviousPartQuery { get; set; }
 
-
         public override string GetQueryPart()
         {
-           return "WHEN NOT MATCHED THEN INSERT";
-
+            return string.Concat(base.GetQueryPart(), "When Not Matched");
         }
     }
 }

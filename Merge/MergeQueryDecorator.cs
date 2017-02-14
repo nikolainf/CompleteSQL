@@ -9,12 +9,11 @@ namespace CompleteSQL.Merge
     public abstract class MergeQueryPartDecorator : MergeQueryPartComponent
     {
         internal MergeQueryPartComponent QueryPartComponent { get; set; }
-        public override string GetQueryPart()
-        {
-           return string.Concat(
-               QueryPartComponent != null?QueryPartComponent.GetQueryPart(): string.Empty,
-            GetQueryPart());
 
+       
+        internal override string GetQueryPart()
+        {
+            return QueryPartComponent != null ? QueryPartComponent.GetQueryPart() : string.Empty;
         }
     }
 }

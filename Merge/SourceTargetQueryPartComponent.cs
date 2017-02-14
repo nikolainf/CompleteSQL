@@ -11,7 +11,7 @@ namespace CompleteSQL.Merge
         internal SourceTargetQueryPartComponent() { }
         public override string GetQueryPart()
         {
-            throw new NotImplementedException();
+            return "Merge Into Using";
         }
     }
 }
