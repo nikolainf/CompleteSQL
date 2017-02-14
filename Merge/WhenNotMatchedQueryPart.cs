@@ -10,7 +10,7 @@ namespace CompleteSQL.Merge
     {
         internal MergeQueryPartComponent PreviousPartQuery { get; set; }
 
-        public override string GetQueryPart()
+        internal override string GetQueryPart()
         {
             return string.Concat(base.GetQueryPart(), "When Not Matched");
         }

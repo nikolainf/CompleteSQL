@@ -9,7 +9,7 @@ namespace CompleteSQL.Merge
     public sealed class SourceTargetQueryPartComponent : MergeQueryPartComponent
     {
         internal SourceTargetQueryPartComponent() { }
-        public override string GetQueryPart()
+        internal override string GetQueryPart()
         {
             return "Merge Into Using";
         }

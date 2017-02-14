@@ -8,6 +8,6 @@ namespace CompleteSQL.Merge
 {
     abstract public class MergeQueryPartComponent
     {
-        public abstract string GetQueryPart();
+        internal abstract string GetQueryPart();
     }
 }

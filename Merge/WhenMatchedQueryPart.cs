@@ -8,7 +8,7 @@ namespace CompleteSQL.Merge
 {
     public sealed class WhenMatchedQueryPart : MergeQueryPartDecorator
     {
-        public override string GetQueryPart()
+        internal override string GetQueryPart()
         {
             return string.Concat(base.GetQueryPart() ,"When Matched");
         }

@@ -10,7 +10,7 @@ namespace CompleteSQL.Merge
     {
         internal override string GetQueryPart()
         {
-            return string(base.GetQueryPart(), "On");
+            return string.Concat(base.GetQueryPart(), "On");
         }
     }
 }

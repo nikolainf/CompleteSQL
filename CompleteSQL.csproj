@@ -61,12 +61,16 @@
     <Compile Include="Mapping\Attributes\SqlTableAttribute.cs" />
     <Compile Include="Merge\MergeClass.cs" />
     <Compile Include="Merge\MergeQueryDecorator.cs" />
+    <Compile Include="Merge\OnQueryPart.cs" />
     <Compile Include="Merge\OperationClass.cs" />
     <Compile Include="Merge\PredicateClass.cs" />
     <Compile Include="Merge\MergeQueryPartComponent.cs" />
     <Compile Include="Merge\SourceTargetQueryPartComponent.cs" />
-    <Compile Include="Merge\WhenMatchedThenUpdateQueryPart.cs" />
-    <Compile Include="Merge\WhenNotMatchedThenInsertQueryPart.cs" />
+    <Compile Include="Merge\ThenDeleteQueryPart.cs" />
+    <Compile Include="Merge\ThenInsertQueryPart.cs" />
+    <Compile Include="Merge\ThenUpdateQueryPart.cs" />
+    <Compile Include="Merge\WhenMatchedQueryPart.cs" />
+    <Compile Include="Merge\WhenNotMatchedQueryPart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ToDo.cs" />
   </ItemGroup>
