@@ -8,10 +8,14 @@ namespace CompleteSQL.Merge
 {
     public sealed class SourceTargetQueryPartComponent : MergeQueryPartComponent
     {
-        internal SourceTargetQueryPartComponent() { }
+        private readonly string m_targetTable;
+        internal SourceTargetQueryPartComponent(string targetTable)
+        {
+            m_targetTable = targetTable;
+        }
         internal override string GetQueryPart()
         {
-            return "Merge Into Using";
+            return string.Format("Merge Into {0} Using", m_targetTable);
         }
     }
 }

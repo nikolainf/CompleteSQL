@@ -8,23 +8,39 @@ namespace CompleteSQL.Merge
 {
     public class OperationClass<TSource> where TSource: class
     {
-        private IEnumerable<TSource> m_usingDataSource;
-        internal OperationClass(IEnumerable<TSource> usingDataSource)
-        {  
-            m_usingDataSource = usingDataSource;
+        private MergeQueryPartComponent m_queryComponent;
+
+
+        internal OperationClass(string targetTable)
+        {
+            m_queryComponent = new SourceTargetQueryPartComponent(targetTable);
         }
+
         public OperationClass<TSource> WhenMatchedThenUpdate()
         {
+          
+            var queryPart = new WhenMatchedQueryPart();
+            queryPart.QueryPartComponent = m_queryComponent;
+            m_queryComponent = queryPart;
+
+            string query = m_queryComponent.GetQueryPart();
+
             return this;
         }
 
         public OperationClass<TSource> WhenNotMatchedThenInsert()
         {
+            var queryPart = new WhenNotMatchedQueryPart();
+            queryPart.QueryPartComponent = m_queryComponent;
+            m_queryComponent = queryPart;
+
+            string query = m_queryComponent.GetQueryPart();
+
             return this;
         }
         public void Merge()
         {
-            var e = m_usingDataSource.ToArray();
+         
              
         }
     }
