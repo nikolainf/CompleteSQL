@@ -28,14 +28,14 @@ namespace CompleteSQL.Merge
             return this;
         }
 
-        public OperationClass<TSource> On(Expression<Func<TSource,object>> predicate)
+        public AllConditionsAndActions<TSource> On(Expression<Func<TSource,object>> predicate)
         {
             if(string.IsNullOrEmpty(m_targetTable))
                 m_targetTable =  (new SqlTableNameMapper()).GetFullTableName(typeof(TSource)).ToString();
 
-           
 
-            return new OperationClass<TSource>(m_targetTable);
+
+            return new AllConditionsAndActions<TSource>(new SourceTargetQueryPartComponent(m_targetTable));
         }
        
     
