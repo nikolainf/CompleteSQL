@@ -13,45 +13,97 @@ namespace CompleteSQL.Merge
         { }
 
         #region WhenMatched
+
         // Здесь в предикате для методов с AND может быть сравнение атрибута из таргета или из источника или обоих между собой.
 
-        public WmtConditionsAndActions<TSource> WhenMatchedThenUpdate()
+        public AfterWhenMatchedThenCA<TSource> WhenMatchedThenUpdate()
         {
-            var queryPart = new WhenMatchedQueryPart();
-            queryPart.QueryPartComponent = queryComponent;
+            
+            var whenMatchedQueryPart = new WhenMatchedQueryPart();
+            whenMatchedQueryPart.QueryPartComponent = queryComponent;
 
-            return new WmtConditionsAndActions<TSource>(queryPart);
+            var thenUpdateQueryPart = new ThenUpdateQueryPart();
+            thenUpdateQueryPart.QueryPartComponent = whenMatchedQueryPart;
+
+
+            return new AfterWhenMatchedThenCA<TSource>(thenUpdateQueryPart);
 
         }
 
-       
-        //public AllOperationsAndActions<TSource> WhenMatchedAndThenUpdate(Expression<Func<TSource, object>> predicate)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
-        public AllConditionsAndActions<TSource> WhenMatchedThenDelete()
+        public AfterWhenMatchedAndThenUpdateCA<TSource> WhenMatchedAndThenUpdate(Expression<Func<TSource, object>> predicate)
         {
-            throw new NotImplementedException();
+            var whenMatchedQueryPart = new WhenMatchedQueryPart();
+            whenMatchedQueryPart.QueryPartComponent = queryComponent;
+
+            var andQueryPart = new AndQueryPart();
+            andQueryPart.QueryPartComponent = whenMatchedQueryPart;
+
+            var thenUpdateQueryPart = new ThenUpdateQueryPart();
+            thenUpdateQueryPart.QueryPartComponent = andQueryPart;
+
+            return new AfterWhenMatchedAndThenUpdateCA<TSource>(thenUpdateQueryPart);
         }
 
-        //public AllOperationsAndActions<TSource> WhenMatchedAndThenDelete(Expression<Func<TSource, object>> predicate)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public AfterWhenMatchedThenCA<TSource> WhenMatchedThenDelete()
+        {
+            var whenMatchedQueryPart = new WhenMatchedQueryPart();
+            whenMatchedQueryPart.QueryPartComponent = queryComponent;
+
+            var thenDeleteQueryPart = new ThenDeleteQueryPart();
+            thenDeleteQueryPart.QueryPartComponent = whenMatchedQueryPart;
+
+
+            return new AfterWhenMatchedThenCA<TSource>(thenDeleteQueryPart);
+        }
+
+        public AfterWhenMatchedAndThenDeleteCA<TSource> WhenMatchedAndThenDelete(Expression<Func<TSource, object>> predicate)
+        {
+            var whenMatchedQueryPart = new WhenMatchedQueryPart();
+            whenMatchedQueryPart.QueryPartComponent = queryComponent;
+
+            var andQueryPart = new AndQueryPart();
+            andQueryPart.QueryPartComponent = whenMatchedQueryPart;
+
+            var thenUpdateQueryPart = new ThenDeleteQueryPart();
+            thenUpdateQueryPart.QueryPartComponent = andQueryPart;
+
+            return new AfterWhenMatchedAndThenDeleteCA<TSource>(thenUpdateQueryPart);
+        }
 
         #endregion
 
         #region WhenNotMatchedByTargetThenInsert
-        public AllConditionsAndActions<TSource> WhenNotMatchedThenInsert()
+        public AfterWhenNotMatchedByTargetThenCA<TSource> WhenNotMatchedThenInsert()
         {
-            throw new NotImplementedException();
+            var whenNotMatchedByTarget = new WhenNotMatchedQueryPart();
+            whenNotMatchedByTarget.QueryPartComponent = queryComponent;
+
+            var thenInsertQueryPart = new ThenInsertQueryPart();
+            thenInsertQueryPart.QueryPartComponent = whenNotMatchedByTarget;
+
+            return new AfterWhenNotMatchedByTargetThenCA<TSource>(thenInsertQueryPart);
+
         }
 
-        //public AllOperationsAndActions<TSource> WhenNotMatchedAndThenInsert(Expression<Func<TSource, object>> predicate)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        /// <summary>
+        /// Инсерт, когда выполняется условие в predicate.
+        /// </summary>
+        /// <param name="predicate">Условие применяемое к source'у</param>
+        /// <returns></returns>
+        public AfterWhenNotMatchedByTargetThenCA<TSource> WhenNotMatchedAndThenInsert(Expression<Func<TSource, object>> predicate)
+        {
+            var whenNotMatchedByTarget = new WhenNotMatchedQueryPart();
+            whenNotMatchedByTarget.QueryPartComponent = queryComponent;
+
+            var andQueryPart = new AndQueryPart();
+            andQueryPart.QueryPartComponent = whenNotMatchedByTarget;
+
+            var thenInsertQueryPart = new ThenInsertQueryPart();
+            thenInsertQueryPart.QueryPartComponent = andQueryPart;
+
+            return new AfterWhenNotMatchedByTargetThenCA<TSource>(thenInsertQueryPart);
+        }
 
         #endregion
 
@@ -64,11 +116,11 @@ namespace CompleteSQL.Merge
             throw new NotImplementedException();
         }
 
-      
-        //public AllOperationsAndActions<TSource> WhenNotMatchedBySourceAndThenUpdate(Expression<Func<TSource, object>> predicate)
-        //{
-        //    throw new NotImplementedException();
-        //}
+
+        public AllConditionsAndActions<TSource> WhenNotMatchedBySourceAndThenUpdate(Expression<Func<TSource, object>> predicate)
+        {
+            throw new NotImplementedException();
+        }
 
 
         public AllConditionsAndActions<TSource> WhenNotMatchedBySourceThenDelete()
@@ -76,13 +128,12 @@ namespace CompleteSQL.Merge
             throw new NotImplementedException();
         }
 
-        //public AllOperationsAndActions<TSource> WhenNotMatchedBySourceAndThenDelete(Expression<Func<TSource, object>> predicate)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public AllConditionsAndActions<TSource> WhenNotMatchedBySourceAndThenDelete(Expression<Func<TSource, object>> predicate)
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
 
-     
     }
 }

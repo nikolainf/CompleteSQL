@@ -15,5 +15,6 @@ namespace CompleteSQL.Merge
         {
             return QueryPartComponent != null ? QueryPartComponent.GetQueryPart() : string.Empty;
         }
+
     }
 }

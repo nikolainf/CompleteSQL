@@ -15,6 +15,11 @@ namespace CompleteSQL.Merge
             this.queryComponent = queryComponent;
         }
 
+        public string GetMergeQuery()
+        {
+            return queryComponent.GetQueryPart();
+        }
+
         public void Merge()
         {
 
