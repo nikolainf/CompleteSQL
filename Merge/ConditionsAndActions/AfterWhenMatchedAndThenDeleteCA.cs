@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CompleteSQL.Merge
 {
     /// <summary>
-    /// Содержит все кроме WhenMatchedThenDelete и WhenMatchedAndThenDelete
+    /// Contains all actions but WhenMatchedThenDelete and WhenMatchedAndThenDelete:
+    /// An action of type 'WHEN MATCHED' cannot appear more than once in a 'DELETE' clause of a MERGE statement.
     /// </summary>
     /// <typeparam name="TSource"></typeparam>
     public sealed class AfterWhenMatchedAndThenDeleteCA<TSource> : ConditionsAndActionsBase

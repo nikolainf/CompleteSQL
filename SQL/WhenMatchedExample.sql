@@ -11,7 +11,9 @@ USING SourceData AS src
 WHEN MATCHED AND src.SomeDate = '20170202'
  THEN UPDATE
 	SET tgt.Data = src.Data
-WHEN MATCHED AND tgt.Id> 5 THEN DELETE;
+WHEN MATCHED 
+ THEN UPDATE
+	SET tgt.SomeDate = src.SomeDate;
 
 
 SELECT * FROM TargetData

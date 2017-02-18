@@ -23,7 +23,6 @@ namespace CompleteSQL.Merge
         public void Merge()
         {
 
-
         }
     }
 }

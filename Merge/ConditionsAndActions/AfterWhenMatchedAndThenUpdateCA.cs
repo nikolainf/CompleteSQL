@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 namespace CompleteSQL.Merge
 {
     /// <summary>
-    /// Содержит все кроме WhenMathcedThenUpdate и WhenMatchedAndTheUdate
+    /// Contains all actions but WhenMathcedThenUpdate and WhenMatchedAndTheUpdate:
+    /// An action of type 'WHEN MATCHED' cannot appear more than once in a 'UPDATE' clause of a MERGE statement.
     /// </summary>
     /// <typeparam name="TSource"></typeparam>
     public sealed class AfterWhenMatchedAndThenUpdateCA<TSource> : ConditionsAndActionsBase

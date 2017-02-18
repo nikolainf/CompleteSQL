@@ -4,10 +4,10 @@ using System.Linq.Expressions;
 namespace CompleteSQL.Merge
 {
     /// <summary>
-    /// Содержит полный набор сравнений и действий
+    /// Contains full set of merge actions.
     /// </summary>
     /// <typeparam name="TSource"></typeparam>
-    public class AllConditionsAndActions<TSource> : ConditionsAndActionsBase 
+    public sealed class AllConditionsAndActions<TSource> : ConditionsAndActionsBase 
     {
         internal AllConditionsAndActions(MergeQueryPartComponent queryComponent):base(queryComponent)
         { }
@@ -16,7 +16,7 @@ namespace CompleteSQL.Merge
 
         // Здесь в предикате для методов с AND может быть сравнение атрибута из таргета или из источника или обоих между собой.
 
-        public AfterWhenMatchedThenCA<TSource> WhenMatchedThenUpdate()
+        public AfterWhenMatchedThenUpdateOrDeleteCA<TSource> WhenMatchedThenUpdate()
         {
             
             var whenMatchedQueryPart = new WhenMatchedQueryPart();
@@ -26,7 +26,7 @@ namespace CompleteSQL.Merge
             thenUpdateQueryPart.QueryPartComponent = whenMatchedQueryPart;
 
 
-            return new AfterWhenMatchedThenCA<TSource>(thenUpdateQueryPart);
+            return new AfterWhenMatchedThenUpdateOrDeleteCA<TSource>(thenUpdateQueryPart);
 
         }
 
@@ -45,7 +45,7 @@ namespace CompleteSQL.Merge
             return new AfterWhenMatchedAndThenUpdateCA<TSource>(thenUpdateQueryPart);
         }
 
-        public AfterWhenMatchedThenCA<TSource> WhenMatchedThenDelete()
+        public AfterWhenMatchedThenUpdateOrDeleteCA<TSource> WhenMatchedThenDelete()
         {
             var whenMatchedQueryPart = new WhenMatchedQueryPart();
             whenMatchedQueryPart.QueryPartComponent = queryComponent;
@@ -54,7 +54,7 @@ namespace CompleteSQL.Merge
             thenDeleteQueryPart.QueryPartComponent = whenMatchedQueryPart;
 
 
-            return new AfterWhenMatchedThenCA<TSource>(thenDeleteQueryPart);
+            return new AfterWhenMatchedThenUpdateOrDeleteCA<TSource>(thenDeleteQueryPart);
         }
 
         public AfterWhenMatchedAndThenDeleteCA<TSource> WhenMatchedAndThenDelete(Expression<Func<TSource, object>> predicate)
@@ -111,15 +111,30 @@ namespace CompleteSQL.Merge
         // Здесь в предикате для методов с AND должно быть сравнение атрибута из таргета
         // Или любое другое выражение, но только не сравнение атрибута из источника
 
-        public AllConditionsAndActions<TSource> WhenNotMatchedBySourceThenUpdate()
+        public AfterWhenNotMatchedBySourceThenUpdateCA<TSource> WhenNotMatchedBySourceThenUpdate()
         {
-            throw new NotImplementedException();
+            var whenNotMatchedQueryPart = new WhenNotMatchedQueryPart();
+            whenNotMatchedQueryPart.QueryPartComponent = queryComponent;
+
+            var thenUpdateQueryPart = new ThenUpdateQueryPart();
+            thenUpdateQueryPart.QueryPartComponent = whenNotMatchedQueryPart;
+
+            return new AfterWhenNotMatchedBySourceThenUpdateCA<TSource>(thenUpdateQueryPart);
         }
 
 
-        public AllConditionsAndActions<TSource> WhenNotMatchedBySourceAndThenUpdate(Expression<Func<TSource, object>> predicate)
+        public AfterWhenNotMatchedBySourceAndThenUpdateCA<TSource> WhenNotMatchedBySourceAndThenUpdate(Expression<Func<TSource, object>> predicate)
         {
-            throw new NotImplementedException();
+            var whenNotMatchedQueryPart = new WhenNotMatchedQueryPart();
+            whenNotMatchedQueryPart.QueryPartComponent = queryComponent;
+
+            var andQueryPart = new AndQueryPart();
+            andQueryPart.QueryPartComponent = whenNotMatchedQueryPart;
+
+            var thenUpdateQueryPart = new ThenUpdateQueryPart();
+            thenUpdateQueryPart.QueryPartComponent = andQueryPart;
+
+            return new AfterWhenNotMatchedBySourceAndThenUpdateCA<TSource>(thenUpdateQueryPart);
         }
 
 

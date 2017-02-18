@@ -4,13 +4,12 @@ using System.Linq.Expressions;
 namespace CompleteSQL.Merge
 {
     /// <summary>
-    /// Содержит все сравнения и действия кроме WhenMatched...
-    /// WhenMatched c условиями не могут идти после WhenMatched без условий:
+    /// Contains all actions but WhenMatchedThenUpdate, WhenMatchedAndThenUpdate, WhenMatchedThenDelete and WhenMatchedAndThenDelete:
     /// In a MERGE statement, a 'WHEN MATCHED' clause with a search condition cannot appear after a 'WHEN MATCHED' clause with no search condition.
     /// </summary>
-    public class AfterWhenMatchedThenCA<TSource> : ConditionsAndActionsBase 
+    public sealed class AfterWhenMatchedThenUpdateOrDeleteCA<TSource> : ConditionsAndActionsBase 
     {
-        internal AfterWhenMatchedThenCA(MergeQueryPartComponent queryComponent)
+        internal AfterWhenMatchedThenUpdateOrDeleteCA(MergeQueryPartComponent queryComponent)
             : base(queryComponent)
         { 
         }

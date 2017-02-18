@@ -61,9 +61,11 @@
     <Compile Include="Merge\AndQueryPart.cs" />
     <Compile Include="Merge\ConditionsAndActions\AfterWhenMatchedAndThenDeleteCA.cs" />
     <Compile Include="Merge\ConditionsAndActions\AfterWhenMatchedAndThenUpdateCA.cs" />
+    <Compile Include="Merge\ConditionsAndActions\AfterWhenNotMatchedBySourceAndThenUpdateCA.cs" />
+    <Compile Include="Merge\ConditionsAndActions\AfterWhenNotMatchedBySourceThenUpdateCA.cs" />
     <Compile Include="Merge\ConditionsAndActions\AfterWhenNotMatchedByTargetThenCA.cs" />
     <Compile Include="Merge\ConditionsAndActions\ConditionsAndActionsBase.cs" />
-    <Compile Include="Merge\ConditionsAndActions\AfterWhenMatchedThenUpdateCA.cs" />
+    <Compile Include="Merge\ConditionsAndActions\AfterWhenMatchedThenUpdateOrDeleteCA.cs" />
     <Compile Include="Merge\DataTableCreator.cs" />
     <Compile Include="Merge\MergeClass.cs" />
     <Compile Include="Merge\MergeQueryDecorator.cs" />
