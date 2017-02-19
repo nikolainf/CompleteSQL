@@ -1,17 +1,32 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace CompleteSQL.Merge
 {
     /// <summary>
-    /// Contains all actions but WhenMatchedThenUpdate, WhenMatchedAndThenUpdate, WhenMatchedThenDelete and WhenMatchedAndThenDelete:
-    /// In a MERGE statement, a 'WHEN MATCHED' clause with a search condition cannot appear after a 'WHEN MATCHED' clause with no search condition.
+    /// Contains all actions but WhenMathcedThenUpdate and WhenMatchedAndTheUpdate:
+    /// An action of type 'WHEN MATCHED' cannot appear more than once in a 'UPDATE' clause of a MERGE statement.
+    /// Description: After When Matched And Then Update Conditions And Actions
     /// </summary>
-    public sealed class AfterWhenMatchedThenUpdateOrDeleteCA<TSource> : ConditionsAndActionsBase 
+    /// <typeparam name="TSource"></typeparam>
+    public sealed class AfterWMAndThenUCA<TSource> : ConditionsAndActionsBase
     {
-        internal AfterWhenMatchedThenUpdateOrDeleteCA(MergeQueryPartComponent queryComponent)
-            : base(queryComponent)
-        { 
+        internal AfterWMAndThenUCA(MergeQueryPartComponent queryComponent): base(queryComponent)
+        {
+        }
+
+        public AllConditionsAndActions<TSource> WhenMatchedThenDelete()
+        {
+            throw new NotImplementedException();
+        }
+
+        public AllConditionsAndActions<TSource> WhenMatchedAndThenDelete(Expression<Func<TSource, object>> predicate)
+        {
+            throw new NotImplementedException();
         }
 
         #region WhenNotMatchedByTargetThenInsert

@@ -4,35 +4,34 @@ using System.Linq.Expressions;
 namespace CompleteSQL.Merge
 {
     /// <summary>
-    /// Contains all actions but WhenMatchedThenDelete and WhenMatchedAndThenDelete:
-    /// An action of type 'WHEN MATCHED' cannot appear more than once in a 'DELETE' clause of a MERGE statement.
+    /// Contains all actions but WhenNotMatchedByTargetThenInsert and WhenNotMatchedByTargetAndThenInsert
+    /// An action of type 'WHEN NOT MATCHED' cannot appear more than once in a 'INSERT' clause of a MERGE statement.
+    /// Description: After When Not Matched By Target Then Conditions And Actions
     /// </summary>
-    /// <typeparam name="TSource"></typeparam>
-    public sealed class AfterWhenMatchedAndThenDeleteCA<TSource> : ConditionsAndActionsBase
+    public sealed class AfterWNMByTgtThenCA<TSource> : ConditionsAndActionsBase 
     {
-        internal AfterWhenMatchedAndThenDeleteCA(MergeQueryPartComponent queryComponent)
-            : base(queryComponent)
-        {
+        internal AfterWNMByTgtThenCA(MergeQueryPartComponent queryComponent) : base(queryComponent) { }
 
-        }
+        #region WhenMatched
+        // Здесь в предикате для методов с AND может быть сравнение атрибута из таргета или из источника или обоих между собой.
 
         public AllConditionsAndActions<TSource> WhenMatchedThenUpdate()
         {
             throw new NotImplementedException();
         }
 
+
         public AllConditionsAndActions<TSource> WhenMatchedAndThenUpdate(Expression<Func<TSource, object>> predicate)
         {
             throw new NotImplementedException();
         }
 
-        #region WhenNotMatchedByTargetThenInsert
-        public AllConditionsAndActions<TSource> WhenNotMatchedThenInsert()
+        public AllConditionsAndActions<TSource> WhenMatchedThenDelete()
         {
             throw new NotImplementedException();
         }
 
-        public AllConditionsAndActions<TSource> WhenNotMatchedAndThenInsert(Expression<Func<TSource, object>> predicate)
+        public AllConditionsAndActions<TSource> WhenMatchedAndThenDelete(Expression<Func<TSource, object>> predicate)
         {
             throw new NotImplementedException();
         }

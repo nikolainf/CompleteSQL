@@ -4,15 +4,17 @@ using System.Linq.Expressions;
 namespace CompleteSQL.Merge
 {
     /// <summary>
-    /// Contains all actions but WhenNotMatchedByTargetThenInsert and WhenNotMatchedByTargetAndThenInsert
-    /// An action of type 'WHEN NOT MATCHED' cannot appear more than once in a 'INSERT' clause of a MERGE statement.
+    /// Contains all actions but WhenNotMatchedBySourceThenUpdate, WhenNotMatchedBySourceAndThenUpdate
+    /// Description: After When Not Matched By Source And Then Update Conditions And Actions
     /// </summary>
-    /// <typeparam name="TSource"></typeparam>
-    public sealed class AfterWhenNotMatchedByTargetThenCA<TSource> : ConditionsAndActionsBase 
+    public sealed class AfterWNMBySrcAndThenUCA<TSource> : ConditionsAndActionsBase
     {
-        internal AfterWhenNotMatchedByTargetThenCA(MergeQueryPartComponent queryComponent) : base(queryComponent) { }
+          internal AfterWNMBySrcAndThenUCA(MergeQueryPartComponent queryComponent)
+            : base(queryComponent)
+        { }
 
         #region WhenMatched
+
         // Здесь в предикате для методов с AND может быть сравнение атрибута из таргета или из источника или обоих между собой.
 
         public AllConditionsAndActions<TSource> WhenMatchedThenUpdate()
@@ -38,22 +40,28 @@ namespace CompleteSQL.Merge
 
         #endregion
 
+        #region WhenNotMatchedByTargetThenInsert
+        public AllConditionsAndActions<TSource> WhenNotMatchedThenInsert()
+        {
+            throw new NotImplementedException();
+
+        }
+
+        /// <summary>
+        /// Инсерт, когда выполняется условие в predicate.
+        /// </summary>
+        /// <param name="predicate">Условие применяемое к source'у</param>
+        /// <returns></returns>
+        public AllConditionsAndActions<TSource> WhenNotMatchedAndThenInsert(Expression<Func<TSource, object>> predicate)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
         #region WhenNotMatchedBySource
         // Здесь в предикате для методов с AND должно быть сравнение атрибута из таргета
         // Или любое другое выражение, но только не сравнение атрибута из источника
-
-        public AllConditionsAndActions<TSource> WhenNotMatchedBySourceThenUpdate()
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public AllConditionsAndActions<TSource> WhenNotMatchedBySourceAndThenUpdate(Expression<Func<TSource, object>> predicate)
-        {
-            throw new NotImplementedException();
-        }
-
-
         public AllConditionsAndActions<TSource> WhenNotMatchedBySourceThenDelete()
         {
             throw new NotImplementedException();
