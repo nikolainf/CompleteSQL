@@ -15,7 +15,10 @@ namespace CompleteSQL.Merge
         }
         internal override string GetQueryPart()
         {
-            return string.Format("Merge Into {0} Using", m_targetTable);
+            string queryPart = string.Concat("Merge Into ", m_targetTable, " as tgt",
+               "\r\n",
+                "Using ", "#", m_targetTable, " as src");
+            return queryPart;
         }
     }
 }

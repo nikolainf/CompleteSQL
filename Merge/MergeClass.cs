@@ -28,14 +28,20 @@ namespace CompleteSQL.Merge
             return this;
         }
 
-        public AllConditionsAndActions<TSource> On(Expression<Func<TSource,object>> predicate)
+        public AllConditionsAndActions<TSource> On<TPredicate>(Expression<Func<TSource, TPredicate>> predicate)
         {
+            // Define table name.
             if(string.IsNullOrEmpty(m_targetTable))
                 m_targetTable =  (new SqlTableNameMapper()).GetFullTableName(typeof(TSource)).ToString();
 
+            // Build merge into using query part of query.
+            var srcTgtQueryPart = new SourceTargetQueryPartComponent(m_targetTable);
 
+            // Build "on" query part.
+            var onQueryPart = new OnQueryPart(predicate);
+            onQueryPart.QueryPartComponent = srcTgtQueryPart;
 
-            return new AllConditionsAndActions<TSource>(new SourceTargetQueryPartComponent(m_targetTable));
+            return new AllConditionsAndActions<TSource>(onQueryPart);
         }
        
     

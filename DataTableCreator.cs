@@ -2,12 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CompleteSQL.Merge
+namespace CompleteSQL
 {
     public class DataTableCreator
     {
