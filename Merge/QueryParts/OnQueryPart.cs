@@ -9,10 +9,10 @@ namespace CompleteSQL.Merge
 {
     public sealed class OnQueryPart : MergeQueryPartDecorator
     {
-        LambdaExpression m_predicate;
-        internal OnQueryPart(Expression expr)
+        private LambdaExpression m_predicate;
+        internal OnQueryPart(LambdaExpression expr)
         {
-            m_predicate = (LambdaExpression)expr;
+            m_predicate = expr;
         }
         internal override string GetQueryPart()
         {
