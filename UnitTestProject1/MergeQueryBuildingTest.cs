@@ -81,5 +81,39 @@ When Matched
             Assert.AreEqual(expectedQuery, query);
 
         }
+
+        [Test]
+        public void WhenNotMatchedThenInsert()
+        {
+              var people = new[]
+            {
+                new
+                {
+                    Number = 1,
+                    DocumentNumber = 2,
+                    Name = "John"
+                }
+            };
+
+            DataContext context = new DataContext("CompleteSQL");
+
+            var mergeExpression = context.CreateMergeUsing(people)
+            .Target("TestTable")
+            .On(p => new { p.Number, p.DocumentNumber })
+            .WhenNotMatchedThenInsert();
+
+            string expectedQuery =
+@"Merge Into TestTable as tgt
+Using #TestTable as src
+	On tgt.Number = src.Number
+	And tgt.DocumentNumber = src.DocumentNumber
+When Not Matched
+	Then Insert(Number, DocumentNumber, Name)
+        Values(src.Number, src.DocumentNumber, Name)";
+
+            string query = mergeExpression.GetMergeQuery();
+
+            Assert.AreEqual(expectedQuery, query);
+        }
     }
 }

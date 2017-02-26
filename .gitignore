@@ -48,3 +48,6 @@ Temporary Items
 
 # Configuration
 app.config
+
+# Dll
+*.dll

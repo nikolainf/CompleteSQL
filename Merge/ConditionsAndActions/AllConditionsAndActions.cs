@@ -31,12 +31,12 @@ namespace CompleteSQL.Merge
         }
 
 
-        public AfterWMAndThenUCA<TSource> WhenMatchedAndThenUpdate(Expression<Func<TSource, object>> predicate)
+        public AfterWMAndThenUCA<TSource> WhenMatchedAndThenUpdate(Expression<Func<TSource, bool>> predicate)
         {
             var whenMatchedQueryPart = new WhenMatchedQueryPart();
             whenMatchedQueryPart.QueryPartComponent = queryComponent;
 
-            var andQueryPart = new AndQueryPart();
+            var andQueryPart = new AndQueryPart(predicate);
             andQueryPart.QueryPartComponent = whenMatchedQueryPart;
 
             var thenUpdateQueryPart = new ThenUpdateQueryPart();
@@ -57,12 +57,12 @@ namespace CompleteSQL.Merge
             return new AfterWMThenUOrDCA<TSource>(thenDeleteQueryPart);
         }
 
-        public AfterWMAndThenDCA<TSource> WhenMatchedAndThenDelete(Expression<Func<TSource, object>> predicate)
+        public AfterWMAndThenDCA<TSource> WhenMatchedAndThenDelete(Expression<Func<TSource, bool>> predicate)
         {
             var whenMatchedQueryPart = new WhenMatchedQueryPart();
             whenMatchedQueryPart.QueryPartComponent = queryComponent;
 
-            var andQueryPart = new AndQueryPart();
+            var andQueryPart = new AndQueryPart(predicate);
             andQueryPart.QueryPartComponent = whenMatchedQueryPart;
 
             var thenUpdateQueryPart = new ThenDeleteQueryPart();
@@ -74,7 +74,7 @@ namespace CompleteSQL.Merge
         #endregion
 
         #region WhenNotMatchedByTargetThenInsert
-        public AfterWNMByTgtThenCA<TSource> WhenNotMatchedThenInsert()
+        public AfterWNMByTgtThenCA<TSource> WhenNotMatchedThenInsert<TPredicate>(Expression<Func<TSource, TPredicate>> expr)
         {
             var whenNotMatchedByTarget = new WhenNotMatchedQueryPart();
             whenNotMatchedByTarget.QueryPartComponent = queryComponent;
@@ -86,17 +86,29 @@ namespace CompleteSQL.Merge
 
         }
 
+        public AfterWNMByTgtThenCA<TSource> WhenNotMatchedThenInsert()
+        {
+            var whenNotMatchedByTarget = new WhenNotMatchedQueryPart();
+            whenNotMatchedByTarget.QueryPartComponent = queryComponent;
+
+            var thenInsertQueryPart = new ThenInsertQueryPart(typeof(TSource));
+            thenInsertQueryPart.QueryPartComponent = whenNotMatchedByTarget;
+
+            return new AfterWNMByTgtThenCA<TSource>(thenInsertQueryPart);
+
+        }
+
         /// <summary>
         /// Инсерт, когда выполняется условие в predicate.
         /// </summary>
         /// <param name="predicate">Условие применяемое к source'у</param>
         /// <returns></returns>
-        public AfterWNMByTgtThenCA<TSource> WhenNotMatchedAndThenInsert(Expression<Func<TSource, object>> predicate)
+        public AfterWNMByTgtThenCA<TSource> WhenNotMatchedAndThenInsert(Expression<Func<TSource, bool>> predicate)
         {
             var whenNotMatchedByTarget = new WhenNotMatchedQueryPart();
             whenNotMatchedByTarget.QueryPartComponent = queryComponent;
 
-            var andQueryPart = new AndQueryPart();
+            var andQueryPart = new AndQueryPart(predicate);
             andQueryPart.QueryPartComponent = whenNotMatchedByTarget;
 
             var thenInsertQueryPart = new ThenInsertQueryPart();
@@ -123,12 +135,12 @@ namespace CompleteSQL.Merge
         }
 
 
-        public AfterWNMBySrcAndThenUCA<TSource> WhenNotMatchedBySourceAndThenUpdate(Expression<Func<TSource, object>> predicate)
+        public AfterWNMBySrcAndThenUCA<TSource> WhenNotMatchedBySourceAndThenUpdate(Expression<Func<TSource, bool>> predicate)
         {
             var whenNotMatchedQueryPart = new WhenNotMatchedQueryPart();
             whenNotMatchedQueryPart.QueryPartComponent = queryComponent;
 
-            var andQueryPart = new AndQueryPart();
+            var andQueryPart = new AndQueryPart(predicate);
             andQueryPart.QueryPartComponent = whenNotMatchedQueryPart;
 
             var thenUpdateQueryPart = new ThenUpdateQueryPart();
