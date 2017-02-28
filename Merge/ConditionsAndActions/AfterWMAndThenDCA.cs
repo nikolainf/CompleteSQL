@@ -13,7 +13,7 @@ namespace CompleteSQL.Merge
         internal AfterWMAndThenDCA(MergeQueryPartComponent queryComponent)
             : base(queryComponent)
         {
-             
+
         }
 
         public AllConditionsAndActions<TSource> WhenMatchedThenUpdate()

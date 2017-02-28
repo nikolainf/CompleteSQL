@@ -10,17 +10,8 @@ namespace CompleteSQL
     {
         public DataTable Create<TSource>(IEnumerable<TSource> dataSource, string targetTable) where TSource: class
         {
-            
-            string tableName = targetTable;
-
-            if (string.IsNullOrWhiteSpace(tableName))
-            {
-                tableName = (new SqlTableNameMapper()).GetFullTableName(typeof(TSource)).ToString();
-            }
-
             DataTableSchemaCreator schemaCreator = new DataTableSchemaCreator();
             DataTableSchema schema = schemaCreator.CreateSchema<TSource>(targetTable);
-
 
             return Create(dataSource, schema);
         }

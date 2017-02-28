@@ -8,8 +8,20 @@ namespace CompleteSQL.Merge
 {
     public abstract class MergeQueryPartDecorator : MergeQueryPartComponent
     {
-        internal MergeQueryPartComponent QueryPartComponent { get; set; }
-
+        private MergeQueryPartComponent m_queryPartComponent;
+        internal MergeQueryPartComponent QueryPartComponent
+        {
+            get
+            {
+                return m_queryPartComponent;
+            }
+            set
+            {
+                this.tableSchema = value.tableSchema;
+                m_queryPartComponent = value;
+                 
+            }
+        }
        
         internal override string GetQueryPart()
         {

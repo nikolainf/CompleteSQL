@@ -91,7 +91,7 @@ namespace CompleteSQL.Merge
             var whenNotMatchedByTarget = new WhenNotMatchedQueryPart();
             whenNotMatchedByTarget.QueryPartComponent = queryComponent;
 
-            var thenInsertQueryPart = new ThenInsertQueryPart(typeof(TSource));
+            var thenInsertQueryPart = new ThenInsertQueryPart();
             thenInsertQueryPart.QueryPartComponent = whenNotMatchedByTarget;
 
             return new AfterWNMByTgtThenCA<TSource>(thenInsertQueryPart);
@@ -111,7 +111,7 @@ namespace CompleteSQL.Merge
             var andQueryPart = new AndQueryPart(predicate);
             andQueryPart.QueryPartComponent = whenNotMatchedByTarget;
 
-            var thenInsertQueryPart = new ThenInsertQueryPart(typeof(TSource));
+            var thenInsertQueryPart = new ThenInsertQueryPart();
             thenInsertQueryPart.QueryPartComponent = andQueryPart;
 
             return new AfterWNMByTgtThenCA<TSource>(thenInsertQueryPart);

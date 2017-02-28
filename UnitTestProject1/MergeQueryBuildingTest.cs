@@ -109,7 +109,7 @@ Using #TestTable as src
 	And tgt.DocumentNumber = src.DocumentNumber
 When Not Matched
 	Then Insert(Number, DocumentNumber, Name)
-        Values(src.Number, src.DocumentNumber, Name)";
+		Values(src.Number, src.DocumentNumber, src.Name)";
 
             string query = mergeExpression.GetMergeQuery();
 

@@ -10,7 +10,9 @@ namespace CompleteSQL.Merge
     /// </summary>
     public sealed class AfterWNMByTgtThenCA<TSource> : ConditionsAndActionsBase 
     {
-        internal AfterWNMByTgtThenCA(MergeQueryPartComponent queryComponent) : base(queryComponent) { }
+        internal AfterWNMByTgtThenCA(MergeQueryPartComponent queryComponent)
+            : base(queryComponent)
+        { }
 
         #region WhenMatched
         // Здесь в предикате для методов с AND может быть сравнение атрибута из таргета или из источника или обоих между собой.

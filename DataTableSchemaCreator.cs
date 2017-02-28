@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CompleteSQL.Mapping;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -11,7 +12,6 @@ namespace CompleteSQL
     {
         public DataTableSchema CreateSchema<T>(string tableName)
         {
-
             PropertyInfo[] props = typeof(T).GetProperties();
             bool b = props[0].GetGetMethod().IsPublic;
             
@@ -20,6 +20,11 @@ namespace CompleteSQL
             {
              
                 columnSchemaList.Add(new DataColumnSchema(prop.Name, prop.PropertyType));
+            }
+
+            if (string.IsNullOrWhiteSpace(tableName))
+            {
+                tableName = (new SqlTableNameMapper()).GetFullTableName(typeof(T)).ToString();
             }
 
             return new DataTableSchema(tableName, columnSchemaList);

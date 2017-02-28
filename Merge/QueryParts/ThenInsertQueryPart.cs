@@ -9,22 +9,29 @@ namespace CompleteSQL.Merge
 {
     public sealed class ThenInsertQueryPart : MergeQueryPartDecorator
     {
-
-        private Type m_type;
-
         private LambdaExpression m_columnExpr;
-        internal ThenInsertQueryPart(Type type)
+       
+        internal ThenInsertQueryPart()
         {
-            m_type = type;
-        }
 
+        }
         internal ThenInsertQueryPart(LambdaExpression columnExpr)
         {
             m_columnExpr = columnExpr;
         }
         internal override string GetQueryPart()
         {
-            return string.Concat(base.GetQueryPart(), "Then Insert");
+            if (m_columnExpr == null)
+            {
+                string tgtColumns = string.Join(", ", tableSchema.Columns.Select(col => col.Name));
+                string srcColumns = string.Join(", ", tableSchema.Columns.Select(col => string.Concat("src.", col.Name)));
+
+                string insert = string.Format("\tThen Insert({0})", tgtColumns);
+                string values = string.Format("\t\tValues({0})", srcColumns);
+                return string.Concat(base.GetQueryPart(), string.Concat(insert, Environment.NewLine, values));
+            }
+
+            throw new NotImplementedException();
         }
     }
 }

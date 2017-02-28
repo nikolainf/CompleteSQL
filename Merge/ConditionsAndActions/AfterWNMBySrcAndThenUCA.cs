@@ -9,7 +9,7 @@ namespace CompleteSQL.Merge
     /// </summary>
     public sealed class AfterWNMBySrcAndThenUCA<TSource> : ConditionsAndActionsBase
     {
-          internal AfterWNMBySrcAndThenUCA(MergeQueryPartComponent queryComponent)
+        internal AfterWNMBySrcAndThenUCA(MergeQueryPartComponent queryComponent)
             : base(queryComponent)
         { }
 

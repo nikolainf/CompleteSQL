@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CompleteSQL.Merge
 {
-    public class MergeClass<TSource> where TSource : class
+    public sealed class MergeClass<TSource> where TSource : class
     {
         private IEnumerable<TSource> m_dataSource;
 
@@ -30,12 +30,15 @@ namespace CompleteSQL.Merge
 
         public AllConditionsAndActions<TSource> On<TPredicate>(Expression<Func<TSource, TPredicate>> predicate)
         {
-            // Define table name.
-            if(string.IsNullOrEmpty(m_targetTable))
-                m_targetTable =  (new SqlTableNameMapper()).GetFullTableName(typeof(TSource)).ToString();
 
-            // Build merge into using query part of query.
-            var srcTgtQueryPart = new SourceTargetQueryPartComponent(m_targetTable);
+            DataTableSchemaCreator schemaCreator = new DataTableSchemaCreator();
+            DataTableSchema schema = schemaCreator.CreateSchema<TSource>(m_targetTable);
+
+           
+
+            // Start to build merge into using query part of query.
+            var srcTgtQueryPart = new SourceTargetQueryPartComponent(schema.TableName);
+            srcTgtQueryPart.tableSchema = schema;
 
             // Build "on" query part.
             var onQueryPart = new OnQueryPart(predicate);
