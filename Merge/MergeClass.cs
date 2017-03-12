@@ -17,7 +17,7 @@ namespace CompleteSQL.Merge
 
         internal MergeClass(IEnumerable<TSource> usingDataSource)
         {
-            // TODO: Complete member initialization
+           
             this.m_dataSource = usingDataSource;
         }
      
@@ -28,7 +28,7 @@ namespace CompleteSQL.Merge
             return this;
         }
 
-        public AllConditionsAndActions<TSource> On<TPredicate>(Expression<Func<TSource, TPredicate>> predicate)
+        public AllConditionsAndActions<TSource> On<TPredicate>(Expression<Func<TSource, TPredicate>> equalpredicate)
         {
 
             DataTableSchemaCreator schemaCreator = new DataTableSchemaCreator();
@@ -41,7 +41,7 @@ namespace CompleteSQL.Merge
             srcTgtQueryPart.tableSchema = schema;
 
             // Build "on" query part.
-            var onQueryPart = new OnQueryPart(predicate);
+            var onQueryPart = new OnQueryPart(equalpredicate);
             onQueryPart.QueryPartComponent = srcTgtQueryPart;
 
             return new AllConditionsAndActions<TSource>(onQueryPart);

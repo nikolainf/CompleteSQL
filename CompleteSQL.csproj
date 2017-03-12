@@ -51,6 +51,7 @@
     <Compile Include="DataContext.cs" />
     <Compile Include="DataTableSchema.cs" />
     <Compile Include="DataTableSchemaCreator.cs" />
+    <Compile Include="Extension\ExpressionExtensionHelper.cs" />
     <Compile Include="Mapping\Attributes\SqlBulkTableAttribute.cs" />
     <Compile Include="Mapping\Attributes\SqlColumn.cs" />
     <Compile Include="Mapping\FullTableName.cs" />
@@ -83,6 +84,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="NewFolder1\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

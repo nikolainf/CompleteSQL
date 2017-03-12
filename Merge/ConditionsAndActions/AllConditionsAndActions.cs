@@ -74,17 +74,7 @@ namespace CompleteSQL.Merge
         #endregion
 
         #region WhenNotMatchedByTargetThenInsert
-        public AfterWNMByTgtThenCA<TSource> WhenNotMatchedThenInsert<TPredicate>(Expression<Func<TSource, TPredicate>> expr)
-        {
-            var whenNotMatchedByTarget = new WhenNotMatchedQueryPart();
-            whenNotMatchedByTarget.QueryPartComponent = queryComponent;
-
-            var thenInsertQueryPart = new ThenInsertQueryPart(expr);
-            thenInsertQueryPart.QueryPartComponent = whenNotMatchedByTarget;
-
-            return new AfterWNMByTgtThenCA<TSource>(thenInsertQueryPart);
-
-        }
+      
 
         public AfterWNMByTgtThenCA<TSource> WhenNotMatchedThenInsert()
         {
@@ -96,6 +86,17 @@ namespace CompleteSQL.Merge
 
             return new AfterWNMByTgtThenCA<TSource>(thenInsertQueryPart);
 
+        }
+
+        public AfterWNMByTgtThenCA<TSource> WhenNotMatchedThenInsert<TInsert>(Expression<Func<TSource, TInsert>> insertColumns)
+        {
+            var whenNotMatchedByTarget = new WhenNotMatchedQueryPart();
+            whenNotMatchedByTarget.QueryPartComponent = queryComponent;
+
+            var thenInsertQueryPart = new ThenInsertQueryPart(insertColumns);
+            thenInsertQueryPart.QueryPartComponent = whenNotMatchedByTarget;
+
+            return new AfterWNMByTgtThenCA<TSource>(thenInsertQueryPart);
         }
 
         /// <summary>
