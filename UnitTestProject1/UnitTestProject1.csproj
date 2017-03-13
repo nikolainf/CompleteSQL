@@ -68,6 +68,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="MergeQueryBuildingTest.cs" />
+    <Compile Include="Person.cs" />
     <Compile Include="SqlTableEntity\TestEntity.cs" />
     <Compile Include="SqlTableEntity\TestEntityWithName.cs" />
     <Compile Include="SqlTableEntity\WithoutSqlTableAttributeEntity.cs" />

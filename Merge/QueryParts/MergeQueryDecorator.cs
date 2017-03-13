@@ -26,7 +26,7 @@ namespace CompleteSQL.Merge
         internal override string GetQueryPart()
         {
             return QueryPartComponent != null 
-                ? string.Concat(QueryPartComponent.GetQueryPart(), Environment.NewLine)
+                ? QueryPartComponent.GetQueryPart()
                 : string.Empty;
         }
 

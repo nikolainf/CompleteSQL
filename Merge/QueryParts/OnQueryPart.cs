@@ -36,7 +36,7 @@ namespace CompleteSQL.Merge
                     throw new ArgumentException();
             }
 
-            string query = string.Concat(base.GetQueryPart(), "\tOn ", predicate);
+            string query = string.Concat(base.GetQueryPart(),Environment.NewLine, "\tOn ", predicate);
 
             return query;
         }

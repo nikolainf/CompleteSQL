@@ -53,7 +53,7 @@ namespace CompleteSQL.Merge
 
             string insert = string.Format("\tThen Insert({0})", tgtColumns);
             string values = string.Format("\t\tValues({0})", srcColumns);
-            return string.Concat(base.GetQueryPart(), string.Concat(insert, Environment.NewLine, values));
+            return string.Concat(base.GetQueryPart(),Environment.NewLine, string.Concat(insert, Environment.NewLine, values));
         }
     }
 }

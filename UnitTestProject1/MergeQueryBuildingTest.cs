@@ -3,6 +3,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -178,6 +179,85 @@ Using #Person as src
 When Not Matched
 	Then Insert(Number, Name, Age, GroupNumber, GroupName, Salary)
 		Values(src.Number, src.Name, src.Age, 77, 'SeventySeventGroup', 100.5123);";
+
+
+            string query = mergeExpression.GetMergeQuery();
+
+            Assert.AreEqual(expectedQuery, query);
+        }
+
+        [Test]
+        public void WhenNotMathcedAndGreaterThanThenInsertTest()
+        {
+            var people = new[]
+            {
+                new
+                {
+                    Number = 1,
+                    Name = "John",
+                    Age = 33,
+                }
+            };
+
+            DataContext context = new DataContext("CompleteSQL");
+
+            var mergeExpression = context.CreateMergeUsing(people)
+                .Target("Person")
+                .On(p => p.Number)
+                .WhenNotMatchedAndThenInsert(p => p.Age > 17);
+
+            string expectedQuery =
+@"Merge Into Person as tgt
+Using #Person as src
+	On tgt.Number = src.Number
+When Not Matched And src.Age > 17
+	Then Insert(Number, Name, Age)
+		Values(src.Number, src.Name, src.Age);";
+
+
+            string query = mergeExpression.GetMergeQuery();
+
+            Assert.AreEqual(expectedQuery, query);
+        }
+
+
+
+        static object[] AndParams =
+    {
+            new Tuple<string, Expression<Func<Person,bool>>>(">=", p=>p.Age>=17) ,
+            new Tuple<string, Expression<Func<Person,bool>>>("<=", p=>p.Age<=17),
+            new Tuple<string, Expression<Func<Person,bool>>>("=", p=>p.Age==17),
+            new Tuple<string, Expression<Func<Person,bool>>>(">", p=>p.Age>17),
+            new Tuple<string, Expression<Func<Person,bool>>>("<", p=>p.Age<17)
+    };
+    
+        [Test, TestCaseSource("AndParams")]
+        public void WhenNotMathcedAndThenInsertTest(Tuple<string, Expression<Func<Person,bool>>> tuple)
+        {
+            var people = new Person[]
+            {
+                new Person
+                {
+                    Number = 1,
+                    Name = "John",
+                    Age = 33,
+                }
+            };
+
+            DataContext context = new DataContext("CompleteSQL");
+
+            var mergeExpression = context.CreateMergeUsing(people)
+                .Target("Person")
+                .On(p => p.Number)
+                .WhenNotMatchedAndThenInsert(tuple.Item2);
+
+            string expectedQuery =
+@"Merge Into Person as tgt
+Using #Person as src
+	On tgt.Number = src.Number
+When Not Matched And src.Age " + tuple.Item1 + " 17" + Environment.NewLine + "\t" +
+@"Then Insert(Number, Name, Age)
+		Values(src.Number, src.Name, src.Age);";
 
 
             string query = mergeExpression.GetMergeQuery();

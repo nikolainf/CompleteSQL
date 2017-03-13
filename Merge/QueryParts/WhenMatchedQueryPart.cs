@@ -10,7 +10,7 @@ namespace CompleteSQL.Merge
     {
         internal override string GetQueryPart()
         {
-            return string.Concat(base.GetQueryPart() ,"When Matched");
+            return string.Concat(base.GetQueryPart(), Environment.NewLine, "When Matched");
         }
     }
 }

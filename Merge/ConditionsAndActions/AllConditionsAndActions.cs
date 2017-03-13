@@ -36,7 +36,7 @@ namespace CompleteSQL.Merge
             var whenMatchedQueryPart = new WhenMatchedQueryPart();
             whenMatchedQueryPart.QueryPartComponent = queryComponent;
 
-            var andQueryPart = new AndQueryPart(predicate);
+            var andQueryPart = new AndSourceQueryPart(predicate);
             andQueryPart.QueryPartComponent = whenMatchedQueryPart;
 
             var thenUpdateQueryPart = new ThenUpdateQueryPart();
@@ -62,7 +62,7 @@ namespace CompleteSQL.Merge
             var whenMatchedQueryPart = new WhenMatchedQueryPart();
             whenMatchedQueryPart.QueryPartComponent = queryComponent;
 
-            var andQueryPart = new AndQueryPart(predicate);
+            var andQueryPart = new AndSourceQueryPart(predicate);
             andQueryPart.QueryPartComponent = whenMatchedQueryPart;
 
             var thenUpdateQueryPart = new ThenDeleteQueryPart();
@@ -102,14 +102,14 @@ namespace CompleteSQL.Merge
         /// <summary>
         /// Инсерт, когда выполняется условие в predicate.
         /// </summary>
-        /// <param name="predicate">Условие применяемое к source'у</param>
+        /// <param name="andPredicate">Условие применяемое к source'у</param>
         /// <returns></returns>
-        public AfterWNMByTgtThenCA<TSource> WhenNotMatchedAndThenInsert(Expression<Func<TSource, bool>> predicate)
+        public AfterWNMByTgtThenCA<TSource> WhenNotMatchedAndThenInsert(Expression<Func<TSource, bool>> andPredicate)
         {
             var whenNotMatchedByTarget = new WhenNotMatchedQueryPart();
             whenNotMatchedByTarget.QueryPartComponent = queryComponent;
 
-            var andQueryPart = new AndQueryPart(predicate);
+            var andQueryPart = new AndSourceQueryPart(andPredicate);
             andQueryPart.QueryPartComponent = whenNotMatchedByTarget;
 
             var thenInsertQueryPart = new ThenInsertQueryPart();
@@ -141,7 +141,7 @@ namespace CompleteSQL.Merge
             var whenNotMatchedQueryPart = new WhenNotMatchedQueryPart();
             whenNotMatchedQueryPart.QueryPartComponent = queryComponent;
 
-            var andQueryPart = new AndQueryPart(predicate);
+            var andQueryPart = new AndSourceQueryPart(predicate);
             andQueryPart.QueryPartComponent = whenNotMatchedQueryPart;
 
             var thenUpdateQueryPart = new ThenUpdateQueryPart();

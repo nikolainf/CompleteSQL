@@ -59,7 +59,7 @@
     <Compile Include="Mapping\SqlTableNameMapper.cs" />
     <Compile Include="Mapping\MappingColumn.cs" />
     <Compile Include="Mapping\Attributes\SqlTableAttribute.cs" />
-    <Compile Include="Merge\QueryParts\AndQueryPart.cs" />
+    <Compile Include="Merge\QueryParts\AndSourceQueryPart.cs" />
     <Compile Include="Merge\ConditionsAndActions\AfterWMAndThenDCA.cs" />
     <Compile Include="Merge\ConditionsAndActions\AfterWMAndThenUCA.cs" />
     <Compile Include="Merge\ConditionsAndActions\AfterWNMBySrcAndThenDCA.cs" />
@@ -70,6 +70,7 @@
     <Compile Include="Merge\ConditionsAndActions\AfterWMThenUOrDCA.cs" />
     <Compile Include="DataTableCreator.cs" />
     <Compile Include="Merge\MergeClass.cs" />
+    <Compile Include="Merge\QueryParts\AndTargetQueryPart.cs" />
     <Compile Include="Merge\QueryParts\MergeQueryDecorator.cs" />
     <Compile Include="Merge\QueryParts\OnQueryPart.cs" />
     <Compile Include="Merge\ConditionsAndActions\AllConditionsAndActions.cs" />
