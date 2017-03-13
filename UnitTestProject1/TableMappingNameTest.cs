@@ -21,7 +21,6 @@ namespace UnitTestProject1
        {
            Assert.That(() =>
            {
-               
                var mapInfo = mapper.GetFullTableName(typeof(WithoutSqlTableAttributeEntity));
            }, Throws.ArgumentException);
        }

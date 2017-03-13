@@ -40,7 +40,7 @@ namespace UnitTestProject1
 Using #TestTable as src
 	On tgt.Id = src.Id
 When Matched
-	Then Delete";
+	Then Delete;";
 
             Assert.AreEqual(expectedQuery, query);
         }
@@ -76,7 +76,7 @@ Using #TestTable as src
 	On tgt.Number = src.Number
 	And tgt.DocumentNumber = src.DocumentNumber
 When Matched
-	Then Delete";
+	Then Delete;";
 
             Assert.AreEqual(expectedQuery, query);
 
@@ -109,7 +109,7 @@ Using #TestTable as src
 	And tgt.DocumentNumber = src.DocumentNumber
 When Not Matched
 	Then Insert(Number, DocumentNumber, Name)
-		Values(src.Number, src.DocumentNumber, src.Name)";
+		Values(src.Number, src.DocumentNumber, src.Name);";
 
             string query = mergeExpression.GetMergeQuery();
 
@@ -143,7 +143,7 @@ Using #TestTable as src
 	And tgt.DocumentNumber = src.DocumentNumber
 When Not Matched
 	Then Insert(Number, DocumentNumber)
-		Values(src.Number, src.DocumentNumber)";
+		Values(src.Number, src.DocumentNumber);";
 
 
             string query = mergeExpression.GetMergeQuery();
@@ -177,7 +177,7 @@ Using #Person as src
 	On tgt.Number = src.Number
 When Not Matched
 	Then Insert(Number, Name, Age, GroupNumber, GroupName, Salary)
-		Values(src.Number, src.Name, src.Age, 77, 'SeventySeventGroup', 100.5123)";
+		Values(src.Number, src.Name, src.Age, 77, 'SeventySeventGroup', 100.5123);";
 
 
             string query = mergeExpression.GetMergeQuery();

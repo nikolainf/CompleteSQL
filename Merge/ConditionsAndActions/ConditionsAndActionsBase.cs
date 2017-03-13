@@ -17,7 +17,7 @@ namespace CompleteSQL.Merge
 
         public string GetMergeQuery()
         {
-            return queryComponent.GetQueryPart();
+            return string.Concat(queryComponent.GetQueryPart(), ";");
         }
 
         public void Merge()
