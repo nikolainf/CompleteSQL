@@ -17,6 +17,7 @@ namespace CompleteSQL.Merge
 
         internal override string GetQueryPart()
         {
+            string s = GetPredicate((BinaryExpression)m_predicate.Body);
             string predicate = "src.";
 
              string equalOperator = null;
@@ -47,5 +48,47 @@ namespace CompleteSQL.Merge
 
             return string.Concat(base.GetQueryPart(), " And ", predicate);
         }
+
+        private string GetPredicate(BinaryExpression expr)
+        {
+            string equalOperator = null;
+            switch(expr.NodeType)
+            {
+                case ExpressionType.AndAlso:
+                    BinaryExpression binaryExpr = (BinaryExpression)expr;
+
+                    string left = GetPredicate((BinaryExpression)binaryExpr.Left);
+                    string right = GetPredicate((BinaryExpression)binaryExpr.Right);
+
+                    return left + " And " + right;
+                   
+                case ExpressionType.OrElse:
+                   
+                    break;
+
+                case ExpressionType.Equal:
+                    equalOperator = " = ";
+                    break;
+                case ExpressionType.GreaterThan:
+                    equalOperator = " > ";
+                    break;
+                case ExpressionType.GreaterThanOrEqual:
+                    equalOperator = " >= ";
+                    break;
+                case ExpressionType.LessThan:
+                    equalOperator = " < ";
+                    break;
+                case ExpressionType.LessThanOrEqual:
+                    equalOperator = " <= ";
+                    break;
+                default: throw new ArgumentException();
+            }
+
+            string predicate = "src." + ((MemberExpression)expr.Left).Member.Name + equalOperator + ((ConstantExpression)expr.Right).Value.ToString();
+
+            return predicate;
+        }
+
+       
     }
 }

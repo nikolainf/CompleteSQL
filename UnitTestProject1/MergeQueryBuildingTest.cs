@@ -187,7 +187,7 @@ When Not Matched
         }
 
         [Test]
-        public void WhenNotMathcedAndGreaterThanThenInsertTest()
+        public void WhenNotMathcedAndThenInsertTest()
         {
             var people = new[]
             {
@@ -204,13 +204,13 @@ When Not Matched
             var mergeExpression = context.CreateMergeUsing(people)
                 .Target("Person")
                 .On(p => p.Number)
-                .WhenNotMatchedAndThenInsert(p => p.Age > 17);
+                .WhenNotMatchedAndThenInsert(p => p.Age > 17 && p.Number > 100 && p.Name.StartsWith("J"));
 
             string expectedQuery =
 @"Merge Into Person as tgt
 Using #Person as src
 	On tgt.Number = src.Number
-When Not Matched And src.Age > 17
+When Not Matched And src.Age > 17 And src.Number > 100 And src.Name Like 'J%'
 	Then Insert(Number, Name, Age)
 		Values(src.Number, src.Name, src.Age);";
 
