@@ -4,4 +4,3 @@ C:\Users\Member\documents\visual studio 2013\Projects\CompleteSQL\CompleteSQL\bi
 C:\Users\Member\documents\visual studio 2013\Projects\CompleteSQL\CompleteSQL\bin\Debug\nunit.framework.xml
 C:\Users\Member\documents\visual studio 2013\Projects\CompleteSQL\CompleteSQL\obj\Debug\CompleteSQL.dll
 C:\Users\Member\documents\visual studio 2013\Projects\CompleteSQL\CompleteSQL\obj\Debug\CompleteSQL.pdb
-C:\Users\Member\documents\visual studio 2013\Projects\CompleteSQL\CompleteSQL\obj\Debug\CompleteSQL.csprojResolveAssemblyReference.cache

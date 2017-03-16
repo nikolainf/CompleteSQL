@@ -8,7 +8,7 @@ namespace CompleteSQL.Merge
     /// In a MERGE statement, a 'WHEN MATCHED' clause with a search condition cannot appear after a 'WHEN MATCHED' clause with no search condition.
     /// Description: After When Mathced Then Update Or Delete Conditions Actions
     /// </summary>
-    public sealed class AfterWMThenUOrDCA<TSource> : ConditionsAndActionsBase 
+    public sealed class AfterWMThenUOrDCA<TSource> : ConditionAndActionBase 
     {
         internal AfterWMThenUOrDCA(MergeQueryPartComponent queryComponent)
             : base(queryComponent)

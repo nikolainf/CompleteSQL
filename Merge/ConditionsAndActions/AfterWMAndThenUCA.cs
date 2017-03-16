@@ -13,7 +13,7 @@ namespace CompleteSQL.Merge
     /// Description: After When Matched And Then Update Conditions And Actions
     /// </summary>
     /// <typeparam name="TSource"></typeparam>
-    public sealed class AfterWMAndThenUCA<TSource> : ConditionsAndActionsBase
+    public sealed class AfterWMAndThenUCA<TSource> : ConditionAndActionBase
     {
         internal AfterWMAndThenUCA(MergeQueryPartComponent queryComponent)
             : base(queryComponent)

@@ -59,6 +59,12 @@
     <Compile Include="Mapping\SqlTableNameMapper.cs" />
     <Compile Include="Mapping\MappingColumn.cs" />
     <Compile Include="Mapping\Attributes\SqlTableAttribute.cs" />
+    <Compile Include="Merge\Actions\ActionsBase.cs" />
+    <Compile Include="Merge\Actions\AllWhenNotMatchedActions.cs" />
+    <Compile Include="Merge\Conditions\AfterThenDeleteConditions.cs" />
+    <Compile Include="Merge\Conditions\AfterThenInsertConditions.cs" />
+    <Compile Include="Merge\Conditions\AllConditions.cs" />
+    <Compile Include="Merge\Actions\AllWhenMatchedActions.cs" />
     <Compile Include="Merge\QueryParts\AndSourceQueryPart.cs" />
     <Compile Include="Merge\ConditionsAndActions\AfterWMAndThenDCA.cs" />
     <Compile Include="Merge\ConditionsAndActions\AfterWMAndThenUCA.cs" />
@@ -66,12 +72,12 @@
     <Compile Include="Merge\ConditionsAndActions\AfterWNMBySrcAndThenUCA.cs" />
     <Compile Include="Merge\ConditionsAndActions\AfterWNMBySrcThenUOrDCA.cs" />
     <Compile Include="Merge\ConditionsAndActions\AfterWNMByTgtThenCA.cs" />
-    <Compile Include="Merge\ConditionsAndActions\ConditionsAndActionsBase.cs" />
+    <Compile Include="Merge\ConditionAndActionBase.cs" />
     <Compile Include="Merge\ConditionsAndActions\AfterWMThenUOrDCA.cs" />
     <Compile Include="DataTableCreator.cs" />
     <Compile Include="Merge\MergeClass.cs" />
     <Compile Include="Merge\QueryParts\AndTargetQueryPart.cs" />
-    <Compile Include="Merge\QueryParts\MergeQueryDecorator.cs" />
+    <Compile Include="Merge\QueryParts\MergeQueryPartDecorator.cs" />
     <Compile Include="Merge\QueryParts\OnQueryPart.cs" />
     <Compile Include="Merge\ConditionsAndActions\AllConditionsAndActions.cs" />
     <Compile Include="Merge\QueryParts\MergeQueryPartComponent.cs" />

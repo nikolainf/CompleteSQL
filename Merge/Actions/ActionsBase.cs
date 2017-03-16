@@ -6,15 +6,12 @@ using System.Threading.Tasks;
 
 namespace CompleteSQL.Merge
 {
-    abstract public class ConditionsAndActionsBase
+    abstract public class ActionBase : ConditionAndActionBase
     {
-        protected MergeQueryPartComponent queryComponent;
-
-        internal ConditionsAndActionsBase(MergeQueryPartComponent queryComponent)
+        internal ActionBase(MergeQueryPartComponent queryComponent): base(queryComponent)
         {
-            this.queryComponent = queryComponent;
+           
         }
-
         public string GetMergeQuery()
         {
             return string.Concat(queryComponent.GetQueryPart(), ";");

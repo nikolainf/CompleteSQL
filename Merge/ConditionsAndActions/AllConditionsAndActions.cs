@@ -7,7 +7,7 @@ namespace CompleteSQL.Merge
     /// Contains full set of merge actions.
     /// </summary>
     /// <typeparam name="TSource"></typeparam>
-    public sealed class AllConditionsAndActions<TSource> : ConditionsAndActionsBase 
+    public sealed class AllConditionsAndActions<TSource> : ConditionAndActionBase 
     {
         internal AllConditionsAndActions(MergeQueryPartComponent queryComponent):base(queryComponent)
         { }

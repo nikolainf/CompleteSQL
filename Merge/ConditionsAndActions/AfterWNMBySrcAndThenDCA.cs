@@ -8,7 +8,7 @@ namespace CompleteSQL.Merge
     /// An action of type 'WHEN NOT MATCHED BY SOURCE' cannot appear more than once in a 'DELETE' clause of a MERGE statement.
     /// Description: After When Not Matched And Then Delete Conditions and Actions
     /// </summary>
-    public sealed class AfterWNMBySrcAndThenDCA<TSource> : ConditionsAndActionsBase
+    public sealed class AfterWNMBySrcAndThenDCA<TSource> : ConditionAndActionBase
     {
         internal AfterWNMBySrcAndThenDCA(MergeQueryPartComponent queryComponent)
             : base(queryComponent)

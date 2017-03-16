@@ -29,8 +29,9 @@ namespace UnitTestProject1
 
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("TestTable")
-               .On(p => p.Id)
-               .WhenMatchedThenDelete();
+               .On2(p => p.Id)
+               .WhenMatched()
+               .ThenDelete();
 
 
 
@@ -63,8 +64,9 @@ When Matched
 
             var mergeExpression = context.CreateMergeUsing(people)
             .Target("TestTable")
-            .On(p => new { p.Number, p.DocumentNumber })
-            .WhenMatchedThenDelete();
+            .On2(p => new { p.Number, p.DocumentNumber })
+            .WhenMatched()
+            .ThenDelete();
 
 
 
@@ -100,8 +102,9 @@ When Matched
 
             var mergeExpression = context.CreateMergeUsing(people)
             .Target("TestTable")
-            .On(p => new { p.Number, p.DocumentNumber })
-            .WhenNotMatchedThenInsert();
+            .On2(p => new { p.Number, p.DocumentNumber })
+            .WhenNotMatched()
+            .ThenInsert();
 
             string expectedQuery =
 @"Merge Into TestTable as tgt
@@ -134,8 +137,9 @@ When Not Matched
 
             var mergeExpression = context.CreateMergeUsing(people)
                 .Target("TestTable")
-                .On(p=>new{p.Number, p.DocumentNumber})
-                .WhenNotMatchedThenInsert(p => new { p.Number, p.DocumentNumber });
+                .On2(p=>new{p.Number, p.DocumentNumber})
+                .WhenNotMatched()
+                .ThenInsert(p => new { p.Number, p.DocumentNumber });
 
             string expectedQuery =
 @"Merge Into TestTable as tgt
@@ -169,8 +173,9 @@ When Not Matched
 
             var mergeExpression = context.CreateMergeUsing(people)
                 .Target("Person")
-                .On(p => p.Number )
-                .WhenNotMatchedThenInsert(p => new { p.Number, p.Name, p.Age, GroupNumber = 77, GroupName = "SeventySeventGroup", Salary = 100.5123m  });
+                .On2(p => p.Number )
+                .WhenNotMatched()
+                .ThenInsert(p => new { p.Number, p.Name, p.Age, GroupNumber = 77, GroupName = "SeventySeventGroup", Salary = 100.5123m  });
 
             string expectedQuery =
 @"Merge Into Person as tgt
@@ -203,8 +208,9 @@ When Not Matched
 
             var mergeExpression = context.CreateMergeUsing(people)
                 .Target("Person")
-                .On(p => p.Number)
-                .WhenNotMatchedAndThenInsert(p => p.Age > 17 && p.Number > 100 && p.Name.StartsWith("J"));
+                .On2(p => p.Number)
+                .WhenNotMatchedAnd(p => p.Age > 17 && p.Number > 100 && p.Name.StartsWith("J"))
+                .ThenInsert();
 
             string expectedQuery =
 @"Merge Into Person as tgt
@@ -248,8 +254,9 @@ When Not Matched And src.Age > 17 And src.Number > 100 And src.Name Like 'J%'
 
             var mergeExpression = context.CreateMergeUsing(people)
                 .Target("Person")
-                .On(p => p.Number)
-                .WhenNotMatchedAndThenInsert(tuple.Item2);
+                .On2(p => p.Number)
+                .WhenNotMatchedAnd(tuple.Item2)
+                .ThenInsert();
 
             string expectedQuery =
 @"Merge Into Person as tgt
