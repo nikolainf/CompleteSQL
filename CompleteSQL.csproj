@@ -61,6 +61,7 @@
     <Compile Include="Mapping\Attributes\SqlTableAttribute.cs" />
     <Compile Include="Merge\Actions\ActionsBase.cs" />
     <Compile Include="Merge\Actions\AllWhenNotMatchedActions.cs" />
+    <Compile Include="Merge\Actions\AllWhenNotMatchedBySourceActions.cs" />
     <Compile Include="Merge\Conditions\AfterThenDeleteConditions.cs" />
     <Compile Include="Merge\Conditions\AfterThenInsertConditions.cs" />
     <Compile Include="Merge\Conditions\AllConditions.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Merge\QueryParts\WhenMatchedQueryPart.cs" />
     <Compile Include="Merge\QueryParts\WhenNotMatchedQueryPart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ToDoClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

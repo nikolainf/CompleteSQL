@@ -8,11 +8,16 @@ namespace CompleteSQL.Merge
 {
     public sealed class WhenNotMatchedQueryPart : MergeQueryPartDecorator
     {
+        private bool m_byTarget;
+        public WhenNotMatchedQueryPart(bool byTarget)
+        {
+            m_byTarget = byTarget;
+        }
         internal MergeQueryPartComponent PreviousPartQuery { get; set; }
 
         internal override string GetQueryPart()
         {
-            return string.Concat(base.GetQueryPart(), Environment.NewLine, "When Not Matched");
+            return string.Concat(base.GetQueryPart(), Environment.NewLine, "When Not Matched",!m_byTarget? " By Source":string.Empty);
         }
     }
 }

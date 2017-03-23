@@ -28,7 +28,7 @@ namespace CompleteSQL.Merge
 
         public AllWhenNotMatchedActions<TSource> WhenNotMatched()
         {
-            var whenNotMatchedByTarget = new WhenNotMatchedQueryPart();
+            var whenNotMatchedByTarget = new WhenNotMatchedQueryPart(true);
             whenNotMatchedByTarget.QueryPartComponent = queryComponent;
 
             return new AllWhenNotMatchedActions<TSource>(whenNotMatchedByTarget);
@@ -36,13 +36,21 @@ namespace CompleteSQL.Merge
 
         public AllWhenNotMatchedActions<TSource> WhenNotMatchedAnd(Expression<Func<TSource, bool>> predicate)
         {
-            var whenNotMatchedByTarget = new WhenNotMatchedQueryPart();
+            var whenNotMatchedByTarget = new WhenNotMatchedQueryPart(true);
             whenNotMatchedByTarget.QueryPartComponent = queryComponent;
 
             var andQueryPart = new AndSourceQueryPart(predicate);
             andQueryPart.QueryPartComponent = whenNotMatchedByTarget;
 
             return new AllWhenNotMatchedActions<TSource>(andQueryPart);
+        }
+
+        public AllWhenNotMatchedBySourceActions<TSource> WhenNotMathcedBySource()
+        {
+            var whenNotMatchedBySource = new WhenNotMatchedQueryPart(false);
+            whenNotMatchedBySource.QueryPartComponent = queryComponent;
+
+            return new AllWhenNotMatchedBySourceActions<TSource>(whenNotMatchedBySource);
         }
     }
 }

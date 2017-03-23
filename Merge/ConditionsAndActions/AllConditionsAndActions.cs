@@ -78,7 +78,7 @@ namespace CompleteSQL.Merge
 
         public AfterWNMByTgtThenCA<TSource> WhenNotMatchedThenInsert()
         {
-            var whenNotMatchedByTarget = new WhenNotMatchedQueryPart();
+            var whenNotMatchedByTarget = new WhenNotMatchedQueryPart(true);
             whenNotMatchedByTarget.QueryPartComponent = queryComponent;
 
             var thenInsertQueryPart = new ThenInsertQueryPart();
@@ -90,7 +90,7 @@ namespace CompleteSQL.Merge
 
         public AfterWNMByTgtThenCA<TSource> WhenNotMatchedThenInsert<TInsert>(Expression<Func<TSource, TInsert>> insertColumns)
         {
-            var whenNotMatchedByTarget = new WhenNotMatchedQueryPart();
+            var whenNotMatchedByTarget = new WhenNotMatchedQueryPart(true);
             whenNotMatchedByTarget.QueryPartComponent = queryComponent;
 
             var thenInsertQueryPart = new ThenInsertQueryPart(insertColumns);
@@ -106,7 +106,7 @@ namespace CompleteSQL.Merge
         /// <returns></returns>
         public AfterWNMByTgtThenCA<TSource> WhenNotMatchedAndThenInsert(Expression<Func<TSource, bool>> andPredicate)
         {
-            var whenNotMatchedByTarget = new WhenNotMatchedQueryPart();
+            var whenNotMatchedByTarget = new WhenNotMatchedQueryPart(true);
             whenNotMatchedByTarget.QueryPartComponent = queryComponent;
 
             var andQueryPart = new AndSourceQueryPart(andPredicate);
@@ -126,7 +126,7 @@ namespace CompleteSQL.Merge
 
         public AfterWNMBySrcThenUOrDCA<TSource> WhenNotMatchedBySourceThenUpdate()
         {
-            var whenNotMatchedQueryPart = new WhenNotMatchedQueryPart();
+            var whenNotMatchedQueryPart = new WhenNotMatchedQueryPart(false);
             whenNotMatchedQueryPart.QueryPartComponent = queryComponent;
 
             var thenUpdateQueryPart = new ThenUpdateQueryPart();
@@ -138,7 +138,7 @@ namespace CompleteSQL.Merge
 
         public AfterWNMBySrcAndThenUCA<TSource> WhenNotMatchedBySourceAndThenUpdate(Expression<Func<TSource, bool>> predicate)
         {
-            var whenNotMatchedQueryPart = new WhenNotMatchedQueryPart();
+            var whenNotMatchedQueryPart = new WhenNotMatchedQueryPart(false);
             whenNotMatchedQueryPart.QueryPartComponent = queryComponent;
 
             var andQueryPart = new AndSourceQueryPart(predicate);
@@ -153,7 +153,7 @@ namespace CompleteSQL.Merge
 
         public AfterWNMBySrcThenUOrDCA<TSource> WhenNotMatchedBySourceThenDelete()
         {
-            var whenNotMatchedQueryPart = new WhenNotMatchedQueryPart();
+            var whenNotMatchedQueryPart = new WhenNotMatchedQueryPart(false);
             whenNotMatchedQueryPart.QueryPartComponent = queryComponent;
 
             var thenDeleteQueryPart = new ThenDeleteQueryPart();

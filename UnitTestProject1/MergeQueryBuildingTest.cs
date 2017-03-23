@@ -272,6 +272,38 @@ When Not Matched And src.Age " + tuple.Item1 + " 17" + Environment.NewLine + "\t
             Assert.AreEqual(expectedQuery, query);
         }
        
+        [Test]
+        public void WhenNotMatchedBySourceThenDeleteTest()
+        {
+            var people = new[]
+            {
+                new
+                {
+                    Id = 1,
+                    Name = "John"
+                }
+            };
 
+            DataContext context = new DataContext("CompleteSQL");
+
+            var mergeExpression = context.CreateMergeUsing(people)
+               .Target("TestTable")
+               .On2(p => p.Id)
+               .WhenNotMathcedBySource()
+               .ThenDelete();
+
+
+
+            string query = mergeExpression.GetMergeQuery();
+
+            string expectedQuery =
+@"Merge Into TestTable as tgt
+Using #TestTable as src
+	On tgt.Id = src.Id
+When Not Matched By Source
+	Then Delete;";
+
+            Assert.AreEqual(expectedQuery, query);
+        }
     }
 }
