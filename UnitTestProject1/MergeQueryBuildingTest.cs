@@ -209,14 +209,14 @@ When Not Matched
             var mergeExpression = context.CreateMergeUsing(people)
                 .Target("Person")
                 .On2(p => p.Number)
-                .WhenNotMatchedAnd(p => p.Age > 17 && p.Number > 100 && p.Name.StartsWith("J"))
+                .WhenNotMatchedAnd(p =>p.Name.Contains("abc") && p.Age > 17 && p.Number > 100 && p.Name.StartsWith("J") && p.Name.EndsWith("t"))
                 .ThenInsert();
 
             string expectedQuery =
 @"Merge Into Person as tgt
 Using #Person as src
 	On tgt.Number = src.Number
-When Not Matched And src.Age > 17 And src.Number > 100 And src.Name Like 'J%'
+When Not Matched And src.Name Like '%abc%' And src.Age > 17 And src.Number > 100 And src.Name Like 'J%' And src.Name Like '%t'
 	Then Insert(Number, Name, Age)
 		Values(src.Number, src.Name, src.Age);";
 
