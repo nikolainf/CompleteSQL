@@ -15,6 +15,8 @@ namespace CompleteSQL.Merge
             this.queryComponent = queryComponent;
         }
 
+     
+
        
     }
 }

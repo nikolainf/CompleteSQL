@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using CompleteSQL.Merge.QueryPartsFactory;
 
 namespace CompleteSQL.Merge
 {
@@ -15,40 +16,34 @@ namespace CompleteSQL.Merge
 
         public WhenMatchedConditionStep<TSource> WhenMatched()
         {
-            var whenMatchedQueryPart = new WhenMatchedQueryPart();
-            whenMatchedQueryPart.QueryPartComponent = queryComponent;
+            var whenMatchedQueryPart = queryComponent.CreateWhenMatchedQueryPart();
 
             return new WhenMatchedConditionStep<TSource>(whenMatchedQueryPart);
         }
 
-        public WhenMatchedConditionStep<TSource> WhenMatchedAnd(Expression<Func<TSource, bool>> predicate)
+        public WhenMatchedConditionStep<TSource> WhenMatchedAnd(Expression<Func<TSource, bool>> tgtPredicate, Expression<Func<TSource, bool>> srcPredicate)
         {
+
             throw new NotImplementedException();
         }
 
         public WhenNotMatchedConditionStep<TSource> WhenNotMatched()
         {
-            var whenNotMatchedByTarget = new WhenNotMatchedQueryPart(true);
-            whenNotMatchedByTarget.QueryPartComponent = queryComponent;
+            var whenNotMatchedByTarget = queryComponent.CreateWhenNotMatchedByTargetQueryPart();
 
             return new WhenNotMatchedConditionStep<TSource>(whenNotMatchedByTarget);
         }
 
         public WhenNotMatchedConditionStep<TSource> WhenNotMatchedAnd(Expression<Func<TSource, bool>> predicate)
         {
-            var whenNotMatchedByTarget = new WhenNotMatchedQueryPart(true);
-            whenNotMatchedByTarget.QueryPartComponent = queryComponent;
+            var whenNotMatchedAndByTarget = queryComponent.CreateWhenNotMatchedByTargetAndQueryPart(predicate);
 
-            var andQueryPart = new AndSourceQueryPart(predicate);
-            andQueryPart.QueryPartComponent = whenNotMatchedByTarget;
-
-            return new WhenNotMatchedConditionStep<TSource>(andQueryPart);
+            return new WhenNotMatchedConditionStep<TSource>(whenNotMatchedAndByTarget);
         }
 
         public WhenNotMatchedBySourceConditionStep<TSource> WhenNotMathcedBySource()
         {
-            var whenNotMatchedBySource = new WhenNotMatchedQueryPart(false);
-            whenNotMatchedBySource.QueryPartComponent = queryComponent;
+            var whenNotMatchedBySource = queryComponent.CreateWhenNotMatchedBySourceQueryPart();
 
             return new WhenNotMatchedBySourceConditionStep<TSource>(whenNotMatchedBySource);
         }

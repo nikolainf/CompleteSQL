@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CompleteSQL.Merge.QueryParts
+namespace CompleteSQL.Merge.QueryPartsFactory
 {
     public sealed class AndTargetQueryPart : QueryPartDecorator
     {
