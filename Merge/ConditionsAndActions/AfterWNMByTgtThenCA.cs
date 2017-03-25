@@ -8,9 +8,9 @@ namespace CompleteSQL.Merge
     /// An action of type 'WHEN NOT MATCHED' cannot appear more than once in a 'INSERT' clause of a MERGE statement.
     /// Description: After When Not Matched By Target Then Conditions And Actions
     /// </summary>
-    public sealed class AfterWNMByTgtThenCA<TSource> : ConditionAndActionBase 
+    public sealed class AfterWNMByTgtThenCA<TSource> : QueryStepBase 
     {
-        internal AfterWNMByTgtThenCA(MergeQueryPartComponent queryComponent)
+        internal AfterWNMByTgtThenCA(QueryPartComponent queryComponent)
             : base(queryComponent)
         { }
 

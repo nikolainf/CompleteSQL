@@ -12,9 +12,9 @@ namespace CompleteSQL.Merge
     /// WhenNotMatchedBySourceThenDelete and WhenNotMatchedBySourceAndThenDelete
     /// Description: After When Not Mathced By Source Then Update Or Delete Conditions And Actions
     /// </summary>
-    public sealed class AfterWNMBySrcThenUOrDCA<TSource> : ConditionAndActionBase
+    public sealed class AfterWNMBySrcThenUOrDCA<TSource> : QueryStepBase
     {
-        internal AfterWNMBySrcThenUOrDCA(MergeQueryPartComponent queryComponent)
+        internal AfterWNMBySrcThenUOrDCA(QueryPartComponent queryComponent)
             : base(queryComponent)
         { }
 

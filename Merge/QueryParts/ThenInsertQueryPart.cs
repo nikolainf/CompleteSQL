@@ -8,7 +8,7 @@ using CompleteSQL.Extension;
 
 namespace CompleteSQL.Merge
 {
-    public sealed class ThenInsertQueryPart : MergeQueryPartDecorator
+    public sealed class ThenInsertQueryPart : QueryPartDecorator
     {
         private LambdaExpression m_columnExpr;
        

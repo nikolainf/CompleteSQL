@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace CompleteSQL.Merge
 {
-    public class AfterThenDeleteConditions<TSource> : ActionBase
+    public class ThenDeleteActionStep<TSource> : ActionStepBase
     {
-        internal AfterThenDeleteConditions(MergeQueryPartComponent queryComponent)
+        internal ThenDeleteActionStep(QueryPartComponent queryComponent)
             : base(queryComponent)
         { }
     }

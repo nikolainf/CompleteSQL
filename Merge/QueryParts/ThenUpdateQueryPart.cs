@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CompleteSQL.Merge
 {
-    public sealed class ThenUpdateQueryPart : MergeQueryPartDecorator
+    public sealed class ThenUpdateQueryPart : QueryPartDecorator
     {
         internal override string GetQueryPart()
         {

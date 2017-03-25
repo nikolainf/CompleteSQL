@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace CompleteSQL.Merge
 {
-    abstract public class ConditionAndActionBase
+    abstract public class QueryStepBase
     {
-        protected MergeQueryPartComponent queryComponent;
+        protected QueryPartComponent queryComponent;
 
-        internal ConditionAndActionBase(MergeQueryPartComponent queryComponent)
+        internal QueryStepBase(QueryPartComponent queryComponent)
         {
             this.queryComponent = queryComponent;
         }

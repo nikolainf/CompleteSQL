@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CompleteSQL.Merge
 {
-    abstract public class MergeQueryPartComponent
+    abstract public class QueryPartComponent
     {
         internal DataTableSchema tableSchema;
         internal abstract string GetQueryPart();

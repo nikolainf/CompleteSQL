@@ -7,34 +7,34 @@ using System.Threading.Tasks;
 
 namespace CompleteSQL.Merge
 {
-    public sealed class AllConditions<TSource> : ConditionAndActionBase
+    public sealed class FirstStep<TSource> : QueryStepBase
     {
-        internal AllConditions(MergeQueryPartComponent queryComponent)
+        internal FirstStep(QueryPartComponent queryComponent)
             : base(queryComponent)
         { }
 
-        public AllWhenMatchedActions<TSource> WhenMatched()
+        public WhenMatchedConditionStep<TSource> WhenMatched()
         {
             var whenMatchedQueryPart = new WhenMatchedQueryPart();
             whenMatchedQueryPart.QueryPartComponent = queryComponent;
 
-            return new AllWhenMatchedActions<TSource>(whenMatchedQueryPart);
+            return new WhenMatchedConditionStep<TSource>(whenMatchedQueryPart);
         }
 
-        public AllWhenMatchedActions<TSource> WhenMatchedAnd(Expression<Func<TSource, bool>> predicate)
+        public WhenMatchedConditionStep<TSource> WhenMatchedAnd(Expression<Func<TSource, bool>> predicate)
         {
             throw new NotImplementedException();
         }
 
-        public AllWhenNotMatchedActions<TSource> WhenNotMatched()
+        public WhenNotMatchedConditionStep<TSource> WhenNotMatched()
         {
             var whenNotMatchedByTarget = new WhenNotMatchedQueryPart(true);
             whenNotMatchedByTarget.QueryPartComponent = queryComponent;
 
-            return new AllWhenNotMatchedActions<TSource>(whenNotMatchedByTarget);
+            return new WhenNotMatchedConditionStep<TSource>(whenNotMatchedByTarget);
         }
 
-        public AllWhenNotMatchedActions<TSource> WhenNotMatchedAnd(Expression<Func<TSource, bool>> predicate)
+        public WhenNotMatchedConditionStep<TSource> WhenNotMatchedAnd(Expression<Func<TSource, bool>> predicate)
         {
             var whenNotMatchedByTarget = new WhenNotMatchedQueryPart(true);
             whenNotMatchedByTarget.QueryPartComponent = queryComponent;
@@ -42,15 +42,15 @@ namespace CompleteSQL.Merge
             var andQueryPart = new AndSourceQueryPart(predicate);
             andQueryPart.QueryPartComponent = whenNotMatchedByTarget;
 
-            return new AllWhenNotMatchedActions<TSource>(andQueryPart);
+            return new WhenNotMatchedConditionStep<TSource>(andQueryPart);
         }
 
-        public AllWhenNotMatchedBySourceActions<TSource> WhenNotMathcedBySource()
+        public WhenNotMatchedBySourceConditionStep<TSource> WhenNotMathcedBySource()
         {
             var whenNotMatchedBySource = new WhenNotMatchedQueryPart(false);
             whenNotMatchedBySource.QueryPartComponent = queryComponent;
 
-            return new AllWhenNotMatchedBySourceActions<TSource>(whenNotMatchedBySource);
+            return new WhenNotMatchedBySourceConditionStep<TSource>(whenNotMatchedBySource);
         }
     }
 }

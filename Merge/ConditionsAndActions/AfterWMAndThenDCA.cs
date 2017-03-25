@@ -8,9 +8,9 @@ namespace CompleteSQL.Merge
     /// An action of type 'WHEN MATCHED' cannot appear more than once in a 'DELETE' clause of a MERGE statement.
     /// Description: After When Matched And Then Delete Conditions and Actions
     /// </summary>
-    public sealed class AfterWMAndThenDCA<TSource> : ConditionAndActionBase
+    public sealed class AfterWMAndThenDCA<TSource> : QueryStepBase
     {
-        internal AfterWMAndThenDCA(MergeQueryPartComponent queryComponent)
+        internal AfterWMAndThenDCA(QueryPartComponent queryComponent)
             : base(queryComponent)
         {
 

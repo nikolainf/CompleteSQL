@@ -29,7 +29,7 @@ namespace UnitTestProject1
 
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("TestTable")
-               .On2(p => p.Id)
+               .On(p => p.Id)
                .WhenMatched()
                .ThenDelete();
 
@@ -64,10 +64,9 @@ When Matched
 
             var mergeExpression = context.CreateMergeUsing(people)
             .Target("TestTable")
-            .On2(p => new { p.Number, p.DocumentNumber })
+            .On(p => new { p.Number, p.DocumentNumber })
             .WhenMatched()
             .ThenDelete();
-
 
 
             string query = mergeExpression.GetMergeQuery();
@@ -102,7 +101,7 @@ When Matched
 
             var mergeExpression = context.CreateMergeUsing(people)
             .Target("TestTable")
-            .On2(p => new { p.Number, p.DocumentNumber })
+            .On(p => new { p.Number, p.DocumentNumber })
             .WhenNotMatched()
             .ThenInsert();
 
@@ -137,7 +136,7 @@ When Not Matched
 
             var mergeExpression = context.CreateMergeUsing(people)
                 .Target("TestTable")
-                .On2(p=>new{p.Number, p.DocumentNumber})
+                .On(p=>new{p.Number, p.DocumentNumber})
                 .WhenNotMatched()
                 .ThenInsert(p => new { p.Number, p.DocumentNumber });
 
@@ -173,7 +172,7 @@ When Not Matched
 
             var mergeExpression = context.CreateMergeUsing(people)
                 .Target("Person")
-                .On2(p => p.Number )
+                .On(p => p.Number )
                 .WhenNotMatched()
                 .ThenInsert(p => new { p.Number, p.Name, p.Age, GroupNumber = 77, GroupName = "SeventySeventGroup", Salary = 100.5123m  });
 
@@ -208,7 +207,7 @@ When Not Matched
 
             var mergeExpression = context.CreateMergeUsing(people)
                 .Target("Person")
-                .On2(p => p.Number)
+                .On(p => p.Number)
                 .WhenNotMatchedAnd(p =>p.Name.Contains("abc") && p.Age > 17 && p.Number > 100 && p.Name.StartsWith("J") && p.Name.EndsWith("t"))
                 .ThenInsert();
 
@@ -254,7 +253,7 @@ When Not Matched And src.Name Like '%abc%' And src.Age > 17 And src.Number > 100
 
             var mergeExpression = context.CreateMergeUsing(people)
                 .Target("Person")
-                .On2(p => p.Number)
+                .On(p => p.Number)
                 .WhenNotMatchedAnd(tuple.Item2)
                 .ThenInsert();
 
@@ -288,7 +287,7 @@ When Not Matched And src.Age " + tuple.Item1 + " 17" + Environment.NewLine + "\t
 
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("TestTable")
-               .On2(p => p.Id)
+               .On(p => p.Id)
                .WhenNotMathcedBySource()
                .ThenDelete();
 

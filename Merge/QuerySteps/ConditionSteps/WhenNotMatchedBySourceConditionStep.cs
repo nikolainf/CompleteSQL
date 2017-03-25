@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace CompleteSQL.Merge
 {
-    public class AllWhenNotMatchedBySourceActions<TSource> : ConditionAndActionBase
+    public class WhenNotMatchedBySourceConditionStep<TSource> : QueryStepBase
     {
-        internal AllWhenNotMatchedBySourceActions(MergeQueryPartComponent queryComponent)
+        internal WhenNotMatchedBySourceConditionStep(QueryPartComponent queryComponent)
             : base(queryComponent)
         {
 
         }
 
-        public AfterThenDeleteConditions<TSource> ThenDelete()
+        public ThenDeleteActionStep<TSource> ThenDelete()
         {
             var thenDeleteQueryPart = new ThenDeleteQueryPart();
             thenDeleteQueryPart.QueryPartComponent = queryComponent;
 
-            return new AfterThenDeleteConditions<TSource>(thenDeleteQueryPart);
+            return new ThenDeleteActionStep<TSource>(thenDeleteQueryPart);
         }
     }
 }

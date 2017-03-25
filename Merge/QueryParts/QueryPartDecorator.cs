@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace CompleteSQL.Merge
 {
-    public abstract class MergeQueryPartDecorator : MergeQueryPartComponent
+    public abstract class QueryPartDecorator : QueryPartComponent
     {
-        private MergeQueryPartComponent m_queryPartComponent;
-        internal MergeQueryPartComponent QueryPartComponent
+        private QueryPartComponent m_queryPartComponent;
+        internal QueryPartComponent QueryPartComponent
         {
             get
             {

@@ -7,28 +7,28 @@ using System.Threading.Tasks;
 
 namespace CompleteSQL.Merge
 {
-    public class AllWhenNotMatchedActions<TSource> : ConditionAndActionBase
+    public class WhenNotMatchedConditionStep<TSource> : QueryStepBase
     {
-        internal AllWhenNotMatchedActions(MergeQueryPartComponent queryComponent)
+        internal WhenNotMatchedConditionStep(QueryPartComponent queryComponent)
             : base(queryComponent)
         {
             
         }
 
-        public AfterThenInsertConditions<TSource> ThenInsert()
+        public ThenInsertActionStep<TSource> ThenInsert()
         {
             var thenInsertQueryPart = new ThenInsertQueryPart();
             thenInsertQueryPart.QueryPartComponent = queryComponent;
 
-            return new AfterThenInsertConditions<TSource>(thenInsertQueryPart);
+            return new ThenInsertActionStep<TSource>(thenInsertQueryPart);
         }
 
-        public AfterThenInsertConditions<TSource> ThenInsert<TInserting>(Expression<Func<TSource, TInserting>> insertingColumns)
+        public ThenInsertActionStep<TSource> ThenInsert<TInserting>(Expression<Func<TSource, TInserting>> insertingColumns)
         {
             var thenInsertQueryPart = new ThenInsertQueryPart(insertingColumns);
             thenInsertQueryPart.QueryPartComponent = queryComponent;
 
-            return new AfterThenInsertConditions<TSource>(thenInsertQueryPart);
+            return new ThenInsertActionStep<TSource>(thenInsertQueryPart);
         }
     }
 }

@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace CompleteSQL.Merge
 {
-    public class AllWhenMatchedActions<TSource> : ConditionAndActionBase
+    public class WhenMatchedConditionStep<TSource> : QueryStepBase
     {
-        internal AllWhenMatchedActions(MergeQueryPartComponent queryComponent)
+        internal WhenMatchedConditionStep(QueryPartComponent queryComponent)
             : base(queryComponent)
         {
             
@@ -21,17 +21,17 @@ namespace CompleteSQL.Merge
 
         }
 
-        public AfterThenDeleteConditions<TSource> ThenUpdate<TUpdate>(Expression<Func<TSource, TUpdate>> updatingColumns)
+        public ThenDeleteActionStep<TSource> ThenUpdate<TUpdate>(Expression<Func<TSource, TUpdate>> updatingColumns)
         {
             throw new NotImplementedException();
         }
 
-        public AfterThenDeleteConditions<TSource> ThenDelete()
+        public ThenDeleteActionStep<TSource> ThenDelete()
         {
             var thenDeleteQueryPart = new ThenDeleteQueryPart();
             thenDeleteQueryPart.QueryPartComponent = queryComponent;
 
-            return new AfterThenDeleteConditions<TSource>(thenDeleteQueryPart);
+            return new ThenDeleteActionStep<TSource>(thenDeleteQueryPart);
         }
     }
 }

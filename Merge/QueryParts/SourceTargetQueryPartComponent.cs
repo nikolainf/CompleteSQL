@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CompleteSQL.Merge
 {
-    public sealed class SourceTargetQueryPartComponent : MergeQueryPartComponent
+    public sealed class SourceTargetQueryPartComponent : QueryPartComponent
     {
         private readonly string m_targetTable;
         internal SourceTargetQueryPartComponent(string targetTable)

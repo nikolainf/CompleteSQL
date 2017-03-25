@@ -7,9 +7,9 @@ namespace CompleteSQL.Merge
     /// Contains all actions but WhenNotMatchedBySourceThenUpdate, WhenNotMatchedBySourceAndThenUpdate
     /// Description: After When Not Matched By Source And Then Update Conditions And Actions
     /// </summary>
-    public sealed class AfterWNMBySrcAndThenUCA<TSource> : ConditionAndActionBase
+    public sealed class AfterWNMBySrcAndThenUCA<TSource> : QueryStepBase
     {
-        internal AfterWNMBySrcAndThenUCA(MergeQueryPartComponent queryComponent)
+        internal AfterWNMBySrcAndThenUCA(QueryPartComponent queryComponent)
             : base(queryComponent)
         { }
 

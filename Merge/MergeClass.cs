@@ -1,11 +1,6 @@
-﻿using CompleteSQL.Mapping;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CompleteSQL.Merge
 {
@@ -28,26 +23,8 @@ namespace CompleteSQL.Merge
             return this;
         }
 
-        public AllConditionsAndActions<TSource> On<TPredicate>(Expression<Func<TSource, TPredicate>> equalpredicate)
-        {
-
-            DataTableSchemaCreator schemaCreator = new DataTableSchemaCreator();
-            DataTableSchema schema = schemaCreator.CreateSchema<TSource>(m_targetTable);
-
-           
-
-            // Start to build merge into using query part of query.
-            var srcTgtQueryPart = new SourceTargetQueryPartComponent(schema.TableName);
-            srcTgtQueryPart.tableSchema = schema;
-
-            // Build "on" query part.
-            var onQueryPart = new OnQueryPart(equalpredicate);
-            onQueryPart.QueryPartComponent = srcTgtQueryPart;
-
-            return new AllConditionsAndActions<TSource>(onQueryPart);
-        }
-
-        public AllConditions<TSource> On2<TPredicate>(Expression<Func<TSource, TPredicate>> equalpredicate)
+       
+        public FirstStep<TSource> On<TPredicate>(Expression<Func<TSource, TPredicate>> equalpredicate)
         {
             DataTableSchemaCreator schemaCreator = new DataTableSchemaCreator();
             DataTableSchema schema = schemaCreator.CreateSchema<TSource>(m_targetTable);
@@ -62,7 +39,7 @@ namespace CompleteSQL.Merge
             var onQueryPart = new OnQueryPart(equalpredicate);
             onQueryPart.QueryPartComponent = srcTgtQueryPart;
 
-            return new AllConditions<TSource>(onQueryPart);
+            return new FirstStep<TSource>(onQueryPart);
         }
        
     

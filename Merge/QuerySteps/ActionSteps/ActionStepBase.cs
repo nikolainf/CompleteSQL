@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace CompleteSQL.Merge
 {
-    abstract public class ActionBase : ConditionAndActionBase
+    abstract public class ActionStepBase : QueryStepBase
     {
-        internal ActionBase(MergeQueryPartComponent queryComponent): base(queryComponent)
+        internal ActionStepBase(QueryPartComponent queryComponent): base(queryComponent)
         {
            
         }

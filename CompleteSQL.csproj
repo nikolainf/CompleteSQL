@@ -59,13 +59,14 @@
     <Compile Include="Mapping\SqlTableNameMapper.cs" />
     <Compile Include="Mapping\MappingColumn.cs" />
     <Compile Include="Mapping\Attributes\SqlTableAttribute.cs" />
-    <Compile Include="Merge\Actions\ActionsBase.cs" />
-    <Compile Include="Merge\Actions\AllWhenNotMatchedActions.cs" />
-    <Compile Include="Merge\Actions\AllWhenNotMatchedBySourceActions.cs" />
-    <Compile Include="Merge\Conditions\AfterThenDeleteConditions.cs" />
-    <Compile Include="Merge\Conditions\AfterThenInsertConditions.cs" />
-    <Compile Include="Merge\Conditions\AllConditions.cs" />
-    <Compile Include="Merge\Actions\AllWhenMatchedActions.cs" />
+    <Compile Include="Merge\QuerySteps\ActionSteps\ActionStepBase.cs" />
+    <Compile Include="Merge\QuerySteps\ActionSteps\QueryStepBase.cs" />
+    <Compile Include="Merge\QuerySteps\ConditionSteps\WhenNotMatchedConditionStep.cs" />
+    <Compile Include="Merge\QuerySteps\ConditionSteps\WhenNotMatchedBySourceConditionStep.cs" />
+    <Compile Include="Merge\QuerySteps\ActionSteps\ThenDeleteActionStep.cs" />
+    <Compile Include="Merge\QuerySteps\ActionSteps\ThenInsertActionStep.cs" />
+    <Compile Include="Merge\QuerySteps\FirstStepQueryStep.cs" />
+    <Compile Include="Merge\QuerySteps\ConditionSteps\WhenMatchedConditionStep.cs" />
     <Compile Include="Merge\QueryParts\AndSourceQueryPart.cs" />
     <Compile Include="Merge\ConditionsAndActions\AfterWMAndThenDCA.cs" />
     <Compile Include="Merge\ConditionsAndActions\AfterWMAndThenUCA.cs" />
@@ -73,15 +74,15 @@
     <Compile Include="Merge\ConditionsAndActions\AfterWNMBySrcAndThenUCA.cs" />
     <Compile Include="Merge\ConditionsAndActions\AfterWNMBySrcThenUOrDCA.cs" />
     <Compile Include="Merge\ConditionsAndActions\AfterWNMByTgtThenCA.cs" />
-    <Compile Include="Merge\ConditionAndActionBase.cs" />
+    <Compile Include="Merge\QuerySteps\QueryStepBase.cs" />
     <Compile Include="Merge\ConditionsAndActions\AfterWMThenUOrDCA.cs" />
     <Compile Include="DataTableCreator.cs" />
     <Compile Include="Merge\MergeClass.cs" />
     <Compile Include="Merge\QueryParts\AndTargetQueryPart.cs" />
-    <Compile Include="Merge\QueryParts\MergeQueryPartDecorator.cs" />
+    <Compile Include="Merge\QueryParts\QueryPartDecorator.cs" />
     <Compile Include="Merge\QueryParts\OnQueryPart.cs" />
     <Compile Include="Merge\ConditionsAndActions\AllConditionsAndActions.cs" />
-    <Compile Include="Merge\QueryParts\MergeQueryPartComponent.cs" />
+    <Compile Include="Merge\QueryParts\QueryPartComponent.cs" />
     <Compile Include="Merge\QueryParts\SourceTargetQueryPartComponent.cs" />
     <Compile Include="Merge\QueryParts\ThenDeleteQueryPart.cs" />
     <Compile Include="Merge\QueryParts\ThenInsertQueryPart.cs" />
@@ -94,9 +95,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="NewFolder1\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

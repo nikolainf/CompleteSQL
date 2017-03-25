@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace CompleteSQL.Merge
 {
-    public class AfterThenInsertConditions<TSource> : ActionBase
+    public class ThenInsertActionStep<TSource> : ActionStepBase
     {
-        internal AfterThenInsertConditions(MergeQueryPartComponent queryComponent)
+        internal ThenInsertActionStep(QueryPartComponent queryComponent)
             : base(queryComponent)
         { }
     }

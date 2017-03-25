@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CompleteSQL.Merge
 {
-    public sealed class AndSourceQueryPart : MergeQueryPartDecorator
+    public sealed class AndSourceQueryPart : QueryPartDecorator
     {
         LambdaExpression m_predicate;
         internal AndSourceQueryPart(Expression expr)
