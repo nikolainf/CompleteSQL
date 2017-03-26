@@ -89,6 +89,7 @@
     <Compile Include="Merge\QueryParts\ThenUpdateQueryPart.cs" />
     <Compile Include="Merge\QueryParts\WhenMatchedQueryPart.cs" />
     <Compile Include="Merge\QueryParts\WhenNotMatchedQueryPart.cs" />
+    <Compile Include="PredicateBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ToDoClass.cs" />
   </ItemGroup>

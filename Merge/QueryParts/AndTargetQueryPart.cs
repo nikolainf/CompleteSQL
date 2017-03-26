@@ -18,8 +18,9 @@ namespace CompleteSQL.Merge.QueryPartsFactory
 
         internal override string GetQueryPart()
         {
-            var p = m_predicate;
-            return string.Concat(base.GetQueryPart(), "And");
+            string predicate = m_predicate.BuildPredicate("tgt");
+
+            return string.Concat(base.GetQueryPart(), " And ", predicate);
 
         }
     }

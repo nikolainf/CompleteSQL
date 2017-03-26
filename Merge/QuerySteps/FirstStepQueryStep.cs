@@ -47,5 +47,12 @@ namespace CompleteSQL.Merge
 
             return new WhenNotMatchedBySourceConditionStep<TSource>(whenNotMatchedBySource);
         }
+
+        public WhenNotMatchedBySourceConditionStep<TSource> WhenNotMatcheBySourceAnd(Expression<Func<TSource, bool>> predicate)
+        {
+            var whenNotMatchedAndBySource = queryComponent.CreateWhenNotMatcheBySourceAndQueryPart(predicate);
+
+            return new WhenNotMatchedBySourceConditionStep<TSource>(whenNotMatchedAndBySource);
+        }
     }
 }

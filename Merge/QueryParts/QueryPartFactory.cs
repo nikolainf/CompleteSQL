@@ -39,10 +39,10 @@ namespace CompleteSQL.Merge.QueryPartsFactory
 
         internal static WhenNotMatchedQueryPart CreateWhenNotMatchedBySourceQueryPart(this QueryPartComponent queryComponent)
         {
-            var whenNotMatched = new WhenNotMatchedQueryPart(false);
-            whenNotMatched.QueryPartComponent = queryComponent;
+            var whenNotMatchedBySource = new WhenNotMatchedQueryPart(false);
+            whenNotMatchedBySource.QueryPartComponent = queryComponent;
 
-            return whenNotMatched;
+            return whenNotMatchedBySource;
         }
 
         internal static AndSourceQueryPart CreateWhenNotMatchedByTargetAndQueryPart<TSource>(this QueryPartComponent queryComponent, Expression<Func<TSource, bool>> predicate)
@@ -52,6 +52,17 @@ namespace CompleteSQL.Merge.QueryPartsFactory
 
             var andQueryPart = new AndSourceQueryPart(predicate);
             andQueryPart.QueryPartComponent = whenNotMatchedByTarget;
+
+            return andQueryPart;
+        }
+
+        internal static AndTargetQueryPart CreateWhenNotMatcheBySourceAndQueryPart<TSource>(this QueryPartComponent queryComponent, Expression<Func<TSource, bool>> predicate)
+        {
+            var whenNotMatchedBySource = new WhenNotMatchedQueryPart(false);
+            whenNotMatchedBySource.QueryPartComponent = queryComponent;
+
+            var andQueryPart = new AndTargetQueryPart(predicate);
+            andQueryPart.QueryPartComponent = whenNotMatchedBySource;
 
             return andQueryPart;
         }

@@ -226,6 +226,42 @@ When Not Matched And src.Name Like '%abc%' And src.Age > 17 And src.Number > 100
         }
 
 
+        [Test]
+        public void WhenNotMathcedAndSingleStartWithPredicateThenInsertTest()
+        {
+            var people = new[]
+            {
+                new
+                {
+                    Number = 1,
+                    Name = "John",
+                    Age = 33,
+                }
+            };
+
+            DataContext context = new DataContext("CompleteSQL");
+
+            var mergeExpression = context.CreateMergeUsing(people)
+                .Target("Person")
+                .On(p => p.Number)
+                .WhenNotMatchedAnd(p =>p.Name.StartsWith("J"))
+                .ThenInsert();
+
+            string expectedQuery =
+@"Merge Into Person as tgt
+Using #Person as src
+	On tgt.Number = src.Number
+When Not Matched And src.Name Like 'J%'
+	Then Insert(Number, Name, Age)
+		Values(src.Number, src.Name, src.Age);";
+
+
+            string query = mergeExpression.GetMergeQuery();
+
+            Assert.AreEqual(expectedQuery, query);
+        }
+
+
 
         static object[] AndParams =
     {
@@ -304,5 +340,42 @@ When Not Matched By Source
 
             Assert.AreEqual(expectedQuery, query);
         }
+
+        [Test]
+        public void WhenNotMatchedBySourceAndThenDeleteTest()
+        {
+            var people = new[]
+            {
+                new
+                {
+                    Id = 1,
+                    Name = "John"
+                }
+            };
+
+            DataContext context = new DataContext("CompleteSQL");
+
+            var mergeExpression = context.CreateMergeUsing(people)
+               .Target("TestTable")
+               .On(p => p.Id)
+               .WhenNotMatcheBySourceAnd(p => p.Name.StartsWith("Jo"))
+               .ThenDelete();
+            
+
+
+
+            string query = mergeExpression.GetMergeQuery();
+
+            string expectedQuery =
+@"Merge Into TestTable as tgt
+Using #TestTable as src
+	On tgt.Id = src.Id
+When Not Matched By Source And tgt.Name Like 'Jo%'
+	Then Delete;";
+
+            Assert.AreEqual(expectedQuery, query);
+        }
+
+
     }
 }
