@@ -376,6 +376,45 @@ When Not Matched By Source And tgt.Name Like 'Jo%'
             Assert.AreEqual(expectedQuery, query);
         }
 
+        [Test]
+        public void WhenMathcedThenUpdateDeterminateColumnsTest()
+        {
+            var people = new[]
+            {
+                new
+                {
+                    Number = 1,
+                    DocumentNumber = 2,
+                    Name = "John",
+                    SomeData = 123,
+                    SomeData2 = 11
+                }
+            };
+
+            DataContext context = new DataContext("CompleteSQL");
+
+            var mergeExpression = context.CreateMergeUsing(people)
+                .Target("TestTable")
+                .On(p => p.Number)
+                .WhenMatched()
+                .ThenUpdate(p => new { p.DocumentNumber, Name = p.Name + "_NewValue", SomeData = 123443, SomeData2 = p.SomeData2 * 10 });
+
+            string expectedQuery =
+@"Merge Into TestTable as tgt
+Using #TestTable as src
+	On tgt.Number = src.Number
+	And tgt.DocumentNumber = src.DocumentNumber
+When Not Matched
+	Then Update
+		Set tgt.DocumentNumber = src.DocumentNumber,
+            tgt.Name = src.Name + '_NewValue';";
+
+
+            string query = mergeExpression.GetMergeQuery();
+
+            Assert.AreEqual(expectedQuery, query);
+        }
+
 
     }
 }

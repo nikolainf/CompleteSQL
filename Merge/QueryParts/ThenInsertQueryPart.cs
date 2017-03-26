@@ -11,7 +11,8 @@ namespace CompleteSQL.Merge
     public sealed class ThenInsertQueryPart : QueryPartDecorator
     {
         private LambdaExpression m_columnExpr;
-       
+
+        #region ctors
         internal ThenInsertQueryPart()
         {
 
@@ -20,6 +21,9 @@ namespace CompleteSQL.Merge
         {
             m_columnExpr = columnExpr;
         }
+
+        #endregion
+
         internal override string GetQueryPart()
         {
 
@@ -44,7 +48,6 @@ namespace CompleteSQL.Merge
                         tgtColumns = newBody.GetTargetColumns();
 
                         srcColumns = newBody.GetSourceColumns();
-
 
                         break;
                     default: throw new ArgumentException();

@@ -16,14 +16,14 @@ namespace CompleteSQL.Merge
             
         }
 
-        public void ThenUpdate()
-        {
 
-        }
 
-        public ThenDeleteActionStep<TSource> ThenUpdate<TUpdate>(Expression<Func<TSource, TUpdate>> updatingColumns)
+        public ThenUpdateActionStep<TSource> ThenUpdate<TUpdate>(Expression<Func<TSource, TUpdate>> updatingColumns)
         {
-            throw new NotImplementedException();
+            var thenUpdateQueryPart = new ThenUpdateQueryPart(updatingColumns);
+            thenUpdateQueryPart.QueryPartComponent = queryComponent;
+
+            return new ThenUpdateActionStep<TSource>(thenUpdateQueryPart);
         }
 
         public ThenDeleteActionStep<TSource> ThenDelete()

@@ -61,6 +61,7 @@
     <Compile Include="Mapping\Attributes\SqlTableAttribute.cs" />
     <Compile Include="Merge\QueryParts\QueryPartFactory.cs" />
     <Compile Include="Merge\QuerySteps\ActionSteps\ActionStepBase.cs" />
+    <Compile Include="Merge\QuerySteps\ActionSteps\ThenUpdateActionStep.cs" />
     <Compile Include="Merge\QuerySteps\ConditionSteps\WhenNotMatchedConditionStep.cs" />
     <Compile Include="Merge\QuerySteps\ConditionSteps\WhenNotMatchedBySourceConditionStep.cs" />
     <Compile Include="Merge\QuerySteps\ActionSteps\ThenDeleteActionStep.cs" />
