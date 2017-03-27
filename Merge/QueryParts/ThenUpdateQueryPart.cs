@@ -29,13 +29,10 @@ namespace CompleteSQL.Merge
 
         internal override string GetQueryPart()
         {
-            string tgtColumns = string.Empty;
-            string srcColumns = string.Empty;
 
             if (m_columnExpr == null)
             {
-                tgtColumns = string.Join(", ", tableSchema.Columns.Select(col => col.Name));
-                srcColumns = string.Join(", ", tableSchema.Columns.Select(col => string.Concat("src.", col.Name)));
+                throw new NotImplementedException();
             }
             else
             {
@@ -47,21 +44,27 @@ namespace CompleteSQL.Merge
                         NewExpression newBody = (NewExpression)m_columnExpr.Body;
 
 
-                        tgtColumns = newBody.GetTargetColumns();
+                        var tgtColumns = newBody.GetTargetColumnNames();
 
-                        srcColumns = newBody.GetSourceColumns();
+                        var srcColumns = newBody.GetSourceOperators();
 
-                        break;
+                        string updateOperators = string.Join(Environment.NewLine,
+                            tgtColumns.Select((item, index) =>
+                                string.Concat("\t\ttgt.", item, " = ", srcColumns[index])));
+
+                        string update = string.Concat("\tThen Update Set ", Environment.NewLine, updateOperators);
+
+
+                        return string.Concat(base.GetQueryPart(), Environment.NewLine, update);
+
+
                     default: throw new ArgumentException();
                 }
             }
 
-            string update = string.Concat("\tThen Update", Environment.NewLine, "\tSet ");
+            throw new NotImplementedException();
 
-            string values = string.Format("\t\tValues({0})", srcColumns);
-            return string.Concat(base.GetQueryPart(), Environment.NewLine, string.Concat(update, Environment.NewLine, values));
 
-            return string.Concat(base.GetQueryPart(), "Then Update");
         }
     }
 }

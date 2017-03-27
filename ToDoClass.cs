@@ -8,10 +8,10 @@ namespace CompleteSQL
 {
     class ToDoClass
     {
-        // To do and single predicate with bool parameter
+        // put in order expression params for update
+        // and single predicate with bool parameter
         // WhenMatchedAnd predicate src and tgt?
-        // WhenNotMatchedBySourceAnd - tgt.Name = 'exampleValue'
         // WhenNotMatchedBySource Then Update 
-        // For update: new ConstantValue or Executed Value?
+        // put in order expression helpers
     }
 }

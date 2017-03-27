@@ -45,9 +45,9 @@ namespace CompleteSQL.Merge
                         NewExpression newBody = (NewExpression)m_columnExpr.Body;
 
 
-                        tgtColumns = newBody.GetTargetColumns();
+                        tgtColumns = newBody.GetTargetStringColumns();
 
-                        srcColumns = newBody.GetSourceColumns();
+                        srcColumns = newBody.GetSourceStringColumns();
 
                         break;
                     default: throw new ArgumentException();
