@@ -399,7 +399,7 @@ When Not Matched By Source And tgt.Name Like 'Jo%'
                 .Target("TestTable")
                 .On(p => p.Number)
                 .WhenMatched()
-                .ThenUpdate(p => new { p.DocumentNumber, Name = p.Name + "_NewValue", SomeData = 123443, SomeData2 = p.SomeData2 * 10, SubtractData = p.SubtractData - 10, DivideData = p.DivideData / 10 });
+                .ThenUpdate((t,s) => new { s.DocumentNumber, Name = s.Name + "_NewValue", SomeData = 123443, SomeData2 = s.SomeData2 * 10, SubtractData = s.SubtractData - 10, DivideData = s.DivideData / 10 });
 
             string expectedQuery =
 @"Merge Into TestTable as tgt
@@ -413,6 +413,45 @@ When Matched
 		tgt.SomeData2 = src.SomeData2 * 10
 		tgt.SubtractData = src.SubtractData - 10
 		tgt.DivideData = src.DivideData / 10;";
+
+
+            string query = mergeExpression.GetMergeQuery();
+
+            Assert.AreEqual(expectedQuery, query);
+        }
+
+        [Test]
+        public void WhenMathcedThenUpdateWithTgtAndSrcColumnsTest()
+        {
+            var people = new[]
+            {
+                new
+                {
+                    Number = 1,
+                    DocumentNumber = 2,
+                    Name = "John",
+                    SomeData = 123,
+                    SomeData2 = 11,
+                    SubtractData = 1,
+                    DivideData = 0
+                }
+            };
+
+            DataContext context = new DataContext("CompleteSQL");
+
+            var mergeExpression = context.CreateMergeUsing(people)
+                .Target("TestTable")
+                .On(p => p.Number)
+                .WhenMatched()
+                .ThenUpdate((t, s) => new { SomeData = t.SomeData + s.SomeData });
+
+            string expectedQuery =
+@"Merge Into TestTable as tgt
+Using #TestTable as src
+	On tgt.Number = src.Number
+When Matched
+	Then Update Set 
+		tgt.SomeData = tgt.SomeData + src.SomeData;";
 
 
             string query = mergeExpression.GetMergeQuery();

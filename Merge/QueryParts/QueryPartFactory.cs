@@ -75,7 +75,7 @@ namespace CompleteSQL.Merge.QueryPartsFactory
             return thenUpdateQueryPart;
         }
 
-        internal static ThenUpdateQueryPart CreateWMThenUpdateQueryPart<TSource, TUpdate>(this QueryPartComponent queryComponent, Expression<Func<TSource, TUpdate>> updatingColumns)
+        internal static ThenUpdateQueryPart CreateWMThenUpdateQueryPart<TSource, TUpdate>(this QueryPartComponent queryComponent, Expression<Func<TSource,TSource, TUpdate>> updatingColumns)
         {
             var thenUpdateQueryPart = new ThenUpdateQueryPart(updatingColumns);
             thenUpdateQueryPart.QueryPartComponent = queryComponent;
