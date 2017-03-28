@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using CompleteSQL.Merge.QueryPartsFactory;
 
 namespace CompleteSQL.Merge
 {
@@ -20,6 +22,19 @@ namespace CompleteSQL.Merge
             thenDeleteQueryPart.QueryPartComponent = queryComponent;
 
             return new ThenDeleteActionStep<TSource>(thenDeleteQueryPart);
+        }
+
+        public WNMThenUpdateActionStep<TSource> ThenUpdate()
+        {
+            throw new NotImplementedException();
+        }
+
+        public WNMThenUpdateActionStep<TSource> ThenUpdate<TUpdate>(Expression<Func<TSource, TUpdate>> updatingColumns)
+        {
+            
+            var thenUpdateQueryPart = queryComponent.CreateWNMThenUpdateQueryPart(updatingColumns);
+
+            return new WNMThenUpdateActionStep<TSource>(thenUpdateQueryPart);
         }
     }
 }

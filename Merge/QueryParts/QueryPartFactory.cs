@@ -66,5 +66,28 @@ namespace CompleteSQL.Merge.QueryPartsFactory
 
             return andQueryPart;
         }
+
+        internal static ThenUpdateQueryPart CreateWNMThenUpdateQueryPart<TSource, TUpdate>(this QueryPartComponent queryComponent, Expression<Func<TSource, TUpdate>> updatingColumns)
+        {
+            var thenUpdateQueryPart = new ThenUpdateQueryPart(updatingColumns);
+            thenUpdateQueryPart.QueryPartComponent = queryComponent;
+
+            return thenUpdateQueryPart;
+        }
+
+        internal static ThenUpdateQueryPart CreateWMThenUpdateQueryPart<TSource, TUpdate>(this QueryPartComponent queryComponent, Expression<Func<TSource, TUpdate>> updatingColumns)
+        {
+            var thenUpdateQueryPart = new ThenUpdateQueryPart(updatingColumns);
+            thenUpdateQueryPart.QueryPartComponent = queryComponent;
+
+            return thenUpdateQueryPart;
+        }
+
+        internal static ThenDeleteQueryPart CreateTDeleteQueryPart(this QueryPartComponent queryComponent)
+        {
+            var thenDeleteQueryPart = new ThenDeleteQueryPart();
+            thenDeleteQueryPart.QueryPartComponent = queryComponent;
+            return thenDeleteQueryPart;
+        }
     }
 }

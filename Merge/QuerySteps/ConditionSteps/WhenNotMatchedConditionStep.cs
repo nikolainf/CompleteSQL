@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using CompleteSQL.Merge;
+using CompleteSQL.Merge.QueryPartsFactory;
 
 namespace CompleteSQL.Merge
 {
@@ -32,12 +33,6 @@ namespace CompleteSQL.Merge
             return new ThenInsertActionStep<TSource>(thenInsertQueryPart);
         }
 
-        public ThenUpdateActionStep<TSource> ThenUpdate<TUpdating>(Expression<Func<TSource, TUpdating>> updatingColumns)
-        {
-            var thenUpdateQueryPart = new ThenUpdateQueryPart(updatingColumns);
-            thenUpdateQueryPart.QueryPartComponent = queryComponent;
-
-            return new ThenUpdateActionStep<TSource>(thenUpdateQueryPart);
-        }
+      
     }
 }
