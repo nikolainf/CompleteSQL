@@ -36,35 +36,62 @@ namespace CompleteSQL.Merge
             }
             else
             {
-                switch (m_columnExpr.Body.NodeType)
+                if (m_columnExpr.Parameters.Count == 1)
                 {
-                    case ExpressionType.MemberAccess:
-                        break;
-                    case ExpressionType.New:
-                        NewExpression newBody = (NewExpression)m_columnExpr.Body;
+                    switch (m_columnExpr.Body.NodeType)
+                    {
+                        case ExpressionType.MemberAccess:
+                            break;
+                        case ExpressionType.New:
+                            NewExpression newBody = (NewExpression)m_columnExpr.Body;
 
 
-                        var tgtColumns = newBody.GetTargetColumnNames();
+                            var tgtColumns = newBody.GetTargetColumnNames();
 
-                        var srcColumns = newBody.GetSourceOperators();
+                            var operators = newBody.GetOperators();
 
-                        string updateOperators = string.Join(Environment.NewLine,
-                            tgtColumns.Select((item, index) =>
-                                string.Concat("\t\ttgt.", item, " = ", srcColumns[index])));
+                            string updateOperators = string.Join(Environment.NewLine,
+                                tgtColumns.Select((item, index) =>
+                                    string.Concat("\t\ttgt.", item, " = ", operators[index])));
 
-                        string update = string.Concat("\tThen Update Set ", Environment.NewLine, updateOperators);
-
-
-                        return string.Concat(base.GetQueryPart(), Environment.NewLine, update);
+                            string update = string.Concat("\tThen Update Set ", Environment.NewLine, updateOperators);
 
 
-                    default: throw new ArgumentException();
+                            return string.Concat(base.GetQueryPart(), Environment.NewLine, update);
+
+
+                        default: throw new ArgumentException();
+                    }
+                }
+                else if (m_columnExpr.Parameters.Count == 2)
+                {
+                    ParameterExpression srcParam = m_columnExpr.Parameters[1];
+
+                    switch (m_columnExpr.Body.NodeType)
+                    {
+                        case ExpressionType.New:
+                            NewExpression newBody = (NewExpression)m_columnExpr.Body;
+
+                            var tgtColumns = newBody.GetTargetColumnNames();
+
+                            var operators = newBody.GetOperators(srcParam);
+
+                            string updateOperators = string.Join(Environment.NewLine,
+                              tgtColumns.Select((item, index) =>
+                                  string.Concat("\t\ttgt.", item, " = ", operators[index])));
+
+                            string update = string.Concat("\tThen Update Set ", Environment.NewLine, updateOperators);
+
+
+                            return string.Concat(base.GetQueryPart(), Environment.NewLine, update);
+
+
+                        default: throw new ArgumentException();
+                    }
                 }
             }
 
             throw new NotImplementedException();
-
-
         }
     }
 }

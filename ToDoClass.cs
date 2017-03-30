@@ -8,8 +8,7 @@ namespace CompleteSQL
 {
     class ToDoClass
     {
-        // Для WhenNotMatchedBySourceThenUpdate 
-        // WhenMatchedThenUpdate - Продумать обновление на основе текущего значения в Target Плюс значения в Source(или константы)
+        
         // put in order expression params for update
         // and single predicate with bool parameter
         // WhenMatchedAnd predicate src and tgt?
