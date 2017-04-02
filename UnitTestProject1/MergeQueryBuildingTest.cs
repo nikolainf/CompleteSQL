@@ -407,11 +407,11 @@ Using #TestTable as src
 	On tgt.Number = src.Number
 When Matched
 	Then Update Set 
-		tgt.DocumentNumber = src.DocumentNumber
-		tgt.Name = src.Name + '_NewValue'
-		tgt.SomeData = 123443
-		tgt.SomeData2 = src.SomeData2 * 10
-		tgt.SubtractData = src.SubtractData - 10
+		tgt.DocumentNumber = src.DocumentNumber,
+		tgt.Name = src.Name + '_NewValue',
+		tgt.SomeData = 123443,
+		tgt.SomeData2 = src.SomeData2 * 10,
+		tgt.SubtractData = src.SubtractData - 10,
 		tgt.DivideData = src.DivideData / 10;";
 
 
@@ -443,7 +443,7 @@ When Matched
                 .Target("TestTable")
                 .On(p => p.Number)
                 .WhenMatched()
-                .ThenUpdate((t, s) => new { SomeData = t.SomeData + s.SomeData });
+                .ThenUpdate((t, s) => new { SomeData = t.SomeData + s.SomeData, s.SomeData2 });
 
             string expectedQuery =
 @"Merge Into TestTable as tgt
@@ -451,7 +451,8 @@ Using #TestTable as src
 	On tgt.Number = src.Number
 When Matched
 	Then Update Set 
-		tgt.SomeData = tgt.SomeData + src.SomeData;";
+		tgt.SomeData = tgt.SomeData + src.SomeData,
+		tgt.SomeData2 = src.SomeData2;";
 
 
             string query = mergeExpression.GetMergeQuery();
@@ -490,11 +491,11 @@ Using #TestTable as src
 	On tgt.Number = src.Number
 When Not Matched By Source
 	Then Update Set 
-		tgt.DocumentNumber = src.DocumentNumber
-		tgt.Name = src.Name + '_NewValue'
-		tgt.SomeData = 123443
-		tgt.SomeData2 = src.SomeData2 * 10
-		tgt.SubtractData = src.SubtractData - 10
+		tgt.DocumentNumber = src.DocumentNumber,
+		tgt.Name = src.Name + '_NewValue',
+		tgt.SomeData = 123443,
+		tgt.SomeData2 = src.SomeData2 * 10,
+		tgt.SubtractData = src.SubtractData - 10,
 		tgt.DivideData = src.DivideData / 10;";
 
 

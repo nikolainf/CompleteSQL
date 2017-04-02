@@ -36,59 +36,30 @@ namespace CompleteSQL.Merge
             }
             else
             {
-                if (m_columnExpr.Parameters.Count == 1)
+                switch (m_columnExpr.Body.NodeType)
                 {
-                    switch (m_columnExpr.Body.NodeType)
-                    {
-                        case ExpressionType.MemberAccess:
-                            break;
-                        case ExpressionType.New:
-                            NewExpression newBody = (NewExpression)m_columnExpr.Body;
+                    case ExpressionType.MemberAccess:
+                        break;
+                    case ExpressionType.New:
+                        NewExpression newBody = (NewExpression)m_columnExpr.Body;
 
 
-                            var tgtColumns = newBody.GetTargetColumnNames();
+                        var tgtColumns = newBody.GetTargetColumnNames();
 
-                            var operators = newBody.GetOperators();
+                        var newValues = newBody.GetNewValues(m_columnExpr.Parameters.Count == 1 ? m_columnExpr.Parameters[0] : m_columnExpr.Parameters[1]);
 
-                            string updateOperators = string.Join(Environment.NewLine,
-                                tgtColumns.Select((item, index) =>
-                                    string.Concat("\t\ttgt.", item, " = ", operators[index])));
+                        string updateOperators = string.Join("," + Environment.NewLine,
+                            tgtColumns.Select((item, index) =>
+                                string.Concat("\t\ttgt.", item, " = ", newValues[index])));
 
-                            string update = string.Concat("\tThen Update Set ", Environment.NewLine, updateOperators);
+                        string update = string.Concat("\tThen Update Set ", Environment.NewLine, updateOperators);
+
+                        return string.Concat(base.GetQueryPart(), Environment.NewLine, update);
 
 
-                            return string.Concat(base.GetQueryPart(), Environment.NewLine, update);
-
-
-                        default: throw new ArgumentException();
-                    }
+                    default: throw new ArgumentException();
                 }
-                else if (m_columnExpr.Parameters.Count == 2)
-                {
-                    ParameterExpression srcParam = m_columnExpr.Parameters[1];
 
-                    switch (m_columnExpr.Body.NodeType)
-                    {
-                        case ExpressionType.New:
-                            NewExpression newBody = (NewExpression)m_columnExpr.Body;
-
-                            var tgtColumns = newBody.GetTargetColumnNames();
-
-                            var operators = newBody.GetOperators(srcParam);
-
-                            string updateOperators = string.Join(Environment.NewLine,
-                              tgtColumns.Select((item, index) =>
-                                  string.Concat("\t\ttgt.", item, " = ", operators[index])));
-
-                            string update = string.Concat("\tThen Update Set ", Environment.NewLine, updateOperators);
-
-
-                            return string.Concat(base.GetQueryPart(), Environment.NewLine, update);
-
-
-                        default: throw new ArgumentException();
-                    }
-                }
             }
 
             throw new NotImplementedException();

@@ -51,7 +51,7 @@
     <Compile Include="DataContext.cs" />
     <Compile Include="DataTableSchema.cs" />
     <Compile Include="DataTableSchemaCreator.cs" />
-    <Compile Include="Extension\ExpressionExtensionHelper.cs" />
+    <Compile Include="Extension\NewExpressionExtensionHelper.cs" />
     <Compile Include="Mapping\Attributes\SqlBulkTableAttribute.cs" />
     <Compile Include="Mapping\Attributes\SqlColumn.cs" />
     <Compile Include="Mapping\FullTableName.cs" />
@@ -96,7 +96,9 @@
     <Compile Include="ToDoClass.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

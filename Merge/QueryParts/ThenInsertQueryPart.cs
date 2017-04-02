@@ -44,10 +44,11 @@ namespace CompleteSQL.Merge
                     case ExpressionType.New:
                         NewExpression newBody = (NewExpression)m_columnExpr.Body;
 
+                       
 
                         tgtColumns = newBody.GetTargetStringColumns();
 
-                        srcColumns = newBody.GetSourceStringColumns();
+                        srcColumns = newBody.GetInsertedValues();
 
                         break;
                     default: throw new ArgumentException();
