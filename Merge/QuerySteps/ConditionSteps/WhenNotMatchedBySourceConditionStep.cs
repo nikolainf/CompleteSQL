@@ -29,10 +29,10 @@ namespace CompleteSQL.Merge
             throw new NotImplementedException();
         }
 
-        public WNMThenUpdateActionStep<TSource> ThenUpdate<TUpdate>(Expression<Func<TSource, TUpdate>> updatingColumns)
+        public WNMThenUpdateActionStep<TSource> ThenUpdate<TUpdate>(Expression<Func<TSource, TUpdate>> newValues)
         {
             
-            var thenUpdateQueryPart = queryComponent.CreateWNMThenUpdateQueryPart(updatingColumns);
+            var thenUpdateQueryPart = queryComponent.CreateWNMThenUpdateQueryPart(newValues);
 
             return new WNMThenUpdateActionStep<TSource>(thenUpdateQueryPart);
         }

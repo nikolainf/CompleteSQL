@@ -28,7 +28,7 @@ namespace CompleteSQL.Merge
 
         public ThenDeleteActionStep<TSource> ThenDelete()
         {
-            var thenDeleteQueryPart = queryComponent.CreateTDeleteQueryPart();
+            var thenDeleteQueryPart = queryComponent.CreateThenDeleteQueryPart();
 
             return new ThenDeleteActionStep<TSource>(thenDeleteQueryPart);
         }

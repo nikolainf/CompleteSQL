@@ -68,6 +68,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="MergeQueryBuildingTest.cs" />
+    <Compile Include="MergeQueryBuildingTests\WhenNotMatchedBySourceThenUpdate.cs" />
+    <Compile Include="MergeQueryBuildingTests\WhenNotMatchedThenInsert.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="SqlTableEntity\TestEntity.cs" />
     <Compile Include="SqlTableEntity\TestEntityWithName.cs" />

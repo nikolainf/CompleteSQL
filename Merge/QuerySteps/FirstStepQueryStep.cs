@@ -29,28 +29,28 @@ namespace CompleteSQL.Merge
 
         public WhenNotMatchedConditionStep<TSource> WhenNotMatched()
         {
-            var whenNotMatchedByTarget = queryComponent.CreateWhenNotMatchedByTargetQueryPart();
+            var whenNotMatchedByTarget = queryComponent.CreateWNMByTargetQueryPart();
 
             return new WhenNotMatchedConditionStep<TSource>(whenNotMatchedByTarget);
         }
 
         public WhenNotMatchedConditionStep<TSource> WhenNotMatchedAnd(Expression<Func<TSource, bool>> predicate)
         {
-            var whenNotMatchedAndByTarget = queryComponent.CreateWhenNotMatchedByTargetAndQueryPart(predicate);
+            var whenNotMatchedAndByTarget = queryComponent.CreateWNMByTargetAndQueryPart(predicate);
 
             return new WhenNotMatchedConditionStep<TSource>(whenNotMatchedAndByTarget);
         }
 
         public WhenNotMatchedBySourceConditionStep<TSource> WhenNotMatchedBySource()
         {
-            var whenNotMatchedBySource = queryComponent.CreateWhenNotMatchedBySourceQueryPart();
+            var whenNotMatchedBySource = queryComponent.CreateWNMBySourceQueryPart();
 
             return new WhenNotMatchedBySourceConditionStep<TSource>(whenNotMatchedBySource);
         }
 
         public WhenNotMatchedBySourceConditionStep<TSource> WhenNotMatcheBySourceAnd(Expression<Func<TSource, bool>> predicate)
         {
-            var whenNotMatchedAndBySource = queryComponent.CreateWhenNotMatcheBySourceAndQueryPart(predicate);
+            var whenNotMatchedAndBySource = queryComponent.CreateWNMBySourceAndQueryPart(predicate);
 
             return new WhenNotMatchedBySourceConditionStep<TSource>(whenNotMatchedAndBySource);
         }

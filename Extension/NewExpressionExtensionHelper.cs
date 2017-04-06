@@ -73,7 +73,6 @@ namespace CompleteSQL.Extension
         }
 
      
-
         internal static string GetInsertedValues(this NewExpression newExpression)
         {
             string columns = string.Join(", ", newExpression.GetNewValues());
@@ -124,7 +123,7 @@ namespace CompleteSQL.Extension
         {
             return string.Concat(
                 (srcParam == null || memberExpr.Expression.Equals(srcParam))
-                ? "src." 
+                ? "src."
                 : "tgt.",
                 memberExpr.Member.Name);
         }

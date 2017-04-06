@@ -5,12 +5,23 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using CompleteSQL.Extension;
+using CompleteSQL.Merge.QueryPartBuilders;
 
 namespace CompleteSQL.Merge
 {
+    
+    public enum ParamAliasSet
+    {
+        TargetSource,
+        OnlySource,
+        OnlyTarget,
+        Empty
+    }
     public sealed class ThenUpdateQueryPart : QueryPartDecorator
     {
-        private LambdaExpression m_columnExpr;
+        private readonly LambdaExpression m_columnExpr;
+
+        private readonly ParamAliasSet m_paramAliasSet;
 
         #region ctors
 
@@ -19,9 +30,10 @@ namespace CompleteSQL.Merge
 
         }
 
-        internal ThenUpdateQueryPart(LambdaExpression columnExpr)
+        internal ThenUpdateQueryPart(LambdaExpression columnExpr, ParamAliasSet paramAliasSet)
         {
             m_columnExpr = columnExpr;
+            m_paramAliasSet = paramAliasSet;
         }
 
         #endregion
@@ -30,23 +42,49 @@ namespace CompleteSQL.Merge
         internal override string GetQueryPart()
         {
 
+
             if (m_columnExpr == null)
             {
                 throw new NotImplementedException();
             }
             else
             {
+
+
                 switch (m_columnExpr.Body.NodeType)
                 {
                     case ExpressionType.MemberAccess:
                         break;
                     case ExpressionType.New:
+
+
+
                         NewExpression newBody = (NewExpression)m_columnExpr.Body;
+
+
+                        UpdateValueBuilder builder =
+                        UpdateValueBuilder.CreateBuilder(newBody);
+
+                        switch (m_paramAliasSet)
+                        {
+                            case ParamAliasSet.OnlyTarget:
+                                builder.SetTgtParameter(m_columnExpr.Parameters[0]);
+                                break;
+                            case ParamAliasSet.OnlySource:
+                                builder.SetSrcParameter(m_columnExpr.Parameters[0]);
+                                break;
+                            case ParamAliasSet.TargetSource:
+                                builder.SetTgtParameter(m_columnExpr.Parameters[0]);
+                                builder.SetSrcParameter(m_columnExpr.Parameters[1]);
+                                break;
+                        }
+
+                        var newValues = builder.GetNewValues();
 
 
                         var tgtColumns = newBody.GetTargetColumnNames();
 
-                        var newValues = newBody.GetNewValues(m_columnExpr.Parameters.Count == 1 ? m_columnExpr.Parameters[0] : m_columnExpr.Parameters[1]);
+
 
                         string updateOperators = string.Join("," + Environment.NewLine,
                             tgtColumns.Select((item, index) =>
