@@ -59,7 +59,7 @@
     <Compile Include="Mapping\SqlTableNameMapper.cs" />
     <Compile Include="Mapping\MappingColumn.cs" />
     <Compile Include="Mapping\Attributes\SqlTableAttribute.cs" />
-    <Compile Include="Merge\QueryPartBuilders\UpdateValueBuilder.cs" />
+    <Compile Include="Merge\QueryPartBuilders\NewValueBuilder.cs" />
     <Compile Include="Merge\QueryParts\QueryPartFactory.cs" />
     <Compile Include="Merge\QuerySteps\ActionSteps\ActionStepBase.cs" />
     <Compile Include="Merge\QuerySteps\ActionSteps\WMThenUpdateActionStep.cs" />

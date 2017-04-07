@@ -82,9 +82,19 @@ namespace CompleteSQL
                 default: throw new ArgumentException();
             }
 
-            string predicate = alias + ((MemberExpression)expr.Left).Member.Name + equalOperator + ((ConstantExpression)expr.Right).Value.ToString();
+            string predicate = string.Concat(GetOperand(expr.Left, alias), equalOperator, GetOperand(expr.Right, alias));
 
             return predicate;
+        }
+
+        private static string GetOperand(Expression expr, string alias)
+        {
+            if (expr is MemberExpression)
+                return string.Concat(alias, ((MemberExpression)expr).Member.Name);
+            else if (expr is ConstantExpression)
+                return ((ConstantExpression)expr).Value.ToString();
+            else
+                throw new ArgumentNullException(expr.ToString());
         }
     }
 }

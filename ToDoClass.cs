@@ -8,7 +8,7 @@ namespace CompleteSQL
 {
     class ToDoClass
     {
-        // Delete extensions method for NewExpression
+      
         // and single predicate with bool parameter
         // WhenMatchedAnd predicate src and tgt?
         // WhenNotMatchedBySource Then Update 

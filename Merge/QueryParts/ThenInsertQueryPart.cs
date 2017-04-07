@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using CompleteSQL.Extension;
+using CompleteSQL.Merge.QueryPartBuilders;
 
 namespace CompleteSQL.Merge
 {
@@ -28,12 +29,12 @@ namespace CompleteSQL.Merge
         {
 
             string tgtColumns = string.Empty;
-            string srcColumns = string.Empty;
+            string newValues = string.Empty;
 
             if (m_columnExpr == null)
             {
                 tgtColumns = string.Join(", ", tableSchema.Columns.Select(col => col.Name));
-                srcColumns = string.Join(", ", tableSchema.Columns.Select(col => string.Concat("src.", col.Name)));
+                newValues = string.Join(", ", tableSchema.Columns.Select(col => string.Concat("src.", col.Name)));
             }
             else
             {
@@ -44,11 +45,12 @@ namespace CompleteSQL.Merge
                     case ExpressionType.New:
                         NewExpression newBody = (NewExpression)m_columnExpr.Body;
 
-                       
+                        NewValueBuilder builder = NewValueBuilder.CreateBuilder(newBody);
+                        builder.SetSrcParameter(m_columnExpr.Parameters[0]);
 
                         tgtColumns = newBody.GetTargetStringColumns();
 
-                        srcColumns = newBody.GetInsertedValues();
+                        newValues = string.Join(", ", builder.GetNewValues());
 
                         break;
                     default: throw new ArgumentException();
@@ -56,7 +58,7 @@ namespace CompleteSQL.Merge
             }
 
             string insert = string.Format("\tThen Insert({0})", tgtColumns);
-            string values = string.Format("\t\tValues({0})", srcColumns);
+            string values = string.Format("\t\tValues({0})", newValues);
             return string.Concat(base.GetQueryPart(),Environment.NewLine, string.Concat(insert, Environment.NewLine, values));
         }
     }

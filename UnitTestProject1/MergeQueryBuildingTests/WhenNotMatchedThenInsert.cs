@@ -154,8 +154,9 @@ When Not Matched And src.Name Like '%abc%' And src.Age > 17 And src.Number > 100
         }
 
 
+
         [Test]
-        public void AndSingleStartWithPredicateThenInsertTest()
+        public void ThenInsertTest()
         {
             var people = new[]
             {
@@ -172,65 +173,24 @@ When Not Matched And src.Name Like '%abc%' And src.Age > 17 And src.Number > 100
             var mergeExpression = context.CreateMergeUsing(people)
                 .Target("Person")
                 .On(p => p.Number)
-                .WhenNotMatchedAnd(p => p.Name.StartsWith("J"))
-                .ThenInsert();
+                .WhenNotMatchedAnd(p => p.Name.Contains("abc"))
+                .ThenInsert(p => new { Name = p.Name + "_new", p.Number, p.Age });
 
             string expectedQuery =
 @"Merge Into Person as tgt
 Using #Person as src
 	On tgt.Number = src.Number
-When Not Matched And src.Name Like 'J%'
-	Then Insert(Number, Name, Age)
-		Values(src.Number, src.Name, src.Age);";
+When Not Matched And src.Name Like '%abc%'
+	Then Insert(Name, Number, Age)
+		Values(src.Name + '_new', src.Number, src.Age);";
 
 
             string query = mergeExpression.GetMergeQuery();
 
             Assert.AreEqual(expectedQuery, query);
         }
+      
 
-        static object[] AndParams =
-    {
-            new Tuple<string, Expression<Func<Person,bool>>>(">=", p=>p.Age>=17) ,
-            new Tuple<string, Expression<Func<Person,bool>>>("<=", p=>p.Age<=17),
-            new Tuple<string, Expression<Func<Person,bool>>>("=", p=>p.Age==17),
-            new Tuple<string, Expression<Func<Person,bool>>>(">", p=>p.Age>17),
-            new Tuple<string, Expression<Func<Person,bool>>>("<", p=>p.Age<17)
-    };
-
-        [Test, TestCaseSource("AndParams")]
-        public void WhenNotMathcedAndThenInsertTest(Tuple<string, Expression<Func<Person, bool>>> tuple)
-        {
-            var people = new Person[]
-            {
-                new Person
-                {
-                    Number = 1,
-                    Name = "John",
-                    Age = 33,
-                }
-            };
-
-            DataContext context = new DataContext("CompleteSQL");
-
-            var mergeExpression = context.CreateMergeUsing(people)
-                .Target("Person")
-                .On(p => p.Number)
-                .WhenNotMatchedAnd(tuple.Item2)
-                .ThenInsert();
-
-            string expectedQuery =
-@"Merge Into Person as tgt
-Using #Person as src
-	On tgt.Number = src.Number
-When Not Matched And src.Age " + tuple.Item1 + " 17" + Environment.NewLine + "\t" +
-@"Then Insert(Number, Name, Age)
-		Values(src.Number, src.Name, src.Age);";
-
-
-            string query = mergeExpression.GetMergeQuery();
-
-            Assert.AreEqual(expectedQuery, query);
-        }
+     
     }
 }

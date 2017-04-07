@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CompleteSQL.Merge.QueryPartBuilders
 {
-    internal class UpdateValueBuilder
+    internal class NewValueBuilder
     {
         private ParameterExpression m_tgtParameter;
 
@@ -15,24 +15,24 @@ namespace CompleteSQL.Merge.QueryPartBuilders
 
         private NewExpression m_newExpression;
 
-        private UpdateValueBuilder(NewExpression newExpression)
+        private NewValueBuilder(NewExpression newExpression)
         {
             m_newExpression = newExpression;
         }
 
-        internal static UpdateValueBuilder CreateBuilder(NewExpression newExpression)
+        internal static NewValueBuilder CreateBuilder(NewExpression newExpression)
         {
-            return new UpdateValueBuilder(newExpression);
+            return new NewValueBuilder(newExpression);
         }
 
-        internal UpdateValueBuilder SetTgtParameter(ParameterExpression tgtParameter)
+        internal NewValueBuilder SetTgtParameter(ParameterExpression tgtParameter)
         {
             m_tgtParameter = tgtParameter;
 
             return this;
         }
 
-        internal UpdateValueBuilder SetSrcParameter(ParameterExpression srcParameter)
+        internal NewValueBuilder SetSrcParameter(ParameterExpression srcParameter)
         {
             m_srcParameter = srcParameter;
 

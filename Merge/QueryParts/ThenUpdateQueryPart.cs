@@ -62,8 +62,8 @@ namespace CompleteSQL.Merge
                         NewExpression newBody = (NewExpression)m_columnExpr.Body;
 
 
-                        UpdateValueBuilder builder =
-                        UpdateValueBuilder.CreateBuilder(newBody);
+                        NewValueBuilder builder =
+                        NewValueBuilder.CreateBuilder(newBody);
 
                         switch (m_paramAliasSet)
                         {
