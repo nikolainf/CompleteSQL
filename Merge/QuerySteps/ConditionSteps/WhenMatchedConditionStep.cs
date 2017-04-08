@@ -29,9 +29,10 @@ namespace CompleteSQL.Merge
 
         public WMThenUpdateActionStep<TSource> ThenUpdate()
         {
-            var thenUpdateQueryPart = queryComponent.CreateWMThenUpdateQueryPart(mergePredicate);
+            throw new NotImplementedException();
+            //var thenUpdateQueryPart = queryComponent.CreateWMThenUpdateQueryPart(mergePredicate);
 
-            return new WMThenUpdateActionStep<TSource>(thenUpdateQueryPart);
+            //return new WMThenUpdateActionStep<TSource>(thenUpdateQueryPart);
         }
 
         public ThenDeleteActionStep<TSource> ThenDelete()
