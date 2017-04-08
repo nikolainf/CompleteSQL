@@ -70,3 +70,9 @@ UnitTestProject1.pdb
 UnitTestProject1.csprojResolveAssemblyReference.cache
 UnitTestProject1.dll
 UnitTestProject1.pdb
+*.dll
+*.dll
+*.pdb
+*.pdb
+*.cache
+*.tmp
