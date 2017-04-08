@@ -6,7 +6,7 @@ namespace UnitTestProject1.MergeQueryBuildingTests
     public class WhenMatchedThenUpdateTests
     {
         [Test]
-        public void WhenMathcedThenUpdateDeterminateColumnsTest()
+        public void ThenUpdateDeterminateColumnsTest()
         {
             var people = new[]
             {
@@ -28,7 +28,7 @@ namespace UnitTestProject1.MergeQueryBuildingTests
                 .Target("TestTable")
                 .On(p => p.Number)
                 .WhenMatched()
-                .ThenUpdate((t, s) => new { s.DocumentNumber, Name = s.Name + "_NewValue", SomeData = 123443, SomeData2 = s.SomeData2 * 10, SubtractData = s.SubtractData - 10, DivideData = s.DivideData / 10 });
+                .ThenUpdate((t, s) => new {  Name = s.Name + "_NewValue", SomeData = 123443, SomeData2 = s.SomeData2 * 10, SubtractData = s.SubtractData - 10, DivideData = s.DivideData / 10 });
 
             string expectedQuery =
 @"Merge Into TestTable as tgt
@@ -36,7 +36,6 @@ Using #TestTable as src
 	On tgt.Number = src.Number
 When Matched
 	Then Update Set 
-		tgt.DocumentNumber = src.DocumentNumber,
 		tgt.Name = src.Name + '_NewValue',
 		tgt.SomeData = 123443,
 		tgt.SomeData2 = src.SomeData2 * 10,

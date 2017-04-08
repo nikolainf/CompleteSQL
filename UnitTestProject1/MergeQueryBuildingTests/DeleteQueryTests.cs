@@ -78,74 +78,7 @@ When Matched
 
         }
 
-        [Test]
-        public void WhenNotMatchedBySourceThenDeleteTest()
-        {
-            var people = new[]
-            {
-                new
-                {
-                    Id = 1,
-                    Name = "John"
-                }
-            };
-
-            DataContext context = new DataContext("CompleteSQL");
-
-            var mergeExpression = context.CreateMergeUsing(people)
-               .Target("TestTable")
-               .On(p => p.Id)
-               .WhenNotMatchedBySource()
-               .ThenDelete();
-
-
-
-            string query = mergeExpression.GetMergeQuery();
-
-            string expectedQuery =
-@"Merge Into TestTable as tgt
-Using #TestTable as src
-	On tgt.Id = src.Id
-When Not Matched By Source
-	Then Delete;";
-
-            Assert.AreEqual(expectedQuery, query);
-        }
-
-        [Test]
-        public void WhenNotMatchedBySourceAndThenDeleteTest()
-        {
-            var people = new[]
-            {
-                new
-                {
-                    Id = 1,
-                    Name = "John"
-                }
-            };
-
-            DataContext context = new DataContext("CompleteSQL");
-
-            var mergeExpression = context.CreateMergeUsing(people)
-               .Target("TestTable")
-               .On(p => p.Id)
-               .WhenNotMatcheBySourceAnd(p => p.Name.StartsWith("Jo"))
-               .ThenDelete();
-            
-
-
-
-            string query = mergeExpression.GetMergeQuery();
-
-            string expectedQuery =
-@"Merge Into TestTable as tgt
-Using #TestTable as src
-	On tgt.Id = src.Id
-When Not Matched By Source And tgt.Name Like 'Jo%'
-	Then Delete;";
-
-            Assert.AreEqual(expectedQuery, query);
-        }
+      
 
 
     }
