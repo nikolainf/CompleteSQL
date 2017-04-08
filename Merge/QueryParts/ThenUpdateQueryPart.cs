@@ -27,7 +27,7 @@ namespace CompleteSQL.Merge
 
         internal ThenUpdateQueryPart()
         {
-
+           
         }
 
         internal ThenUpdateQueryPart(LambdaExpression columnExpr, ParamAliasSet paramAliasSet)
@@ -45,7 +45,38 @@ namespace CompleteSQL.Merge
 
             if (m_columnExpr == null)
             {
-                throw new NotImplementedException();
+                string[] mergePredicateNames = null;
+               switch(mergePredicateBody.NodeType)
+               {
+                   case ExpressionType.MemberAccess:
+                       mergePredicateNames = new string[1];
+                       mergePredicateNames[0] = ((MemberExpression)mergePredicateBody).Member.Name;
+                       break;
+
+                   case ExpressionType.New:
+
+                       mergePredicateNames = ((NewExpression)mergePredicateBody).Arguments
+                                                                            .Select(expr => ((MemberExpression)expr).Member.Name)
+                                                                            .ToArray();
+                       break;
+
+                   default: throw new ArgumentException();
+                      
+               }
+
+               string[] updateColumnNames = tableSchema.Columns
+                                                .Select(col => col.Name)
+                                                .Except(mergePredicateNames)
+                                                .ToArray();
+
+               string updateOperators = string.Join("," + Environment.NewLine,
+                              updateColumnNames.Select(item=>
+                                  string.Concat("\t\ttgt.", item, " = src.", item)));
+
+               string update = string.Concat("\tThen Update Set ", Environment.NewLine, updateOperators);
+
+               return string.Concat(base.GetQueryPart(), Environment.NewLine, update);
+
             }
             else
             {

@@ -8,9 +8,8 @@ namespace CompleteSQL
 {
     class ToDoClass
     {
-      
+        // Optimaze getting names of columns from expressions
         // and single predicate with bool parameter
         // WhenMatchedAnd predicate src and tgt?
-        // WhenNotMatchedBySource Then Update 
     }
 }

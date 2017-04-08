@@ -18,8 +18,10 @@ namespace CompleteSQL.Merge
             set
             {
                 this.tableSchema = value.tableSchema;
+                if (value.mergePredicateBody != null)
+                    this.mergePredicateBody = value.mergePredicateBody;
+
                 m_queryPartComponent = value;
-                 
             }
         }
        

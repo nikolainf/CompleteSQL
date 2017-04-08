@@ -50,7 +50,7 @@ When Matched
         }
 
         [Test]
-        public void WhenMathcedThenUpdateWithTgtAndSrcColumnsTest()
+        public void ThenUpdateWithTgtAndSrcColumnsTest()
         {
             var people = new[]
             {
@@ -91,7 +91,7 @@ When Matched
 
 
         [Test]
-        public void WhenMathcedThenUpdateAllColumnsTest()
+        public void SingleColumnMergePredicateAllColumnsTest()
         {
             var people = new[]
             {
@@ -134,5 +134,48 @@ When Matched
             Assert.AreEqual(expectedQuery, query);
         }
 
+        [Test]
+        public void MultiColumnsMergePredicateAllColumnsTest()
+        {
+            var people = new[]
+            {
+                new
+                {
+                    Number = 1,
+                    DocumentNumber = 2,
+                    Name = "John",
+                    SomeData = 123,
+                    SomeData2 = 11,
+                    SubtractData = 1,
+                    DivideData = 0
+                }
+            };
+
+            DataContext context = new DataContext("CompleteSQL");
+
+            var mergeExpression = context.CreateMergeUsing(people)
+                .Target("TestTable")
+                .On(p => new { p.Number, p.DocumentNumber })
+                .WhenMatched()
+                .ThenUpdate();
+
+            string expectedQuery =
+@"Merge Into TestTable as tgt
+Using #TestTable as src
+	On tgt.Number = src.Number
+	And tgt.DocumentNumber = src.DocumentNumber
+When Matched
+	Then Update Set 
+		tgt.Name = src.Name,
+		tgt.SomeData = src.SomeData,
+		tgt.SomeData2 = src.SomeData2,
+		tgt.SubtractData = src.SubtractData,
+		tgt.DivideData = src.DivideData;";
+
+
+            string query = mergeExpression.GetMergeQuery();
+
+            Assert.AreEqual(expectedQuery, query);
+        }
     }
 }
