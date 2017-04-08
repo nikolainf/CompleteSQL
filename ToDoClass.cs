@@ -10,6 +10,6 @@ namespace CompleteSQL
     {
         // Optimaze getting names of columns from expressions
         // and single predicate with bool parameter
-        // WhenMatchedAnd predicate src and tgt?
+        // !!! WhenMatchedAnd predicate src and tgt?
     }
 }
