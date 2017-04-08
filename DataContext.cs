@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -47,6 +48,18 @@ namespace CompleteSQL
         {
             return new MergeClass<TSource>(usingDataSource);
         }
+
+        public MergeClass<TSource> Merge<TSource, TPredicate>(string target, IEnumerable<TSource> source, Expression<Func<TSource, TPredicate>> mergePredicate)where TSource: class
+        {
+            throw new Exception();
+        }
+
+        public MergeClass<TSource> Merge<TSource, TPredicate>(IEnumerable<TSource> source, Expression<Func<TSource, TPredicate>> mergePredicate) where TSource: class
+        {
+            throw new NotImplementedException();
+        }
+
+       
 
        
     }

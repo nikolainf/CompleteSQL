@@ -26,11 +26,20 @@ namespace CompleteSQL.Merge
             return new WMThenUpdateActionStep<TSource>(thenUpdateQueryPart);
         }
 
+
+        public WMThenUpdateActionStep<TSource> ThenUpdate()
+        {
+            var thenUpdateQueryPart = queryComponent.CreateWMThenUpdateQueryPart(mergePredicate);
+
+            return new WMThenUpdateActionStep<TSource>(thenUpdateQueryPart);
+        }
+
         public ThenDeleteActionStep<TSource> ThenDelete()
         {
             var thenDeleteQueryPart = queryComponent.CreateThenDeleteQueryPart();
 
             return new ThenDeleteActionStep<TSource>(thenDeleteQueryPart);
         }
+
     }
 }

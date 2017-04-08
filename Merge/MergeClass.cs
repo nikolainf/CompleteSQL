@@ -24,7 +24,7 @@ namespace CompleteSQL.Merge
         }
 
        
-        public FirstStep<TSource> On<TPredicate>(Expression<Func<TSource, TPredicate>> equalpredicate)
+        public FirstStep<TSource> On<TPredicate>(Expression<Func<TSource, TPredicate>> mergePredicate)
         {
             DataTableSchemaCreator schemaCreator = new DataTableSchemaCreator();
             DataTableSchema schema = schemaCreator.CreateSchema<TSource>(m_targetTable);
@@ -36,7 +36,7 @@ namespace CompleteSQL.Merge
             srcTgtQueryPart.tableSchema = schema;
 
             // Build "on" query part.
-            var onQueryPart = new OnQueryPart(equalpredicate);
+            var onQueryPart = new OnQueryPart(mergePredicate);
             onQueryPart.QueryPartComponent = srcTgtQueryPart;
 
             return new FirstStep<TSource>(onQueryPart);
