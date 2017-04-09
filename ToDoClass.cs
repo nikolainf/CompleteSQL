@@ -8,8 +8,7 @@ namespace CompleteSQL
 {
     class ToDoClass
     {
+        // Write all combination of test for first level merge
         // Optimaze getting names of columns from expressions
-        // and single predicate with bool parameter
-        // !!! WhenMatchedAnd predicate src and tgt?
     }
 }

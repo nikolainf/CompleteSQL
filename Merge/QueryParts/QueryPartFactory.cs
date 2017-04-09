@@ -28,7 +28,6 @@ namespace CompleteSQL.Merge.QueryPartsFactory
             return andQueryPart;
         }
 
-       
         internal static WhenNotMatchedQueryPart CreateWNMByTargetQueryPart(this QueryPartComponent queryComponent)
         {
             var whenNotMatched = new WhenNotMatchedQueryPart(true);
@@ -96,6 +95,42 @@ namespace CompleteSQL.Merge.QueryPartsFactory
             var thenDeleteQueryPart = new ThenDeleteQueryPart();
             thenDeleteQueryPart.QueryPartComponent = queryComponent;
             return thenDeleteQueryPart;
+        }
+
+        internal static AndTargetQueryPart CreateWMAndTargetQueryPart<TSource>(this QueryPartComponent queryComponent, Expression<Func<TSource, bool>> targetPredicate)
+        {
+            var whenMatchedQueryPart = new WhenMatchedQueryPart();
+            whenMatchedQueryPart.QueryPartComponent = queryComponent;
+
+            var andTargetQueryPart = new AndTargetQueryPart(targetPredicate);
+            andTargetQueryPart.QueryPartComponent = whenMatchedQueryPart;
+
+            return andTargetQueryPart;
+        }
+
+        internal static AndSourceQueryPart CreateWMAndSourceQueryPart<TSource>(this QueryPartComponent queryComponent, Expression<Func<TSource, bool>> sourcePredicate)
+        {
+            var whenMatchedQueryPart = new WhenMatchedQueryPart();
+            whenMatchedQueryPart.QueryPartComponent = queryComponent;
+
+            var andSourceQueryPart = new AndSourceQueryPart(sourcePredicate);
+            andSourceQueryPart.QueryPartComponent = whenMatchedQueryPart;
+
+            return andSourceQueryPart;
+        }
+
+        internal static AndSourceQueryPart CreateWMAndQueryPart<TSource>(this QueryPartComponent queryComponent, Expression<Func<TSource, bool>> targetPredicate, Expression<Func<TSource, bool>> sourcePredicate)
+        {
+            var whenMatchedQueryPart = new WhenMatchedQueryPart();
+            whenMatchedQueryPart.QueryPartComponent = queryComponent;
+
+            var andTargetQueryPart = new AndTargetQueryPart(targetPredicate);
+            andTargetQueryPart.QueryPartComponent = whenMatchedQueryPart;
+
+            var andSourceQueryPart = new AndSourceQueryPart(sourcePredicate);
+            andSourceQueryPart.QueryPartComponent = andTargetQueryPart;
+
+            return andSourceQueryPart;
         }
     }
 }

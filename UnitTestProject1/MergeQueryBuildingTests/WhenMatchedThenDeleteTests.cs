@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace UnitTestProject1.MergeQueryBuildingTests
 {
     [TestFixture]
-    public class WhenNotMatchedBySourceThenDeleteTests
+    public class WhenMatchedThenDeleteTests
     {
         [Test]
         public void SingleMergePredicateTest()
@@ -28,8 +28,10 @@ namespace UnitTestProject1.MergeQueryBuildingTests
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("TestTable")
                .On(p => p.Id)
-               .WhenNotMatchedBySource()
+               .WhenMatched()
                .ThenDelete();
+
+
 
             string query = mergeExpression.GetMergeQuery();
 
@@ -37,14 +39,14 @@ namespace UnitTestProject1.MergeQueryBuildingTests
 @"Merge Into TestTable as tgt
 Using #TestTable as src
 	On tgt.Id = src.Id
-When Not Matched By Source
+When Matched
 	Then Delete;";
 
             Assert.AreEqual(expectedQuery, query);
         }
 
         [Test]
-        public void SingleMergePredicateSingleAndPredicateTest()
+        public void SingleMergePredicateSingleAndTargetPredicateTest()
         {
             var people = new[]
             {
@@ -60,10 +62,8 @@ When Not Matched By Source
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("TestTable")
                .On(p => p.Id)
-               .WhenNotMatcheBySourceAnd(p => p.Name.StartsWith("Jo"))
+               .WhenMatchedAndTarget(tgt=>tgt.Name.EndsWith("ay"))
                .ThenDelete();
-
-
 
 
             string query = mergeExpression.GetMergeQuery();
@@ -72,57 +72,20 @@ When Not Matched By Source
 @"Merge Into TestTable as tgt
 Using #TestTable as src
 	On tgt.Id = src.Id
-When Not Matched By Source And tgt.Name Like 'Jo%'
+When Matched And tgt.Name Like '%ay'
 	Then Delete;";
 
             Assert.AreEqual(expectedQuery, query);
         }
 
         [Test]
-        public void SingleMergePredicateMultipeAndPredicate()
+        public void SingleMergePredicateSingleAndSourcePredicateTest()
         {
             var people = new[]
             {
                 new
                 {
                     Id = 1,
-                    Name = "John",
-                    Number = 100
-                }
-            };
-
-            DataContext context = new DataContext("CompleteSQL");
-
-            var mergeExpression = context.CreateMergeUsing(people)
-               .Target("TestTable")
-               .On(p => p.Id)
-               .WhenNotMatcheBySourceAnd(p => p.Name.StartsWith("Jo") && p.Number < 200)
-               .ThenDelete();
-
-
-
-
-            string query = mergeExpression.GetMergeQuery();
-
-            string expectedQuery =
-@"Merge Into TestTable as tgt
-Using #TestTable as src
-	On tgt.Id = src.Id
-When Not Matched By Source And tgt.Name Like 'Jo%' And tgt.Number < 200
-	Then Delete;";
-
-            Assert.AreEqual(expectedQuery, query);
-        }
-
-        [Test]
-        public void MultipleMergePredicateTest()
-        {
-            var people = new[]
-            {
-                new
-                {
-                    Id = 1,
-                    Number = 100,
                     Name = "John"
                 }
             };
@@ -131,9 +94,10 @@ When Not Matched By Source And tgt.Name Like 'Jo%' And tgt.Number < 200
 
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("TestTable")
-               .On(p => new { p.Id, p.Number })
-               .WhenNotMatchedBySource()
+               .On(p => p.Id)
+               .WhenMatchedAndSource(src => src.Name.StartsWith("N"))
                .ThenDelete();
+
 
             string query = mergeExpression.GetMergeQuery();
 
@@ -141,23 +105,21 @@ When Not Matched By Source And tgt.Name Like 'Jo%' And tgt.Number < 200
 @"Merge Into TestTable as tgt
 Using #TestTable as src
 	On tgt.Id = src.Id
-	And tgt.Number = src.Number
-When Not Matched By Source
+When Matched And src.Name Like 'N%'
 	Then Delete;";
 
             Assert.AreEqual(expectedQuery, query);
         }
 
         [Test]
-        public void MultipleMergePredicateSingleAndPredicate()
+        public void SingleMergePredicateSingleAndTargetSourcePredicateTest()
         {
             var people = new[]
             {
                 new
                 {
                     Id = 1,
-                    Name = "John",
-                    Number = 100
+                    Name = "John"
                 }
             };
 
@@ -165,11 +127,9 @@ When Not Matched By Source
 
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("TestTable")
-               .On(p => new { p.Id, p.Number })
-               .WhenNotMatcheBySourceAnd(p => p.Name.StartsWith("Jo"))
+               .On(p => p.Id)
+               .WhenMatchedAnd(tgt => tgt.Name.StartsWith("N"), src=> src.Id < 10005)
                .ThenDelete();
-
-
 
 
             string query = mergeExpression.GetMergeQuery();
@@ -178,48 +138,47 @@ When Not Matched By Source
 @"Merge Into TestTable as tgt
 Using #TestTable as src
 	On tgt.Id = src.Id
-	And tgt.Number = src.Number
-When Not Matched By Source And tgt.Name Like 'Jo%'
+When Matched And tgt.Name Like 'N%' And src.Id < 10005
 	Then Delete;";
 
             Assert.AreEqual(expectedQuery, query);
         }
 
         [Test]
-        public void MultipleMergePredicateMultipeAndPredicate()
+        public void OnWhenMathcedThenDeleteWithTwoPredicatesTest()
         {
             var people = new[]
             {
                 new
                 {
-                    Id = 1,
-                    Name = "John",
-                    Number = 100
+                    Number = 1,
+                    DocumentNumber = 2,
+                    Name = "John"
                 }
             };
 
             DataContext context = new DataContext("CompleteSQL");
 
             var mergeExpression = context.CreateMergeUsing(people)
-               .Target("TestTable")
-               .On(p => new { p.Id, p.Number })
-               .WhenNotMatcheBySourceAnd(p => p.Name.StartsWith("Jo") && p.Number < 200)
-               .ThenDelete();
-
-
+            .Target("TestTable")
+            .On(p => new { p.Number, p.DocumentNumber })
+            .WhenMatched()
+            .ThenDelete();
 
 
             string query = mergeExpression.GetMergeQuery();
 
+
             string expectedQuery =
 @"Merge Into TestTable as tgt
 Using #TestTable as src
-	On tgt.Id = src.Id
-	And tgt.Number = src.Number
-When Not Matched By Source And tgt.Name Like 'Jo%' And tgt.Number < 200
+	On tgt.Number = src.Number
+	And tgt.DocumentNumber = src.DocumentNumber
+When Matched
 	Then Delete;";
 
             Assert.AreEqual(expectedQuery, query);
+
         }
     }
 }

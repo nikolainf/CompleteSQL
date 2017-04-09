@@ -21,12 +21,40 @@ namespace CompleteSQL.Merge
             return new WhenMatchedConditionStep<TSource>(whenMatchedQueryPart);
         }
 
-        public WhenMatchedConditionStep<TSource> WhenMatchedAnd(Expression<Func<TSource, bool>> tgtPredicate, Expression<Func<TSource, bool>> srcPredicate)
+        public WhenMatchedConditionStep<TSource> WhenMatchedAnd(Expression<Func<TSource, bool>> targetPredicate, Expression<Func<TSource, bool>> sourcePredicate)
         {
+            if (targetPredicate == null)
+                throw new ArgumentNullException("targetPredicate");
 
-            throw new NotImplementedException();
+            if (sourcePredicate == null)
+                throw new ArgumentNullException("sourcePredicate");
+
+            var whenMatchedAndTargetSource = queryComponent.CreateWMAndQueryPart(targetPredicate, sourcePredicate);
+
+            return new WhenMatchedConditionStep<TSource>(whenMatchedAndTargetSource);
         }
 
+        public WhenMatchedConditionStep<TSource> WhenMatchedAndTarget(Expression<Func<TSource, bool>> targetPredicate)
+        {
+            if (targetPredicate == null)
+                throw new ArgumentNullException("targetPredicate");
+
+            var whenMatchedAndTarget = queryComponent.CreateWMAndTargetQueryPart(targetPredicate);
+
+            return new WhenMatchedConditionStep<TSource>(whenMatchedAndTarget);
+        }
+
+        public WhenMatchedConditionStep<TSource> WhenMatchedAndSource(Expression<Func<TSource, bool>> sourcePredicate)
+        {
+            if (sourcePredicate == null)
+                throw new ArgumentNullException("sourcePredicate");
+
+            var whenMatchedAndTarget = queryComponent.CreateWMAndSourceQueryPart(sourcePredicate);
+
+            return new WhenMatchedConditionStep<TSource>(whenMatchedAndTarget);
+        }
+
+   
         public WhenNotMatchedConditionStep<TSource> WhenNotMatched()
         {
             var whenNotMatchedByTarget = queryComponent.CreateWNMByTargetQueryPart();
@@ -36,6 +64,9 @@ namespace CompleteSQL.Merge
 
         public WhenNotMatchedConditionStep<TSource> WhenNotMatchedAnd(Expression<Func<TSource, bool>> predicate)
         {
+            if (predicate == null)
+                throw new ArgumentNullException("predicate");
+
             var whenNotMatchedAndByTarget = queryComponent.CreateWNMByTargetAndQueryPart(predicate);
 
             return new WhenNotMatchedConditionStep<TSource>(whenNotMatchedAndByTarget);
@@ -50,9 +81,17 @@ namespace CompleteSQL.Merge
 
         public WhenNotMatchedBySourceConditionStep<TSource> WhenNotMatcheBySourceAnd(Expression<Func<TSource, bool>> predicate)
         {
+            if (predicate == null)
+                throw new ArgumentNullException("predicate");
+
             var whenNotMatchedAndBySource = queryComponent.CreateWNMBySourceAndQueryPart(predicate);
 
             return new WhenNotMatchedBySourceConditionStep<TSource>(whenNotMatchedAndBySource);
+        }
+
+        public object WhenMatchedAndSource(object p)
+        {
+            throw new NotImplementedException();
         }
     }
 }
