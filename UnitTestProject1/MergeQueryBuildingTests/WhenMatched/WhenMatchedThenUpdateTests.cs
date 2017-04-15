@@ -6,7 +6,7 @@ namespace UnitTestProject1.MergeQueryBuildingTests
     public class WhenMatchedThenUpdateTests
     {
         [Test]
-        public void ThenUpdateDeterminateColumnsTest()
+        public void UpdateUsingOnlySrcColumnsTest()
         {
             var people = new[]
             {
@@ -49,7 +49,7 @@ When Matched
         }
 
         [Test]
-        public void ThenUpdateWithTgtAndSrcColumnsTest()
+        public void UpdateUsingTgtAndSrcColumnsTest()
         {
             var people = new[]
             {
@@ -88,9 +88,8 @@ When Matched
             Assert.AreEqual(expectedQuery, query);
         }
 
-
         [Test]
-        public void SingleColumnMergePredicateAllColumnsTest()
+        public void SingleMergePredicateAllColumnsTest()
         {
             var people = new[]
             {
@@ -134,7 +133,7 @@ When Matched
         }
 
         [Test]
-        public void MultiColumnsMergePredicateAllColumnsTest()
+        public void MultiMergePredicateAllColumnsTest()
         {
             var people = new[]
             {

@@ -11,16 +11,61 @@ namespace CompleteSQL
     {
         internal static string BuildPredicate(this LambdaExpression expr, string alias)
         {
-            alias = string.Concat(alias, ".");
-            string predicate;
-
-            if (expr.Body is BinaryExpression)
-                predicate = GetPredicate((BinaryExpression)expr.Body, alias);
-            else
-                predicate = alias + GetPredicate((MethodCallExpression)expr.Body);
-
-            return predicate;
+            return BuildPredicate(expr.Body, string.Concat(alias, "."));
+          
         }
+
+        private static string BuildPredicate(Expression expr, string alias)
+        {
+            if (expr is BinaryExpression)
+            {
+                var binaryExpression = (BinaryExpression)expr;
+
+                switch (expr.NodeType)
+                {
+                    case ExpressionType.AndAlso:
+
+                        return BuildPredicate(binaryExpression.Left, alias) + " And " + BuildPredicate(binaryExpression.Right, alias);
+
+                    case ExpressionType.OrElse:
+
+                        throw new NotImplementedException();
+
+                    case ExpressionType.Equal:
+
+                        return ComparePredicate(" = ", binaryExpression.Left, binaryExpression.Right, alias);
+                    case ExpressionType.NotEqual:
+
+                        return ComparePredicate(" <> ", binaryExpression.Left, binaryExpression.Right, alias);
+                    case ExpressionType.GreaterThan:
+
+                        return ComparePredicate(" > ", binaryExpression.Left, binaryExpression.Right, alias);
+                    case ExpressionType.GreaterThanOrEqual:
+
+                        return ComparePredicate(" >= ", binaryExpression.Left, binaryExpression.Right, alias);
+                    case ExpressionType.LessThan:
+
+                        return ComparePredicate(" < ", binaryExpression.Left, binaryExpression.Right, alias);
+                    case ExpressionType.LessThanOrEqual:
+
+                        return ComparePredicate(" <= ", binaryExpression.Left, binaryExpression.Right, alias);
+                    default:
+
+                        throw new ArgumentException();
+                }
+
+            }
+
+            else
+                return alias + GetPredicate((MethodCallExpression)expr);
+
+        }
+
+        private static string ComparePredicate(string equalOperator, Expression left, Expression right, string alias)
+        {
+            return string.Concat(GetOperand(left, alias), equalOperator, GetOperand(right, alias));
+        }
+
 
         private static string GetPredicate(MethodCallExpression expr)
         {
@@ -35,58 +80,7 @@ namespace CompleteSQL
             return null;
         }
 
-        private static string GetPredicate(BinaryExpression expr, string alias)
-        {
-            string equalOperator = null;
-            switch (expr.NodeType)
-            {
-                case ExpressionType.AndAlso:
-                    BinaryExpression binaryExpr = (BinaryExpression)expr;
-
-
-                    string left;
-                    if (binaryExpr.Left is BinaryExpression)
-                        left = GetPredicate((BinaryExpression)binaryExpr.Left, alias);
-                    else
-                        left = alias + GetPredicate((MethodCallExpression)binaryExpr.Left);
-
-                    string right;
-                    if (binaryExpr.Right is BinaryExpression)
-                        right = GetPredicate((BinaryExpression)binaryExpr.Right, alias);
-                    else
-                    {
-                        right = alias + GetPredicate((MethodCallExpression)binaryExpr.Right);
-                    }
-
-                    return left + " And " + right;
-
-                case ExpressionType.OrElse:
-
-                    break;
-
-                case ExpressionType.Equal:
-                    equalOperator = " = ";
-                    break;
-                case ExpressionType.GreaterThan:
-                    equalOperator = " > ";
-                    break;
-                case ExpressionType.GreaterThanOrEqual:
-                    equalOperator = " >= ";
-                    break;
-                case ExpressionType.LessThan:
-                    equalOperator = " < ";
-                    break;
-                case ExpressionType.LessThanOrEqual:
-                    equalOperator = " <= ";
-                    break;
-                default: throw new ArgumentException();
-            }
-
-            string predicate = string.Concat(GetOperand(expr.Left, alias), equalOperator, GetOperand(expr.Right, alias));
-
-            return predicate;
-        }
-
+      
         private static string GetOperand(Expression expr, string alias)
         {
             if (expr is MemberExpression)

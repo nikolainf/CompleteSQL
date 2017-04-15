@@ -67,9 +67,10 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="MergeQueryBuildingTests\AndConditionsTests.cs" />
-    <Compile Include="MergeQueryBuildingTests\WhenMatchedThenDeleteTests.cs" />
-    <Compile Include="MergeQueryBuildingTests\WhenMatchedThenUpdateTests.cs" />
+    <Compile Include="MergeQueryBuildingTests\AllAndPredicates.cs" />
+    <Compile Include="MergeQueryBuildingTests\WhenMatched\WhenMatchedAndPredicates.cs" />
+    <Compile Include="MergeQueryBuildingTests\WhenMatched\WhenMatchedThenDeleteTests.cs" />
+    <Compile Include="MergeQueryBuildingTests\WhenMatched\WhenMatchedThenUpdateTests.cs" />
     <Compile Include="MergeQueryBuildingTests\WhenNotMatchedBySourceThenUpdate.cs" />
     <Compile Include="MergeQueryBuildingTests\WhenNotMatchedBySourceThenDeleteTests.cs" />
     <Compile Include="MergeQueryBuildingTests\WhenNotMatchedThenInsert.cs" />
