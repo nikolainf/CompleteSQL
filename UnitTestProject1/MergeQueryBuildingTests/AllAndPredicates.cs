@@ -161,7 +161,7 @@ When Not Matched And src.Name Like '%abc%'
         }
 
         [Test]
-        public void InPredicateTest()
+        public void InPredicateStringArrayTest()
         {
             var people = new[]
             {
@@ -197,7 +197,81 @@ When Not Matched And src.Name In('John', 'Peter', 'Mike', 'Nikolai')
             Assert.AreEqual(expectedQuery, query);
         }
 
-     
+        [Test]
+        public void InPredicateStringListTest()
+        {
+            var people = new[]
+            {
+                new
+                {
+                    Number = 1,
+                    Name = "John",
+                    Age = 33,
+                }
+            };
+
+            DataContext context = new DataContext("CompleteSQL");
+
+            List<string> names = new List<string>{ "John", "Peter", "Mike", "Nikolai" };
+
+            var mergeExpression = context.CreateMergeUsing(people)
+                .Target("Person")
+                .On(p => p.Number)
+                .WhenNotMatchedAnd(p => names.Contains(p.Name))
+                .ThenInsert();
+
+            string expectedQuery =
+@"Merge Into Person as tgt
+Using #Person as src
+	On tgt.Number = src.Number
+When Not Matched And src.Name In('John', 'Peter', 'Mike', 'Nikolai')
+	Then Insert(Number, Name, Age)
+		Values(src.Number, src.Name, src.Age);";
+
+
+            string query = mergeExpression.GetMergeQuery();
+
+            Assert.AreEqual(expectedQuery, query);
+        }
+
+        [Test]
+        public void InPredicateIntArrayTest()
+        {
+            var people = new[]
+            {
+                new
+                {
+                    Number = 1,
+                    Name = "John",
+                    Age = 33,
+                }
+            };
+
+            DataContext context = new DataContext("CompleteSQL");
+
+            int[] numbers = new[] { 132, 789, 9, 5 };
+
+            var mergeExpression = context.CreateMergeUsing(people)
+                .Target("Person")
+                .On(p => p.Number)
+                .WhenNotMatchedAnd(p => numbers.Contains(p.Number))
+                .ThenInsert();
+
+            string expectedQuery =
+@"Merge Into Person as tgt
+Using #Person as src
+	On tgt.Number = src.Number
+When Not Matched And src.Number In(132, 789, 9, 5)
+	Then Insert(Number, Name, Age)
+		Values(src.Number, src.Name, src.Age);";
+
+
+            string query = mergeExpression.GetMergeQuery();
+
+            Assert.AreEqual(expectedQuery, query);
+        }
+
+
 
         [Test]
         public void AndMirrorCondition()

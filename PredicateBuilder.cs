@@ -4,6 +4,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using CompleteSQL.Extension;
+using System.Collections;
 
 namespace CompleteSQL
 {
@@ -32,25 +34,24 @@ namespace CompleteSQL
                         throw new NotImplementedException();
 
                     case ExpressionType.Equal:
-
                         return ComparePredicate(" = ", binaryExpression.Left, binaryExpression.Right, alias);
+
                     case ExpressionType.NotEqual:
-
                         return ComparePredicate(" <> ", binaryExpression.Left, binaryExpression.Right, alias);
+
                     case ExpressionType.GreaterThan:
-
                         return ComparePredicate(" > ", binaryExpression.Left, binaryExpression.Right, alias);
+
                     case ExpressionType.GreaterThanOrEqual:
-
                         return ComparePredicate(" >= ", binaryExpression.Left, binaryExpression.Right, alias);
+
                     case ExpressionType.LessThan:
-
                         return ComparePredicate(" < ", binaryExpression.Left, binaryExpression.Right, alias);
+
                     case ExpressionType.LessThanOrEqual:
-
                         return ComparePredicate(" <= ", binaryExpression.Left, binaryExpression.Right, alias);
-                    default:
 
+                    default:
                         throw new ArgumentException();
                 }
 
@@ -69,16 +70,52 @@ namespace CompleteSQL
 
         private static string GetPredicate(MethodCallExpression expr)
         {
-            switch (expr.Method.Name)
-            {
-                case "Contains": return ((MemberExpression)expr.Object).Member.Name + " Like '%" + ((ConstantExpression)expr.Arguments[0]).Value.ToString() + "%'";
-                case "StartsWith": return ((MemberExpression)expr.Object).Member.Name + " Like '" + ((ConstantExpression)expr.Arguments[0]).Value.ToString() + "%'";
-                case "EndsWith": return ((MemberExpression)expr.Object).Member.Name + " Like '%" + ((ConstantExpression)expr.Arguments[0]).Value.ToString() + "'";
 
+            if (expr.Method.DeclaringType == typeof(string))
+                switch (expr.Method.Name)
+                {
+                    case "Contains": return ((MemberExpression)expr.Object).Member.Name + " Like '%" + ((ConstantExpression)expr.Arguments[0]).Value.ToString() + "%'";
+                    case "StartsWith": return ((MemberExpression)expr.Object).Member.Name + " Like '" + ((ConstantExpression)expr.Arguments[0]).Value.ToString() + "%'";
+                    case "EndsWith": return ((MemberExpression)expr.Object).Member.Name + " Like '%" + ((ConstantExpression)expr.Arguments[0]).Value.ToString() + "'";
+
+                }
+            else if(expr.Method.Name.Equals("Contains"))
+            {
+                int inArgIndex = expr.Object != null ? 0 : 1;
+                var inList = expr.Object ?? expr.Arguments[0];
+                var inArg = expr.Arguments[inArgIndex];
+
+
+                MemberExpression inListMemberExpression = (MemberExpression)inList;
+                MemberExpression inArgMemberExpression = (MemberExpression)inArg;
+
+                var f = Expression.Lambda(inListMemberExpression).Compile();
+                var value = f.DynamicInvoke();
+
+                string quote = inArgMemberExpression.Type == typeof(string) ? "'" : string.Empty;
+
+
+                string predicate = inArgMemberExpression.Member.Name + " In(";
+
+                if(inArgMemberExpression.Type == typeof(string))
+                {
+                    predicate += "'" + string.Join("', '", ((IEnumerable)value).Cast<object>()) + "')";
+                }
+                else
+                {
+                     predicate += string.Join(", ", ((IEnumerable)value).Cast<object>()) + ")";
+                }
+
+                return predicate;
+
+             
             }
 
-            return null;
+            throw new NotImplementedException();
         }
+
+
+	
 
       
         private static string GetOperand(Expression expr, string alias)

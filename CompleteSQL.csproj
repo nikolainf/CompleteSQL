@@ -51,6 +51,8 @@
     <Compile Include="DataContext.cs" />
     <Compile Include="DataTableSchema.cs" />
     <Compile Include="DataTableSchemaCreator.cs" />
+    <Compile Include="Extension\Extensions.cs" />
+    <Compile Include="Extension\InternalExtensions.cs" />
     <Compile Include="Extension\NewExpressionExtensionHelper.cs" />
     <Compile Include="Mapping\Attributes\SqlBulkTableAttribute.cs" />
     <Compile Include="Mapping\Attributes\SqlColumn.cs" />
