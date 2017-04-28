@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,21 +25,8 @@ namespace CompleteSQL
 
         public void BulkInsert<TSource>(IEnumerable<TSource> dataSource, string targetTable = null) where TSource: class
         {
-            Type type = typeof(TSource);
-            string tableName = targetTable;
-
-            if (string.IsNullOrWhiteSpace(tableName))
-            {
-                tableName = (new SqlTableNameMapper()).GetFullTableName(type).ToString();
-            }
-
-            DataTableSchemaCreator schemaCreator = new DataTableSchemaCreator();
-            DataTableSchema schema = schemaCreator.CreateSchema<TSource>(targetTable);
-
-
-            DataTableCreator dtCreator = new DataTableCreator();
-            DataTable dataTable = dtCreator.CreateDataTable<TSource>(dataSource, schema);
-
+            DataTableCreator dtBuilder = new DataTableCreator();
+            DataTable dataTable = dtBuilder.Create(dataSource, targetTable);
 
 
             using (SqlBulkCopy bulkCopy = new SqlBulkCopy(m_connection.ConnectionString))
@@ -49,7 +37,7 @@ namespace CompleteSQL
                     bulkCopy.ColumnMappings.Add(dc.ColumnName, dc.ColumnName);
                 }
 
-                bulkCopy.DestinationTableName = tableName;
+                bulkCopy.DestinationTableName = dataTable.TableName;
                 
                 bulkCopy.WriteToServer(dataTable);
 
@@ -60,6 +48,18 @@ namespace CompleteSQL
         {
             return new MergeClass<TSource>(usingDataSource);
         }
+
+        public MergeClass<TSource> Merge<TSource, TPredicate>(string target, IEnumerable<TSource> source, Expression<Func<TSource, TPredicate>> mergePredicate)where TSource: class
+        {
+            throw new Exception();
+        }
+
+        public MergeClass<TSource> Merge<TSource, TPredicate>(IEnumerable<TSource> source, Expression<Func<TSource, TPredicate>> mergePredicate) where TSource: class
+        {
+            throw new NotImplementedException();
+        }
+
+       
 
        
     }

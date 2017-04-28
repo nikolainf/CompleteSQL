@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CompleteSQL
 {
-    public struct DataTableSchema
+    public class DataTableSchema
     {
 
         public DataTableSchema(string tableName, IEnumerable<DataColumnSchema> columns)
