@@ -292,6 +292,7 @@ When Not Matched And src.Number In(132, 789, 9, 5)
                 .Target("Person")
                 .On(p => p.Number)
                 .WhenNotMatchedAnd(p => 100 < p.Number && p.Name.Contains("ABc"))
+
                 .ThenInsert();
 
             string expectedQuery =
