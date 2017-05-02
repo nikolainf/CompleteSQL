@@ -1,17 +1,16 @@
-﻿using CompleteSQL.Merge;
+﻿using CompleteSQL.Merge.QueryPartsFactory;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using CompleteSQL.Merge.QueryPartsFactory;
 
 namespace CompleteSQL.Merge
 {
-    public class WhenMatchedConditionStep<TSource> : QueryStepBase
+    /// <summary>
+    /// Класс условие When Matched, содержащий методы действия выполняемые после условия When Matched, если оно идет самым первым в merge-запросе
+    /// </summary>
+    /// <typeparam name="TSource">Тип-Источник</typeparam>
+    public class WMFirstConditionStep<TSource> : QueryStepBase
     {
-        internal WhenMatchedConditionStep(QueryPartComponent queryComponent)
+        internal WMFirstConditionStep(QueryPartComponent queryComponent)
             : base(queryComponent)
         {
             
@@ -33,11 +32,11 @@ namespace CompleteSQL.Merge
             return new WMThenUpdateActionStep<TSource>(thenUpdateQueryPart);
         }
 
-        public ThenDeleteActionStep<TSource> ThenDelete()
+        public WMThenDeleteActionStep<TSource> ThenDelete()
         {
             var thenDeleteQueryPart = queryComponent.CreateThenDeleteQueryPart();
 
-            return new ThenDeleteActionStep<TSource>(thenDeleteQueryPart);
+            return new WMThenDeleteActionStep<TSource>(thenDeleteQueryPart);
         }
 
     }

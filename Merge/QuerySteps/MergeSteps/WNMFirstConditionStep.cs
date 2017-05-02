@@ -9,9 +9,9 @@ using CompleteSQL.Merge.QueryPartsFactory;
 
 namespace CompleteSQL.Merge
 {
-    public class WhenNotMatchedConditionStep<TSource> : QueryStepBase
+    public class WNMFirstConditionStep<TSource> : QueryStepBase
     {
-        internal WhenNotMatchedConditionStep(QueryPartComponent queryComponent)
+        internal WNMFirstConditionStep(QueryPartComponent queryComponent)
             : base(queryComponent)
         {
             

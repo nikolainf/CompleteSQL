@@ -3,6 +3,9 @@ using System.Linq.Expressions;
 
 namespace CompleteSQL.Merge
 {
+    /// <summary>
+    /// Компонент - часть запроса. Используется Декоратор
+    /// </summary>
     abstract public class QueryPartComponent
     {
         internal Expression mergePredicateBody;
