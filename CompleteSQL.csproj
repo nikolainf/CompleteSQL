@@ -65,6 +65,7 @@
     <Compile Include="Merge\QuerySteps\ActionSteps\WMThenDeleteActionStep.cs" />
     <Compile Include="Merge\QuerySteps\ActionSteps\WMThenUpdateActionStep.cs" />
     <Compile Include="Merge\QuerySteps\ActionSteps\WNMThenUpdateActionStep.cs" />
+    <Compile Include="Merge\QuerySteps\MergeSteps\WMFirstWNMBySourceConditionStep.cs" />
     <Compile Include="Merge\QuerySteps\MergeSteps\WMFirstWNMConditionStep.cs" />
     <Compile Include="Merge\QuerySteps\MergeSteps\WNMFirstConditionStep.cs" />
     <Compile Include="Merge\QuerySteps\MergeSteps\WNMBySourceFirstConditionStep.cs" />

@@ -8,9 +8,17 @@ namespace CompleteSQL.Merge
 {
     public class WMFirstWNMConditionStep<TSource> : QueryStepBase
     {
-        public object ThenInsert()
+        internal WMFirstWNMConditionStep(QueryPartComponent queryComponent)
+            :base(queryComponent)
         {
-            throw new NotImplementedException();
+
+        }
+        public ThenInsertActionStep<TSource> ThenInsert()
+        {
+            var thenInsertQueryPart = new ThenInsertQueryPart();
+            thenInsertQueryPart.QueryPartComponent = queryComponent;
+
+            return new ThenInsertActionStep<TSource>(thenInsertQueryPart);
         }
     }
 }
