@@ -65,7 +65,7 @@ When Not Matched
                     Age =32,
                     GroupNumber =111, 
                     GroupName = "One One One",
-                    Salary = 13d
+                    Salary = 13m
                 }
             };
 
@@ -80,7 +80,7 @@ When Not Matched
                .ThenUpdate(p => new
                {
                    Age = p.Age+1,
-                   Salary = p.Salary + 25d
+                   Salary = p.Salary + 25m
                });
 
             string expectedQuery =

@@ -103,6 +103,8 @@ namespace CompleteSQL.Merge.QueryPartBuilders
                             return constant.Value.ToString();
                         else if (operand.Type == typeof(System.Decimal))
                             return Convert.ToDecimal(constant.Value).ToString().Replace(',', '.');
+                        else if (operand.Type == typeof(System.Double))
+                            return constant.Value.ToString();
                         else return string.Concat("\'", constant.Value, "\'");
 
                     default: throw new ArgumentException();
