@@ -12,7 +12,7 @@ namespace UnitTestProject1.MergeQueryBuildingTests
     public class TwoStepsTests
     {
         [Test]
-        public void FirstTest()
+        public void WhenMatchedThenDeleteWhenNotMatchedThenInsertTest()
         {
             var people = new[]
             {
@@ -54,7 +54,48 @@ When Not Matched
         }
 
         [Test]
-        public void SecondTest()
+        public void WhenMatchedThenDeleteWhenNotMatchedBySourceThenDeleteTest()
+        {
+            var people = new[]
+            {
+                new
+                {
+                    Number = 50, 
+                    Name = "Nikolai", 
+                    Age =32,
+                    GroupNumber =111, 
+                    GroupName = "One One One",
+                    Salary = 13m
+                }
+            };
+
+            DataContext context = new DataContext("CompleteSQL");
+
+            var mergeExpression = context.CreateMergeUsing(people)
+               .Target("Person")
+               .On(p => p.Number)
+               .WhenMatched()
+               .ThenDelete()
+               .WhenNotMatchedBySource()
+               .ThenDelete();
+
+            string expectedQuery =
+@"Merge Into Person as tgt
+Using #Person as src
+	On tgt.Number = src.Number
+When Matched
+	Then Delete
+When Not Matched By Source
+	Then Delete;";
+
+            string query = mergeExpression.GetMergeQuery();
+
+            Assert.AreEqual(expectedQuery, query);
+
+        }
+
+        [Test]
+        public void WhenMatchedThenDeleteWhenNotMatchedBySourceThenUpdateTest()
         {
             var people = new[]
             {
@@ -98,6 +139,47 @@ When Not Matched By Source
 
             Assert.AreEqual(expectedQuery, query);
 
+        }
+
+        [Test]
+        public void WhenMatchedAndThenUdpateWhenMatchedThenDeleteTest()
+        {
+             var people = new[]
+            {
+                new
+                {
+                    Number = 50, 
+                    Name = "Nikolai", 
+                    Age =32,
+                    GroupNumber =111, 
+                    GroupName = "One One One",
+                    Salary = 13m
+                }
+            };
+
+            DataContext context = new DataContext("CompleteSQL");
+
+            var mergeExpression = context.CreateMergeUsing(people)
+               .Target("Person")
+               .On(p => p.Number)
+               .WhenMatchedAndTarget(p => p.Age > 18)
+               .ThenUpdate((tgt, src) => new { Age = src.Age })
+               .WhenMatched()
+               .ThenDelete();
+
+            string expectedQuery =
+@"Merge Into Person as tgt
+Using #Person as src
+	On tgt.Number = src.Number
+When Matched
+	Then Update Set
+        tgt.Age = src.Age
+When Matched
+    Then Delete;";
+
+            string query = mergeExpression.GetMergeQuery();
+
+            Assert.AreEqual(expectedQuery, query);
         }
     }
 }

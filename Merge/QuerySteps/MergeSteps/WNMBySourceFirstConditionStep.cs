@@ -33,8 +33,8 @@ namespace CompleteSQL.Merge
 
         public WNMThenDeleteActionStep<TSource> ThenDelete()
         {
-            var thenDeleteQueryPart = new ThenDeleteQueryPart();
-            thenDeleteQueryPart.QueryPartComponent = queryComponent;
+
+            var thenDeleteQueryPart = queryComponent.CreateThenDeleteQueryPart();
 
             return new WNMThenDeleteActionStep<TSource>(thenDeleteQueryPart);
         }

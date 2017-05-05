@@ -16,5 +16,12 @@ namespace CompleteSQL.Merge
 
             return new WNMThenUpdateActionStep<TSource>(thenUpdateQueryPart);
         }
+
+        public WNMThenDeleteActionStep<TSource> ThenDelete()
+        {
+            var thenDeleteQueryPart = queryComponent.CreateThenDeleteQueryPart();
+
+            return new WNMThenDeleteActionStep<TSource>(thenDeleteQueryPart);
+        }
     }
 }
