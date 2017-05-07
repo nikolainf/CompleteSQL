@@ -1,6 +1,7 @@
 ﻿using CompleteSQL.Merge.QueryPartsFactory;
 using System;
 using System.Linq.Expressions;
+using CompleteSQL.Merge.QuerySteps.ActionContainers;
 
 namespace CompleteSQL.Merge
 {
@@ -16,37 +17,29 @@ namespace CompleteSQL.Merge
             return new WMAndUpdateWMActionContainer<TSource>(whenMatchedQueryPart);
         }
 
-        public WMAndActionContainer<TSource> WhenMatchedAnd(Expression<Func<TSource, bool>> targetPredicate, Expression<Func<TSource, bool>> sourcePredicate)
+        public WMAndUpdateWMAndActionContainer<TSource> WhenMatchedAnd(Expression<Func<TSource, bool>> targetPredicate, Expression<Func<TSource, bool>> sourcePredicate)
         {
-            if (targetPredicate == null)
-                throw new ArgumentNullException("targetPredicate");
-
-            if (sourcePredicate == null)
-                throw new ArgumentNullException("sourcePredicate");
-
-            var whenMatchedAndTargetSource = queryComponent.CreateWMAndQueryPart(targetPredicate, sourcePredicate);
-
-            return new WMAndActionContainer<TSource>(whenMatchedAndTargetSource);
+            return queryComponent.CreateWMAndActionContainer<WMAndUpdateWMAndActionContainer<TSource>, TSource>(targetPredicate, sourcePredicate);
         }
 
-        public WMAndActionContainer<TSource> WhenMatchedAndTarget(Expression<Func<TSource, bool>> targetPredicate)
+        public WMAndUpdateWMAndActionContainer<TSource> WhenMatchedAndTarget(Expression<Func<TSource, bool>> targetPredicate)
         {
             if (targetPredicate == null)
                 throw new ArgumentNullException("targetPredicate");
 
             var whenMatchedAndTarget = queryComponent.CreateWMAndTargetQueryPart(targetPredicate);
 
-            return new WMAndActionContainer<TSource>(whenMatchedAndTarget);
+            return new WMAndUpdateWMAndActionContainer<TSource>(whenMatchedAndTarget);
         }
 
-        public WMAndActionContainer<TSource> WhenMatchedAndSource(Expression<Func<TSource, bool>> sourcePredicate)
+        public WMAndUpdateWMAndActionContainer<TSource> WhenMatchedAndSource(Expression<Func<TSource, bool>> sourcePredicate)
         {
             if (sourcePredicate == null)
                 throw new ArgumentNullException("sourcePredicate");
 
             var whenMatchedAndTarget = queryComponent.CreateWMAndSourceQueryPart(sourcePredicate);
 
-            return new WMAndActionContainer<TSource>(whenMatchedAndTarget);
+            return new WMAndUpdateWMAndActionContainer<TSource>(whenMatchedAndTarget);
         }
 
     }

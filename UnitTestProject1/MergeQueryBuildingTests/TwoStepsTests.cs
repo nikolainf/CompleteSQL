@@ -222,5 +222,122 @@ When Matched And tgt.Age > 100
 
             Assert.AreEqual(expectedQuery, query);
         }
+
+        [Test]
+        public void WhenMatchedAndThenDeleteWhenMatchedThenUpdateTest()
+        {
+            var people = new[]
+            {
+                new
+                {
+                    Number = 50, 
+                    Name = "Nikolai", 
+                    Age =32,
+                    GroupNumber =111, 
+                    GroupName = "One One One",
+                    Salary = 13m
+                }
+            };
+
+            DataContext context = new DataContext("CompleteSQL");
+
+            var mergeExpression = context.CreateMergeUsing(people)
+                .Target("Person")
+                .On(p=>p.Number)
+                .WhenMatchedAndTarget(p => p.Age > 100)
+                .ThenDelete()
+                .WhenMatched()
+                .ThenUpdate((tgt, src) => new { Age = src.Age });
+
+            string expectedQuery =
+@"Merge Into Person as tgt
+Using #Person as src
+	On tgt.Number = src.Number
+When Matched And tgt.Age > 100
+	Then Delete
+When Matched
+	Then Update Set
+		tgt.Age = src.Age;";
+
+            string query = mergeExpression.GetMergeQuery();
+
+            Assert.AreEqual(expectedQuery, query);
+
+
+
+
+        }
+
+        [Test]
+        public void WhenMatchedAndThenDeleteWhenMatchedAndThenUdapteTest()
+        {
+            var people = new[]
+            {
+                new
+                {
+                    Number = 50, 
+                    Name = "Nikolai", 
+                    Age =32,
+                    GroupNumber =111, 
+                    GroupName = "One One One",
+                    Salary = 13m
+                }
+            };
+
+            DataContext context = new DataContext("CompleteSQL");
+
+            var mergeExpression = context.CreateMergeUsing(people)
+               .Target("Person")
+               .On(p => p.Number)
+               .WhenMatchedAndTarget(p => p.Age > 100)
+               .ThenDelete()
+               .WhenMatchedAndTarget(p => p.Age > 18)
+               .ThenUpdate((tgt, src) => new { Age = src.Age });
+
+            string expectedQuery =
+@"Merge Into Person as tgt
+Using #Person as src
+	On tgt.Number = src.Number
+When Matched And tgt.Age > 100
+	Then Delete
+When Matched And tgt.Age > 18
+	Then Update Set
+		tgt.Age = src.Age;";
+
+            string query = mergeExpression.GetMergeQuery();
+
+            Assert.AreEqual(expectedQuery, query);
+        }
+
+        [Test]
+        public void t2()
+        {
+            //var people = new[]
+            //{
+            //    new
+            //    {
+            //        Number = 50, 
+            //        Name = "Nikolai", 
+            //        Age =32,
+            //        GroupNumber =111, 
+            //        GroupName = "One One One",
+            //        Salary = 13m
+            //    }
+            //};
+
+            //DataContext context = new DataContext("CompleteSQL");
+
+            //var mergeExpression = context.CreateMergeUsing(people)
+            //    .Target("Person")
+            //    .On(p => p.Number)
+            //    .WhenMatchedAndTarget(p => p.Age > 100)
+            //    .ThenUpdate((tgt, src) => new { Age = src.Age })
+            //    .WhenMatchedAndTarget(p => p.Age > 150)
+            //    .ThenUpdate((tgt, src) => new { Age = 0 });
+
+            //string query = mergeExpression.GetMergeQuery();
+        }
     }
+
+    
 }

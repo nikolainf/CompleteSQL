@@ -4,16 +4,31 @@ namespace CompleteSQL.Merge
     /// <summary>
     /// Базовый класс для шага построения запроса
     /// </summary>
-    abstract public class QueryStepBase
+    public abstract class QueryStepBase
     {
         /// <summary>
         /// Компонент для декорирования дальнейшим шагом в запросе
         /// </summary>
-        protected readonly QueryPartComponent queryComponent;
+        protected QueryPartComponent queryComponent;
 
         internal QueryStepBase(QueryPartComponent queryComponent)
         {
             this.queryComponent = queryComponent;
         }
+
+        internal QueryStepBase()
+        {
+
+        }
+
+        internal QueryPartComponent QueryComponent
+        {
+            set
+            {
+                queryComponent = value;
+            }
+        }
+
+      
     }
 }

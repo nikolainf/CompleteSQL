@@ -6,7 +6,8 @@ namespace CompleteSQL.Merge
 {
     public class WMAndActionContainer<TSource> : QueryStepBase
     {
-         internal WMAndActionContainer(QueryPartComponent queryComponent)
+        internal WMAndActionContainer() { }
+         public WMAndActionContainer(QueryPartComponent queryComponent)
             : base(queryComponent)
         {
             
@@ -28,11 +29,11 @@ namespace CompleteSQL.Merge
             return new WMAndUpdateActionStep<TSource>(thenUpdateQueryPart);
         }
 
-        public WMThenDeleteActionStep<TSource> ThenDelete()
+        public WMAndDeleteActionStep<TSource> ThenDelete()
         {
             var thenDeleteQueryPart = queryComponent.CreateThenDeleteQueryPart();
 
-            return new WMThenDeleteActionStep<TSource>(thenDeleteQueryPart);
+            return new WMAndDeleteActionStep<TSource>(thenDeleteQueryPart);
         }
     }
 }

@@ -11,20 +11,21 @@ namespace CompleteSQL.Merge
     /// 
     /// </summary>
     /// <typeparam name="TSource"></typeparam>
-    public class WMThenDeleteActionStep<TSource> : ActionStepBase
+    public class WMDeleteActionStep<TSource> : ActionStepBase
     {
-        internal WMThenDeleteActionStep(QueryPartComponent queryComponent)
+        internal WMDeleteActionStep(QueryPartComponent queryComponent)
             : base(queryComponent)
         {
 
         }
+
 
         public WMFirstWNMActionContainer<TSource> WhenNotMatched()
         {
             var whenNotMatchedByTarget = queryComponent.CreateWNMByTargetQueryPart();
 
             return new WMFirstWNMActionContainer<TSource>(whenNotMatchedByTarget);
-          
+
         }
 
         public WMFirstWNMBySourceActionContainer<TSource> WhenNotMatchedBySource()
@@ -32,7 +33,7 @@ namespace CompleteSQL.Merge
             var whenNotMatchedBySource = queryComponent.CreateWNMBySourceQueryPart();
 
             return new WMFirstWNMBySourceActionContainer<TSource>(whenNotMatchedBySource);
-           
+
         }
     }
 }

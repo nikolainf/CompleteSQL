@@ -8,35 +8,35 @@ namespace CompleteSQL.Merge
     /// Класс условие When Matched, содержащий методы действия выполняемые после условия When Matched, если оно идет самым первым в merge-запросе
     /// </summary>
     /// <typeparam name="TSource">Тип-Источник</typeparam>
-    public class WMFirstActionContainer<TSource> : QueryStepBase
+    public class WMActionContainer<TSource> : QueryStepBase
     {
-        internal WMFirstActionContainer(QueryPartComponent queryComponent)
+        internal WMActionContainer(QueryPartComponent queryComponent)
             : base(queryComponent)
         {
             
         }
 
 
-        public WMThenUpdateActionStep<TSource> ThenUpdate<TUpdate>(Expression<Func<TSource,TSource, TUpdate>> updatingColumns)
+        public WMUpdateActionStep<TSource> ThenUpdate<TUpdate>(Expression<Func<TSource,TSource, TUpdate>> updatingColumns)
         {
             var thenUpdateQueryPart = queryComponent.CreateWMThenUpdateQueryPart(updatingColumns);
 
-            return new WMThenUpdateActionStep<TSource>(thenUpdateQueryPart);
+            return new WMUpdateActionStep<TSource>(thenUpdateQueryPart);
         }
 
 
-        public WMThenUpdateActionStep<TSource> ThenUpdate()
+        public WMUpdateActionStep<TSource> ThenUpdate()
         {
             var thenUpdateQueryPart = queryComponent.CreateWMThenUpdateQueryPart<TSource>();
 
-            return new WMThenUpdateActionStep<TSource>(thenUpdateQueryPart);
+            return new WMUpdateActionStep<TSource>(thenUpdateQueryPart);
         }
 
-        public WMThenDeleteActionStep<TSource> ThenDelete()
+        public WMDeleteActionStep<TSource> ThenDelete()
         {
             var thenDeleteQueryPart = queryComponent.CreateThenDeleteQueryPart();
 
-            return new WMThenDeleteActionStep<TSource>(thenDeleteQueryPart);
+            return new WMDeleteActionStep<TSource>(thenDeleteQueryPart);
         }
 
     }

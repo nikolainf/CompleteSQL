@@ -119,18 +119,6 @@ namespace CompleteSQL.Merge.QueryPartsFactory
             return andSourceQueryPart;
         }
 
-        internal static AndSourceQueryPart CreateWMAndQueryPart<TSource>(this QueryPartComponent queryComponent, Expression<Func<TSource, bool>> targetPredicate, Expression<Func<TSource, bool>> sourcePredicate)
-        {
-            var whenMatchedQueryPart = new WhenMatchedQueryPart();
-            whenMatchedQueryPart.QueryPartComponent = queryComponent;
-
-            var andTargetQueryPart = new AndTargetQueryPart(targetPredicate);
-            andTargetQueryPart.QueryPartComponent = whenMatchedQueryPart;
-
-            var andSourceQueryPart = new AndSourceQueryPart(sourcePredicate);
-            andSourceQueryPart.QueryPartComponent = andTargetQueryPart;
-
-            return andSourceQueryPart;
-        }
+       
     }
 }

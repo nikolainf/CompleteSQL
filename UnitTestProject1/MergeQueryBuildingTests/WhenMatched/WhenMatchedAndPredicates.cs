@@ -111,6 +111,82 @@ When Matched And tgt.Name Like 'N%' And src.Id < 10005
         }
 
         [Test]
+        public void WhenMatchedAndTargetSourcePredicates2()
+        {
+            var people = new[]
+            {
+                new
+                {
+                    Id = 1,
+                    Name = "John"
+                }
+            };
+
+            DataContext context = new DataContext("CompleteSQL");
+
+            var mergeExpression = context.CreateMergeUsing(people)
+               .Target("TestTable")
+               .On(p => p.Id)
+               .WhenMatchedAnd(tgt => tgt.Name.StartsWith("N"), src => src.Id < 10005)
+               .ThenDelete()
+               .WhenMatchedAnd(tgt => tgt.Name.StartsWith("T"), src => src.Id == 12)
+               .ThenUpdate((tgt, src) => new { Name = "UpdateName" });
+
+
+            string query = mergeExpression.GetMergeQuery();
+
+            string expectedQuery =
+@"Merge Into TestTable as tgt
+Using #TestTable as src
+	On tgt.Id = src.Id
+When Matched And tgt.Name Like 'N%' And src.Id < 10005
+	Then Delete
+When Matched And tgt.Name Like 'T%' And src.Id = 12
+	Then Update Set
+		tgt.Name = 'UpdateName';";
+
+            Assert.AreEqual(expectedQuery, query);
+        }
+
+        [Test]
+        public void WhenMatchedAndTargetSourcePredicate3()
+        {
+            var people = new[]
+            {
+                new
+                {
+                    Id = 1,
+                    Name = "John"
+                }
+            };
+
+            DataContext context = new DataContext("CompleteSQL");
+
+            var mergeExpression = context.CreateMergeUsing(people)
+               .Target("TestTable")
+               .On(p => p.Id)
+               .WhenMatchedAnd(tgt => tgt.Name.StartsWith("T"), src => src.Id == 12)
+               .ThenUpdate((tgt, src) => new { Name = "UpdateName" })
+               .WhenMatchedAnd(tgt => tgt.Name.StartsWith("N"), src => src.Id < 10005)
+               .ThenDelete();
+
+
+            string query = mergeExpression.GetMergeQuery();
+
+            string expectedQuery =
+@"Merge Into TestTable as tgt
+Using #TestTable as src
+	On tgt.Id = src.Id
+When Matched And tgt.Name Like 'T%' And src.Id = 12
+	Then Update Set
+		tgt.Name = 'UpdateName'
+When Matched And tgt.Name Like 'N%' And src.Id < 10005
+	Then Delete;";
+
+            Assert.AreEqual(expectedQuery, query);
+        }
+
+        [Test]
         public void WhenMatchedMultipleAndTargetPredicateTest()
         {
             var people = new[]

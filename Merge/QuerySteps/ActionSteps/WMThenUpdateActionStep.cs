@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace CompleteSQL.Merge
 {
-    public class WMThenUpdateActionStep<TSource> : ActionStepBase
+    public class WMUpdateActionStep<TSource> : ActionStepBase
     {
-        internal WMThenUpdateActionStep(QueryPartComponent queryComponent)
+        internal WMUpdateActionStep(QueryPartComponent queryComponent)
             :base(queryComponent)
         {
 
