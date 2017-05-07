@@ -35,7 +35,7 @@ namespace UnitTestProject1.MergeQueryBuildingTests
 Using #TestTable as src
 	On tgt.Number = src.Number
 When Matched
-	Then Update Set 
+	Then Update Set
 		tgt.Name = src.Name + '_NewValue',
 		tgt.SomeData = 123443,
 		tgt.SomeData2 = src.SomeData2 * 10,
@@ -78,7 +78,7 @@ When Matched
 Using #TestTable as src
 	On tgt.Number = src.Number
 When Matched
-	Then Update Set 
+	Then Update Set
 		tgt.SomeData = tgt.SomeData + src.SomeData,
 		tgt.SomeData2 = src.SomeData2;";
 
@@ -118,7 +118,7 @@ When Matched
 Using #TestTable as src
 	On tgt.Number = src.Number
 When Matched
-	Then Update Set 
+	Then Update Set
 		tgt.DocumentNumber = src.DocumentNumber,
 		tgt.Name = src.Name,
 		tgt.SomeData = src.SomeData,
@@ -163,7 +163,7 @@ Using #TestTable as src
 	On tgt.Number = src.Number
 	And tgt.DocumentNumber = src.DocumentNumber
 When Matched
-	Then Update Set 
+	Then Update Set
 		tgt.Name = src.Name,
 		tgt.SomeData = src.SomeData,
 		tgt.SomeData2 = src.SomeData2,

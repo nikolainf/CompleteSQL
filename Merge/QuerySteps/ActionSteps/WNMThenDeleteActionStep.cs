@@ -12,7 +12,7 @@ namespace CompleteSQL.Merge
             : base(queryComponent)
         { }
 
-        public WMFirstConditionStep<TSource> WhenMatched()
+        public WMFirstActionContainer<TSource> WhenMatched()
         {
             throw new NotImplementedException();
         }

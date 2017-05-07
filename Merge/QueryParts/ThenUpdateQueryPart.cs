@@ -73,7 +73,7 @@ namespace CompleteSQL.Merge
                               updateColumnNames.Select(item=>
                                   string.Concat("\t\ttgt.", item, " = src.", item)));
 
-               string update = string.Concat("\tThen Update Set ", Environment.NewLine, updateOperators);
+               string update = string.Concat("\tThen Update Set", Environment.NewLine, updateOperators);
 
                return string.Concat(base.GetQueryPart(), Environment.NewLine, update);
 
@@ -121,7 +121,7 @@ namespace CompleteSQL.Merge
                             tgtColumns.Select((item, index) =>
                                 string.Concat("\t\ttgt.", item, " = ", newValues[index])));
 
-                        string update = string.Concat("\tThen Update Set ", Environment.NewLine, updateOperators);
+                        string update = string.Concat("\tThen Update Set", Environment.NewLine, updateOperators);
 
                         return string.Concat(base.GetQueryPart(), Environment.NewLine, update);
 

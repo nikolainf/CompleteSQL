@@ -19,19 +19,19 @@ namespace CompleteSQL.Merge
 
         }
 
-        public WMFirstWNMConditionStep<TSource> WhenNotMatched()
+        public WMFirstWNMActionContainer<TSource> WhenNotMatched()
         {
             var whenNotMatchedByTarget = queryComponent.CreateWNMByTargetQueryPart();
 
-            return new WMFirstWNMConditionStep<TSource>(whenNotMatchedByTarget);
+            return new WMFirstWNMActionContainer<TSource>(whenNotMatchedByTarget);
           
         }
 
-        public WMFirstWNMBySourceConditionStep<TSource> WhenNotMatchedBySource()
+        public WMFirstWNMBySourceActionContainer<TSource> WhenNotMatchedBySource()
         {
             var whenNotMatchedBySource = queryComponent.CreateWNMBySourceQueryPart();
 
-            return new WMFirstWNMBySourceConditionStep<TSource>(whenNotMatchedBySource);
+            return new WMFirstWNMBySourceActionContainer<TSource>(whenNotMatchedBySource);
            
         }
     }

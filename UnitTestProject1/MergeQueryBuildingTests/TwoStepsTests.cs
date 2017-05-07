@@ -131,7 +131,7 @@ Using #Person as src
 When Matched
 	Then Delete
 When Not Matched By Source
-	Then Update Set 
+	Then Update Set
 		tgt.Age = tgt.Age + 1,
 		tgt.Salary = tgt.Salary + 25;";
 
@@ -144,7 +144,7 @@ When Not Matched By Source
         [Test]
         public void WhenMatchedAndThenUdpateWhenMatchedThenDeleteTest()
         {
-             var people = new[]
+            var people = new[]
             {
                 new
                 {
@@ -171,11 +171,52 @@ When Not Matched By Source
 @"Merge Into Person as tgt
 Using #Person as src
 	On tgt.Number = src.Number
-When Matched
+When Matched And tgt.Age > 18
 	Then Update Set
-        tgt.Age = src.Age
+		tgt.Age = src.Age
 When Matched
-    Then Delete;";
+	Then Delete;";
+
+            string query = mergeExpression.GetMergeQuery();
+
+            Assert.AreEqual(expectedQuery, query);
+        }
+
+        [Test]
+        public void WhenMatchedAndThenUdpateWhenMatchedAndThenDeleteTest()
+        {
+            var people = new[]
+            {
+                new
+                {
+                    Number = 50, 
+                    Name = "Nikolai", 
+                    Age =32,
+                    GroupNumber =111, 
+                    GroupName = "One One One",
+                    Salary = 13m
+                }
+            };
+
+            DataContext context = new DataContext("CompleteSQL");
+
+            var mergeExpression = context.CreateMergeUsing(people)
+               .Target("Person")
+               .On(p => p.Number)
+               .WhenMatchedAndTarget(p => p.Age > 18)
+               .ThenUpdate((tgt, src) => new { Age = src.Age })
+               .WhenMatchedAndTarget(p => p.Age > 100)
+               .ThenDelete();
+
+            string expectedQuery =
+@"Merge Into Person as tgt
+Using #Person as src
+	On tgt.Number = src.Number
+When Matched And tgt.Age > 18
+	Then Update Set
+		tgt.Age = src.Age
+When Matched And tgt.Age > 100
+	Then Delete;";
 
             string query = mergeExpression.GetMergeQuery();
 

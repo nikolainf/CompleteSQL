@@ -44,7 +44,7 @@ namespace UnitTestProject1.MergeQueryBuildingTests
 Using #TestTable as src
 	On tgt.Number = src.Number
 When Not Matched By Source
-	Then Update Set 
+	Then Update Set
 		tgt.DocumentNumber = tgt.DocumentNumber,
 		tgt.Name = tgt.Name + '_NewValue',
 		tgt.SomeData = 123443,

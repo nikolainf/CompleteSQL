@@ -4,9 +4,9 @@ using System.Linq.Expressions;
 
 namespace CompleteSQL.Merge
 {
-    public class WMFirstWNMBySourceConditionStep<TSource> : QueryStepBase
+    public class WMFirstWNMBySourceActionContainer<TSource> : QueryStepBase
     {
-        internal WMFirstWNMBySourceConditionStep(QueryPartComponent queryComponent)
+        internal WMFirstWNMBySourceActionContainer(QueryPartComponent queryComponent)
             : base(queryComponent)
         { }
 

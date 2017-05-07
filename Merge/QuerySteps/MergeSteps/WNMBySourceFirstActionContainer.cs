@@ -8,9 +8,9 @@ namespace CompleteSQL.Merge
     /// Класс-условие When Not Matched By Source, содержащий методы действия, доступные после условия When Not Matched By Source, если оно иде самым первым условием в merge-запросе
     /// </summary>
     /// <typeparam name="TSource">Тип-Источик</typeparam>
-    public class WNMBySourceFirstConditionStep<TSource> : QueryStepBase
+    public class WNMBySourceFirstActionContainer<TSource> : QueryStepBase
     {
-        internal WNMBySourceFirstConditionStep(QueryPartComponent queryComponent)
+        internal WNMBySourceFirstActionContainer(QueryPartComponent queryComponent)
             : base(queryComponent)
         {
 
