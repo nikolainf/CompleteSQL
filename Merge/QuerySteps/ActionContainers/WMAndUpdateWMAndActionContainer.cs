@@ -6,8 +6,6 @@ namespace CompleteSQL.Merge
 {
     public class WMAndUpdateWMAndActionContainer<TSource> : QueryStepBase
     {
-        internal WMAndUpdateWMAndActionContainer() { }
-
         internal WMAndUpdateWMAndActionContainer(QueryPartComponent queryComponent):base(queryComponent)
         {
 

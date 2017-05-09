@@ -25,7 +25,7 @@ namespace CompleteSQL.Merge
             return new ThenInsertActionStep<TSource>(thenInsertQueryPart);
         }
 
-        public ThenInsertActionStep<TSource> ThenInsert<TInserting>(Expression<Func<TSource, TInserting>> insertingColumns)
+        public ThenInsertActionStep<TSource> ThenInsert<TInsert>(Expression<Func<TSource, TInsert>> insertingColumns)
         {
             var thenInsertQueryPart = new ThenInsertQueryPart(insertingColumns);
             thenInsertQueryPart.QueryPartComponent = queryComponent;

@@ -5,7 +5,6 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using CompleteSQL.Merge.QueryPartsFactory;
-using CompleteSQL.Merge.QuerySteps.ActionContainers;
 
 namespace CompleteSQL.Merge
 {
@@ -24,28 +23,24 @@ namespace CompleteSQL.Merge
 
         public WMAndActionContainer<TSource> WhenMatchedAnd(Expression<Func<TSource, bool>> targetPredicate, Expression<Func<TSource, bool>> sourcePredicate)
         {
-            return queryComponent.CreateWMAndActionContainer<WMAndActionContainer<TSource>, TSource>(targetPredicate, sourcePredicate);
+            var wmAndTargetSourceQueryComponent = queryComponent.CreateWMAndQueryPart<TSource>(targetPredicate, sourcePredicate);
+
+            return new WMAndActionContainer<TSource>(wmAndTargetSourceQueryComponent);
            
         }
 
         public WMAndActionContainer<TSource> WhenMatchedAndTarget(Expression<Func<TSource, bool>> targetPredicate)
         {
-            if (targetPredicate == null)
-                throw new ArgumentNullException("targetPredicate");
+            var wmAndTargetQueryComponent = queryComponent.CreateWMAndTargetQueryPart<TSource>(targetPredicate);
 
-            var whenMatchedAndTarget = queryComponent.CreateWMAndTargetQueryPart(targetPredicate);
-
-            return new WMAndActionContainer<TSource>(whenMatchedAndTarget);
+            return new WMAndActionContainer<TSource>(wmAndTargetQueryComponent);
         }
 
         public WMAndActionContainer<TSource> WhenMatchedAndSource(Expression<Func<TSource, bool>> sourcePredicate)
         {
-            if (sourcePredicate == null)
-                throw new ArgumentNullException("sourcePredicate");
+            var wmAndSourceQueryComponent = queryComponent.CreateWMAndSourceQueryPart<TSource>(sourcePredicate);
 
-            var whenMatchedAndTarget = queryComponent.CreateWMAndSourceQueryPart(sourcePredicate);
-
-            return new WMAndActionContainer<TSource>(whenMatchedAndTarget);
+            return new WMAndActionContainer<TSource>(wmAndSourceQueryComponent);
         }
 
    
@@ -58,9 +53,6 @@ namespace CompleteSQL.Merge
 
         public WNMFirstActionContainer<TSource> WhenNotMatchedAnd(Expression<Func<TSource, bool>> predicate)
         {
-            if (predicate == null)
-                throw new ArgumentNullException("predicate");
-
             var whenNotMatchedAndByTarget = queryComponent.CreateWNMByTargetAndQueryPart(predicate);
 
             return new WNMFirstActionContainer<TSource>(whenNotMatchedAndByTarget);
@@ -75,9 +67,7 @@ namespace CompleteSQL.Merge
 
         public WNMBySourceFirstActionContainer<TSource> WhenNotMatcheBySourceAnd(Expression<Func<TSource, bool>> predicate)
         {
-            if (predicate == null)
-                throw new ArgumentNullException("predicate");
-
+           
             var whenNotMatchedAndBySource = queryComponent.CreateWNMBySourceAndQueryPart(predicate);
 
             return new WNMBySourceFirstActionContainer<TSource>(whenNotMatchedAndBySource);

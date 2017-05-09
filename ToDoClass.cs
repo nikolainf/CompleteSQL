@@ -10,5 +10,9 @@ namespace CompleteSQL
     {
         // Optimaze getting names of columns from expressions
         // and predicate IN TSQL - for Any()
+        // Abandon TSource in classes
+        // WhenMatchedAndThenDeleteWNMThenInsert
+        // WhenMatchedAndThenUpdateWNMBySource
+        // WhenMatchedAndThenDeleteWNMBySource
     }
 }

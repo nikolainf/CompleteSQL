@@ -15,20 +15,5 @@ namespace CompleteSQL.Merge
         {
             this.queryComponent = queryComponent;
         }
-
-        internal QueryStepBase()
-        {
-
-        }
-
-        internal QueryPartComponent QueryComponent
-        {
-            set
-            {
-                queryComponent = value;
-            }
-        }
-
-      
     }
 }

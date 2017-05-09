@@ -18,11 +18,6 @@ namespace CompleteSQL.Merge
 
      
 
-        public WNMThenUpdateActionStep<TSource> ThenUpdate()
-        {
-            throw new NotImplementedException();
-        }
-
         public WNMThenUpdateActionStep<TSource> ThenUpdate<TUpdate>(Expression<Func<TSource, TUpdate>> newValues)
         {
             

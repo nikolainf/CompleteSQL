@@ -46,6 +46,9 @@ namespace CompleteSQL.Merge.QueryPartsFactory
 
         internal static AndSourceQueryPart CreateWNMByTargetAndQueryPart<TSource>(this QueryPartComponent queryComponent, Expression<Func<TSource, bool>> predicate)
         {
+            if (predicate == null)
+                throw new ArgumentNullException("predicate");
+
             var whenNotMatchedByTarget = new WhenNotMatchedQueryPart(true);
             whenNotMatchedByTarget.QueryPartComponent = queryComponent;
 
@@ -57,6 +60,9 @@ namespace CompleteSQL.Merge.QueryPartsFactory
 
         internal static AndTargetQueryPart CreateWNMBySourceAndQueryPart<TSource>(this QueryPartComponent queryComponent, Expression<Func<TSource, bool>> predicate)
         {
+            if (predicate == null)
+                throw new ArgumentNullException("predicate");
+
             var whenNotMatchedBySource = new WhenNotMatchedQueryPart(false);
             whenNotMatchedBySource.QueryPartComponent = queryComponent;
 
@@ -97,19 +103,30 @@ namespace CompleteSQL.Merge.QueryPartsFactory
             return thenDeleteQueryPart;
         }
 
-        internal static AndTargetQueryPart CreateWMAndTargetQueryPart<TSource>(this QueryPartComponent queryComponent, Expression<Func<TSource, bool>> targetPredicate)
+
+        public static AndTargetQueryPart CreateWMAndTargetQueryPart<TSource>(this QueryPartComponent queryComponent, Expression<Func<TSource, bool>> targetPredicate)
         {
+            if (targetPredicate == null)
+                throw new ArgumentNullException("targetPredicate");
+
+
             var whenMatchedQueryPart = new WhenMatchedQueryPart();
             whenMatchedQueryPart.QueryPartComponent = queryComponent;
 
-            var andTargetQueryPart = new AndTargetQueryPart(targetPredicate);
-            andTargetQueryPart.QueryPartComponent = whenMatchedQueryPart;
+            var whenMatchedAndTarget = new AndTargetQueryPart(targetPredicate);
+            whenMatchedAndTarget.QueryPartComponent = whenMatchedQueryPart;
 
-            return andTargetQueryPart;
+
+            return whenMatchedAndTarget;
         }
+        
+
 
         internal static AndSourceQueryPart CreateWMAndSourceQueryPart<TSource>(this QueryPartComponent queryComponent, Expression<Func<TSource, bool>> sourcePredicate)
         {
+            if (sourcePredicate == null)
+                throw new ArgumentNullException("sourcePredicate");
+
             var whenMatchedQueryPart = new WhenMatchedQueryPart();
             whenMatchedQueryPart.QueryPartComponent = queryComponent;
 
@@ -117,6 +134,29 @@ namespace CompleteSQL.Merge.QueryPartsFactory
             andSourceQueryPart.QueryPartComponent = whenMatchedQueryPart;
 
             return andSourceQueryPart;
+        }
+
+        public static AndSourceQueryPart CreateWMAndQueryPart<TSource>(this QueryPartComponent queryComponent, Expression<Func<TSource, bool>> targetPredicate, Expression<Func<TSource, bool>> sourcePredicate)
+        {
+            if (targetPredicate == null)
+                throw new ArgumentNullException("targetPredicate");
+
+            if (sourcePredicate == null)
+                throw new ArgumentNullException("sourcePredicate");
+
+
+            var whenMatchedQueryPart = new WhenMatchedQueryPart();
+            whenMatchedQueryPart.QueryPartComponent = queryComponent;
+
+            var andTargetQueryPart = new AndTargetQueryPart(targetPredicate);
+            andTargetQueryPart.QueryPartComponent = whenMatchedQueryPart;
+
+            var whenMatchedAndTargetSource = new AndSourceQueryPart(sourcePredicate);
+            whenMatchedAndTargetSource.QueryPartComponent = andTargetQueryPart;
+
+            return whenMatchedAndTargetSource;
+
+
         }
 
        
