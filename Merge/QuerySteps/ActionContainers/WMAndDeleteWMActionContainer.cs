@@ -10,18 +10,18 @@ namespace CompleteSQL.Merge
             : base(queryComponent)
         { }
 
-        public WMAndDeleteWMUpdateActionStep<TSource> ThenUpdate()
+        public WMSomeActionStep<TSource> ThenUpdate()
         {
             var thenUpdateQueryPart = queryComponent.CreateWMThenUpdateQueryPart<TSource>();
 
-            return new WMAndDeleteWMUpdateActionStep<TSource>(thenUpdateQueryPart);
+            return new WMSomeActionStep<TSource>(thenUpdateQueryPart);
         }
 
-        public WMAndDeleteWMUpdateActionStep<TSource> ThenUpdate<TUpdate>(Expression<Func<TSource,TSource, TUpdate>> updatingColumns)
+        public WMSomeActionStep<TSource> ThenUpdate<TUpdate>(Expression<Func<TSource, TSource, TUpdate>> updatingColumns)
         {
             var thenUpdateQueryPart = queryComponent.CreateWMThenUpdateQueryPart(updatingColumns);
 
-            return new WMAndDeleteWMUpdateActionStep<TSource>(thenUpdateQueryPart);
+            return new WMSomeActionStep<TSource>(thenUpdateQueryPart);
         }
     }
 }

@@ -11,6 +11,12 @@ namespace UnitTestProject1.MergeQueryBuildingTests.WhenMatched
     [TestFixture]
     public class WhenMatchedAndTwoSteps
     {
+        /// <summary>
+        /// WhenMatchedAnd
+        /// ThenUpdate
+        /// WhenMatched
+        /// ThenDelete
+        /// </summary>
         [Test]
         public void WhenMatchedAndThenUdpateWhenMatchedThenDeleteTest()
         {
@@ -52,6 +58,12 @@ When Matched
             Assert.AreEqual(expectedQuery, query);
         }
 
+        /// <summary>
+        /// WhenMatchedAnd
+        /// ThenUpdate
+        /// WhenMatchedAnd
+        /// ThenDelete
+        /// </summary>
         [Test]
         public void WhenMatchedAndTargetThenUdpateWhenMatchedAndThenDeleteTest()
         {
@@ -93,6 +105,12 @@ When Matched And tgt.Age > 100
             Assert.AreEqual(expectedQuery, query);
         }
 
+        /// <summary>
+        /// WhenMatchedAnd
+        /// ThenUpdate
+        /// WhenMatchedAndSource
+        /// ThenDelete
+        /// </summary>
         [Test]
         public void WhenMatchedAndThenUdpateWhenMatchedAndSourceThenDeleteTest()
         {
@@ -134,6 +152,12 @@ When Matched And src.Age > 100
             Assert.AreEqual(expectedQuery, query);
         }
 
+        /// <summary>
+        /// WhenMatchedAnd
+        /// ThenDelete
+        /// WhenMatched
+        /// ThenUpdate
+        /// </summary>
         [Test]
         public void WhenMatchedAndThenDeleteWhenMatchedThenUpdateTest()
         {
@@ -179,6 +203,12 @@ When Matched
 
         }
 
+        /// <summary>
+        /// WhenMatchedAnd
+        /// ThenDelete
+        /// WhenMatchedAnd
+        /// ThenUpdate
+        /// </summary>
         [Test]
         public void WhenMatchedAndThenDeleteWhenMatchedAndThenUdapteTest()
         {
@@ -220,6 +250,12 @@ When Matched And tgt.Age > 18
             Assert.AreEqual(expectedQuery, query);
         }
 
+        /// <summary>
+        /// WhenMatchedAnd
+        /// ThenUpdate
+        /// WhenNotMatched
+        /// ThenInsert
+        /// </summary>
         [Test]
         public void WhenMatchedAndThenUdpateWhenNotMatchedThenInsertTest()
         {
@@ -262,6 +298,12 @@ When Not Matched
             Assert.AreEqual(expectedQuery, query);
         }
 
+        /// <summary>
+        /// WhenMatchedAnd
+        /// ThenUpdate
+        /// WhenNotMatched
+        /// ThenInsert
+        /// </summary>
         [Test]
         public void WhenMatchedAndThenUdpateWhenNotMatchedThenInsertDefinedColumnsTest()
         {
@@ -304,6 +346,13 @@ When Not Matched
             Assert.AreEqual(expectedQuery, query);
         }
 
+
+        /// <summary>
+        /// WhenMatchedAnd
+        /// ThenUpdate
+        /// WhenNotMatchedAnd
+        /// ThenInsert
+        /// </summary>
         [Test]
         public void WhenMatchedAndThenUdpateWhenNotMatchedAndThenInsertTest()
         {
@@ -346,6 +395,12 @@ When Not Matched And src.GroupNumber = 10
             Assert.AreEqual(expectedQuery, query);
         }
 
+        /// <summary>
+        /// WhenMatchedAnd
+        /// ThenUpdate
+        /// WhenNotMatchedAnd
+        /// ThenInsert
+        /// </summary>
         [Test]
         public void WhenMatchedAndThenUdpateWhenNotMatchedAndThenInsertDefinedColumnsTest()
         {
@@ -388,6 +443,12 @@ When Not Matched And src.GroupNumber = 10
             Assert.AreEqual(expectedQuery, query);
         }
 
+        /// <summary>
+        /// WhenMatchedAnd
+        /// ThenDelete
+        /// WhenNotMatched
+        /// ThenInsert
+        /// </summary>
         [Test]
         public void WhenMatchedAndThenDeleteWhenNotMatchedThenInsertTest()
         {
@@ -429,7 +490,11 @@ When Not Matched
             Assert.AreEqual(expectedQuery, query);
         }
 
-
+        /// <summary>
+        /// WhenMatchedAnd
+        /// ThenDelete
+        /// WhenNotMatchedAnd
+        /// ThenInsert
         [Test]
         public void WhenMatchedAndThenDeleteWhenNotMatchedAndThenInsertTest()
         {
@@ -471,6 +536,12 @@ When Not Matched And src.GroupNumber = 10
             Assert.AreEqual(expectedQuery, query);
         }
 
+        /// <summary>
+        /// WhenMatchedAnd
+        /// ThenUpdate
+        /// WhenNotMatchedBySource
+        /// ThenUpdate
+        /// </summary>
         [Test]
         public void WhenMatchedAndThenUdpateWhenNotMatchedBySourceThenUpdate()
         {
@@ -520,6 +591,12 @@ When Not Matched By Source
             Assert.AreEqual(expectedQuery, query);
         }
 
+        /// <summary>
+        /// WhenMatchedAnd
+        /// ThenUpdate
+        /// WhenNotMathcedBySourceAnd
+        /// ThenUpdate
+        /// </summary>
         [Test]
         public void WhenMatchedAndThenUdpateWhenNotMatchedBySourceAndThenUpdate()
         {
@@ -568,6 +645,102 @@ When Not Matched By Source And tgt.Age < 100
 
             Assert.AreEqual(expectedQuery, query);
         }
+
+
+        /// <summary>
+        /// WhenMatchedAnd
+        /// ThenUpdate
+        /// WhenNotMatchedBySource
+        /// ThenDelete
+        /// </summary>
+        [Test]
+        public void WhenMatchedAndThenUdpateWhenNotMatchedBySourceThenDelete()
+        {
+            var people = new[]
+            {
+                new
+                {
+                    Number = 50, 
+                    Name = "Nikolai", 
+                    Age =32,
+                    GroupNumber =111, 
+                    GroupName = "One One One",
+                    Salary = 13m
+                }
+            };
+
+            DataContext context = new DataContext("CompleteSQL");
+
+            var mergeExpression = context.CreateMergeUsing(people)
+               .Target("Person")
+               .On(p => p.Number)
+               .WhenMatchedAndTarget(p => p.Age > 18)
+               .ThenUpdate((tgt, src) => new { Age = src.Age })
+               .WhenNotMatchedBySource()
+               .ThenDelete();
+
+            string expectedQuery =
+@"Merge Into Person as tgt
+Using #Person as src
+	On tgt.Number = src.Number
+When Matched And tgt.Age > 18
+	Then Update Set
+		tgt.Age = src.Age
+When Not Matched By Source
+	Then Delete;";
+
+            string query = mergeExpression.GetMergeQuery();
+
+            Assert.AreEqual(expectedQuery, query);
+        }
+
+        /// <summary>
+        /// WhenMatchedAnd
+        /// ThenUpdate
+        /// WhenNotMatchedBySourceAnd
+        /// ThenDelete
+        /// </summary>
+        [Test]
+        public void WhenMatchedAndThenUdpateWhenNotMatchedBySourceAndThenDelete()
+        {
+            var people = new[]
+            {
+                new
+                {
+                    Number = 50, 
+                    Name = "Nikolai", 
+                    Age =32,
+                    GroupNumber =111, 
+                    GroupName = "One One One",
+                    Salary = 13m
+                }
+            };
+
+            DataContext context = new DataContext("CompleteSQL");
+
+            var mergeExpression = context.CreateMergeUsing(people)
+               .Target("Person")
+               .On(p => p.Number)
+               .WhenMatchedAndTarget(p => p.Age > 18)
+               .ThenUpdate((tgt, src) => new { Age = src.Age })
+               .WhenNotMatchedBySourceAnd(p=>p.Age == 100)
+               .ThenDelete();
+
+            string expectedQuery =
+@"Merge Into Person as tgt
+Using #Person as src
+	On tgt.Number = src.Number
+When Matched And tgt.Age > 18
+	Then Update Set
+		tgt.Age = src.Age
+When Not Matched By Source And tgt.Age = 100
+	Then Delete;";
+
+            string query = mergeExpression.GetMergeQuery();
+
+            Assert.AreEqual(expectedQuery, query);
+        }
+
 
         
     }

@@ -11,9 +11,16 @@ namespace CompleteSQL.Merge
 
         public WMAndUpdateOrDeleteWNMBySourceAndUpdateActionStep<TSource> ThenUpdate<TUpdate>(Expression<Func<TSource, TUpdate>> newValues)
         {
-            var thenUpdateQueryPart = queryComponent.CreateWNMThenUpdateQueryPart(newValues);
+            var thenUpdateQueryComponent = queryComponent.CreateWNMThenUpdateQueryPart(newValues);
 
-            return new WMAndUpdateOrDeleteWNMBySourceAndUpdateActionStep<TSource>(thenUpdateQueryPart);
+            return new WMAndUpdateOrDeleteWNMBySourceAndUpdateActionStep<TSource>(thenUpdateQueryComponent);
+        }
+
+        public WMAndUpdateOrDeleteWNMBySourceAndDeleteActionStep<TSource> ThenDelete()
+        {
+            var thenDeleteQueryComponent = queryComponent.CreateThenDeleteQueryPart();
+
+            return new WMAndUpdateOrDeleteWNMBySourceAndDeleteActionStep<TSource>(thenDeleteQueryComponent);
         }
     }
 }

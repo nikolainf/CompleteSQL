@@ -19,28 +19,28 @@ namespace CompleteSQL.Merge
             return new WMAndDeleteWMActionContainer<TSource>(whenMatchedQueryPart);
         }
 
-        public WMAndActionContainer<TSource> WhenMatchedAnd(Expression<Func<TSource, bool>> targetPredicate, Expression<Func<TSource, bool>> sourcePredicate)
+        public WMAndDeleteWMActionContainer<TSource> WhenMatchedAnd(Expression<Func<TSource, bool>> targetPredicate, Expression<Func<TSource, bool>> sourcePredicate)
         {
             var wmAndTargetSourceQueryComponent = queryComponent.CreateWMAndQueryPart<TSource>(targetPredicate, sourcePredicate);
 
-            return new WMAndActionContainer<TSource>(wmAndTargetSourceQueryComponent);
+            return new WMAndDeleteWMActionContainer<TSource>(wmAndTargetSourceQueryComponent);
 
         }
 
-        public WMAndActionContainer<TSource> WhenMatchedAndTarget(Expression<Func<TSource, bool>> targetPredicate)
+        public WMAndDeleteWMActionContainer<TSource> WhenMatchedAndTarget(Expression<Func<TSource, bool>> targetPredicate)
         {
 
             var wmAndTargetQueryComponent = queryComponent.CreateWMAndTargetQueryPart<TSource>(targetPredicate);
 
-            return new WMAndActionContainer<TSource>(wmAndTargetQueryComponent);
+            return new WMAndDeleteWMActionContainer<TSource>(wmAndTargetQueryComponent);
          
         }
 
-        public WMAndActionContainer<TSource> WhenMatchedAndSource(Expression<Func<TSource, bool>> sourcePredicate)
+        public WMAndDeleteWMActionContainer<TSource> WhenMatchedAndSource(Expression<Func<TSource, bool>> sourcePredicate)
         {
             var whenMatchedAndTarget = queryComponent.CreateWMAndSourceQueryPart(sourcePredicate);
 
-            return new WMAndActionContainer<TSource>(whenMatchedAndTarget);
+            return new WMAndDeleteWMActionContainer<TSource>(whenMatchedAndTarget);
         }
 
         #endregion
