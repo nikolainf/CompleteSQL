@@ -66,7 +66,5 @@ namespace CompleteSQL.Merge
             return new WMAndUpdateOrDeleteWNMBySourceAndActionContainer<TSource>(wnmAndBySource);
         }
 
-     
-
     }
 }

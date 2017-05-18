@@ -133,7 +133,7 @@ When Matched And tgt.Age > 100
                .Target("Person")
                .On(p => p.Number)
                .WhenMatchedAndTarget(p => p.Age > 18)
-               .ThenUpdate((tgt, src) => new { Age = src.Age })
+               .ThenUpdate()
                .WhenMatchedAndSource(p => p.Age > 100)
                .ThenDelete();
 
@@ -143,7 +143,11 @@ Using #Person as src
 	On tgt.Number = src.Number
 When Matched And tgt.Age > 18
 	Then Update Set
-		tgt.Age = src.Age
+		tgt.Name = src.Name,
+		tgt.Age = src.Age,
+		tgt.GroupNumber = src.GroupNumber,
+		tgt.GroupName = src.GroupName,
+		tgt.Salary = src.Salary
 When Matched And src.Age > 100
 	Then Delete;";
 

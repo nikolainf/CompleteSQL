@@ -73,9 +73,9 @@
     <Compile Include="MergeQueryBuildingTests\WhenMatched\WhenMatchedAndTwoSteps.cs" />
     <Compile Include="MergeQueryBuildingTests\WhenMatched\WhenMatchedThenDeleteTests.cs" />
     <Compile Include="MergeQueryBuildingTests\WhenMatched\WhenMatchedThenUpdateTests.cs" />
-    <Compile Include="MergeQueryBuildingTests\WhenNotMatchedBySourceThenUpdate.cs" />
-    <Compile Include="MergeQueryBuildingTests\WhenNotMatchedBySourceThenDeleteTests.cs" />
-    <Compile Include="MergeQueryBuildingTests\WhenNotMatchedThenInsert.cs" />
+    <Compile Include="MergeQueryBuildingTests\WhenNotMatchedBySource\WhenNotMatchedBySourceThenUpdate.cs" />
+    <Compile Include="MergeQueryBuildingTests\WhenNotMatchedBySource\WhenNotMatchedBySourceThenDeleteTests.cs" />
+    <Compile Include="MergeQueryBuildingTests\WhenNotMatched\WhenNotMatchedThenInsert.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="SqlTableEntity\TestEntity.cs" />
     <Compile Include="SqlTableEntity\TestEntityWithName.cs" />

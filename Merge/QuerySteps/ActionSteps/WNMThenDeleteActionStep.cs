@@ -12,9 +12,6 @@ namespace CompleteSQL.Merge
             : base(queryComponent)
         { }
 
-        public WMActionContainer<TSource> WhenMatched()
-        {
-            throw new NotImplementedException();
-        }
+      
     }
 }

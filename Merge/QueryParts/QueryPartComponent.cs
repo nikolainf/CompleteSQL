@@ -13,6 +13,8 @@ namespace CompleteSQL.Merge
         internal DataTableSchema tableSchema;
         internal abstract string GetQueryPart();
 
-       
+
+
+     
     }
 }
