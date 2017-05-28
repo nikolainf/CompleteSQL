@@ -14,11 +14,11 @@ namespace CompleteSQL.Merge
             : base(queryComponent)
         { }
 
-        public WMActionContainer<TSource> WhenMatched()
+        public WmActionContainer<TSource> WhenMatched()
         {
             var whenMatchedQueryPart = queryComponent.CreateWhenMatchedQueryPart();
 
-            return new WMActionContainer<TSource>(whenMatchedQueryPart);
+            return new WmActionContainer<TSource>(whenMatchedQueryPart);
         }
 
         public WMAndActionContainer<TSource> WhenMatchedAnd(Expression<Func<TSource, bool>> targetPredicate, Expression<Func<TSource, bool>> sourcePredicate)
@@ -44,18 +44,18 @@ namespace CompleteSQL.Merge
         }
 
    
-        public WNMFirstActionContainer<TSource> WhenNotMatched()
+        public WnmActionContainer<TSource> WhenNotMatched()
         {
             var whenNotMatchedByTarget = queryComponent.CreateWNMByTargetQueryPart();
 
-            return new WNMFirstActionContainer<TSource>(whenNotMatchedByTarget);
+            return new WnmActionContainer<TSource>(whenNotMatchedByTarget);
         }
 
-        public WNMFirstActionContainer<TSource> WhenNotMatchedAnd(Expression<Func<TSource, bool>> predicate)
+        public WnmActionContainer<TSource> WhenNotMatchedAnd(Expression<Func<TSource, bool>> predicate)
         {
             var whenNotMatchedAndByTarget = queryComponent.CreateWNMByTargetAndQueryPart(predicate);
 
-            return new WNMFirstActionContainer<TSource>(whenNotMatchedAndByTarget);
+            return new WnmActionContainer<TSource>(whenNotMatchedAndByTarget);
         }
 
         public WNMBySourceFirstActionContainer<TSource> WhenNotMatchedBySource()

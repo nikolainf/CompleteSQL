@@ -5,7 +5,6 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using CompleteSQL.Extension;
-using CompleteSQL.Merge.QueryPartBuilders;
 
 namespace CompleteSQL.Merge
 {

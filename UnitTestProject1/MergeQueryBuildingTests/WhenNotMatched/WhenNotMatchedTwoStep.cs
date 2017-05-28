@@ -6,14 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UnitTestProject1.MergeQueryBuildingTests
+namespace UnitTestProject1.MergeQueryBuildingTests.WhenNotMatched
 {
     [TestFixture]
-    public class WhenMatchedTwoStepsTests
+    public class WhenNotMatchedTwoStep
     {
-        // В первом шаге протестирован только метод Delete, Update протестирован в других тестах, а возвращаемое значение у ThenDelete и  у ThenUpdate одинаковый.
         [Test]
-        public void WhenMatchedThenDeleteWhenNotMatchedThenInsertTest()
+        public void WhenNotMatchedThenInsertWhenMatchedThenDelete()
         {
             var people = new[]
             {
@@ -33,112 +32,28 @@ namespace UnitTestProject1.MergeQueryBuildingTests
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("Person")
                .On(p => p.Number)
-               .WhenMatched()
-               .ThenDelete()
                .WhenNotMatched()
-               .ThenInsert();
-
-            string expectedQuery =
-@"Merge Into Person as tgt
-Using #Person as src
-	On tgt.Number = src.Number
-When Matched
-	Then Delete
-When Not Matched
-	Then Insert(Number, Name, Age, GroupNumber, GroupName, Salary)
-		Values(src.Number, src.Name, src.Age, src.GroupNumber, src.GroupName, src.Salary);";
-
-            string query = mergeExpression.GetMergeQuery();
-
-            Assert.AreEqual(expectedQuery, query);
-
-        }
-
-        [Test]
-        public void WhenMatchedThenDeleteWhenNotMatchedThenInsertDefinedColumnsTest()
-        {
-            var people = new[]
-            {
-                new
-                {
-                    Number = 50, 
-                    Name = "Nikolai", 
-                    Age = 32,
-                    GroupNumber = 111, 
-                    GroupName = "One One One",
-                    Salary = 13d
-                }
-            };
-
-            DataContext context = new DataContext("CompleteSQL");
-
-            var mergeExpression = context.CreateMergeUsing(people)
-               .Target("Person")
-               .On(p => p.Number)
+               .ThenInsert(p => new { p.Number, p.Name, p.Age })
                .WhenMatched()
-               .ThenDelete()
-               .WhenNotMatched()
-               .ThenInsert(p => new { p.Number, p.Name, Age = p.Age + 1 });
-
-            string expectedQuery =
-@"Merge Into Person as tgt
-Using #Person as src
-	On tgt.Number = src.Number
-When Matched
-	Then Delete
-When Not Matched
-	Then Insert(Number, Name, Age)
-		Values(src.Number, src.Name, src.Age + 1);";
-
-            string query = mergeExpression.GetMergeQuery();
-
-            Assert.AreEqual(expectedQuery, query);
-
-        }
-
-        [Test]
-        public void WhenMatchedThenDeleteWhenNotMatchedBySourceThenDeleteTest()
-        {
-            var people = new[]
-            {
-                new
-                {
-                    Number = 50, 
-                    Name = "Nikolai", 
-                    Age =32,
-                    GroupNumber =111, 
-                    GroupName = "One One One",
-                    Salary = 13m
-                }
-            };
-
-            DataContext context = new DataContext("CompleteSQL");
-
-            var mergeExpression = context.CreateMergeUsing(people)
-               .Target("Person")
-               .On(p => p.Number)
-               .WhenMatched()
-               .ThenDelete()
-               .WhenNotMatchedBySource()
                .ThenDelete();
 
             string expectedQuery =
 @"Merge Into Person as tgt
 Using #Person as src
 	On tgt.Number = src.Number
+When Not Matched
+	Then Insert(Number, Name, Age)
+		Values(src.Number, src.Name, src.Age)
 When Matched
-	Then Delete
-When Not Matched By Source
 	Then Delete;";
 
             string query = mergeExpression.GetMergeQuery();
 
             Assert.AreEqual(expectedQuery, query);
-
         }
 
         [Test]
-        public void WhenMatchedThenDeleteWhenNotMatchedBySourceThenUpdateTest()
+        public void WhenNotMatchedThenInsertWhenMatchedThenUpdate()
         {
             var people = new[]
             {
@@ -149,7 +64,7 @@ When Not Matched By Source
                     Age =32,
                     GroupNumber =111, 
                     GroupName = "One One One",
-                    Salary = 13m
+                    Salary = 13d
                 }
             };
 
@@ -158,34 +73,110 @@ When Not Matched By Source
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("Person")
                .On(p => p.Number)
+               .WhenNotMatched()
+               .ThenInsert(p => new { p.Number, p.Name, p.Age })
                .WhenMatched()
-               .ThenDelete()
-               .WhenNotMatchedBySource()
-               .ThenUpdate(tgt => new
-               {
-                   Age = tgt.Age+1,
-                   Salary = tgt.Salary + 25m
-               });
+               .ThenUpdate((tgt, src)=> new { Salary = src.Salary + tgt.Salary});
 
             string expectedQuery =
 @"Merge Into Person as tgt
 Using #Person as src
 	On tgt.Number = src.Number
+When Not Matched
+	Then Insert(Number, Name, Age)
+		Values(src.Number, src.Name, src.Age)
 When Matched
-	Then Delete
-When Not Matched By Source
 	Then Update Set
-		tgt.Age = tgt.Age + 1,
-		tgt.Salary = tgt.Salary + 25;";
+		tgt.Salary = src.Salary + tgt.Salary;";
 
             string query = mergeExpression.GetMergeQuery();
 
             Assert.AreEqual(expectedQuery, query);
-
         }
 
-       
-    }
+        [Test]
+        public void WhenNotMatchedAndThenInsertWhenMatchedThenDelete()
+        {
+            var people = new[]
+            {
+                new
+                {
+                    Number = 50, 
+                    Name = "Nikolai", 
+                    Age =32,
+                    GroupNumber =111, 
+                    GroupName = "One One One",
+                    Salary = 13d
+                }
+            };
 
-    
+            DataContext context = new DataContext("CompleteSQL");
+
+            var mergeExpression = context.CreateMergeUsing(people)
+               .Target("Person")
+               .On(p => p.Number)
+               .WhenNotMatchedAnd(tgt => tgt.Age > 100)
+               .ThenInsert(p => new { p.Number, p.Name, p.Age })
+               .WhenMatched()
+               .ThenDelete();
+
+            string expectedQuery =
+@"Merge Into Person as tgt
+Using #Person as src
+	On tgt.Number = src.Number
+When Not Matched And src.Age > 100
+	Then Insert(Number, Name, Age)
+		Values(src.Number, src.Name, src.Age)
+When Matched
+	Then Delete;";
+
+            string query = mergeExpression.GetMergeQuery();
+
+            Assert.AreEqual(expectedQuery, query);
+        }
+
+        [Test]
+        public void WhenNotMatchedAndThenInsertWhenMatchedThenUpdate()
+        {
+            var people = new[]
+            {
+                new
+                {
+                    Number = 50, 
+                    Name = "Nikolai", 
+                    Age =32,
+                    GroupNumber =111, 
+                    GroupName = "One One One",
+                    Salary = 13d
+                }
+            };
+
+            DataContext context = new DataContext("CompleteSQL");
+
+            var mergeExpression = context.CreateMergeUsing(people)
+               .Target("Person")
+               .On(p => p.Number)
+               .WhenNotMatchedAnd(src => src.Name == "Alex")
+               .ThenInsert(p => new { p.Number, p.Name, p.Age })
+               .WhenMatched()
+               .ThenUpdate((tgt, src) => new { Salary = src.Salary + tgt.Salary });
+
+            string expectedQuery =
+@"Merge Into Person as tgt
+Using #Person as src
+	On tgt.Number = src.Number
+When Not Matched And src.Name = 'Alex'
+	Then Insert(Number, Name, Age)
+		Values(src.Number, src.Name, src.Age)
+When Matched
+	Then Update Set
+		tgt.Salary = src.Salary + tgt.Salary;";
+
+            string query = mergeExpression.GetMergeQuery();
+
+            Assert.AreEqual(expectedQuery, query);
+        }
+
+
+    }
 }

@@ -8,9 +8,9 @@ namespace CompleteSQL.Merge
     /// Класс условие When Matched, содержащий методы действия выполняемые после условия When Matched, если оно идет самым первым в merge-запросе
     /// </summary>
     /// <typeparam name="TSource">Тип-Источник</typeparam>
-    public class WMActionContainer<TSource> : QueryStepBase
+    public class WmActionContainer<TSource> : QueryStepBase
     {
-        internal WMActionContainer(QueryPartComponent queryComponent)
+        internal WmActionContainer(QueryPartComponent queryComponent)
             : base(queryComponent)
         {
             

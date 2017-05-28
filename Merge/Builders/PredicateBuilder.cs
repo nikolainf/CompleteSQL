@@ -123,7 +123,7 @@ namespace CompleteSQL
             if (expr is MemberExpression)
                 return string.Concat(alias, ((MemberExpression)expr).Member.Name);
             else if (expr is ConstantExpression)
-                return ((ConstantExpression)expr).Value.ToString();
+                return ((ConstantExpression)expr).GetValue();
             else
                 throw new ArgumentNullException(expr.ToString());
         }

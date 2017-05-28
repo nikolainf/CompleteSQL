@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CompleteSQL.Merge.QueryPartBuilders
+namespace CompleteSQL
 {
     internal class NewValueBuilder
     {
@@ -99,13 +99,7 @@ namespace CompleteSQL.Merge.QueryPartBuilders
 
                         ConstantExpression constant = (ConstantExpression)operand;
 
-                        if (operand.Type == typeof(System.Int32))
-                            return constant.Value.ToString();
-                        else if (operand.Type == typeof(System.Decimal))
-                            return Convert.ToDecimal(constant.Value).ToString().Replace(',', '.');
-                        else if (operand.Type == typeof(System.Double))
-                            return constant.Value.ToString();
-                        else return string.Concat("\'", constant.Value, "\'");
+                        return constant.GetValue();
 
                     default: throw new ArgumentException();
 
