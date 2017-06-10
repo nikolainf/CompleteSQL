@@ -11,6 +11,15 @@ namespace UnitTestProject1.MergeQueryBuildingTests
     [TestFixture]
     public class WhenMatchedTwoStepsTests
     {
+
+        DataContext context;
+
+        [SetUp]
+        public void Init()
+        {
+            context = new DataContext("CompleteSQL");
+        }
+
         // В первом шаге протестирован только метод Delete, Update протестирован в других тестах, а возвращаемое значение у ThenDelete и  у ThenUpdate одинаковый.
         [Test]
         public void WhenMatchedThenDeleteWhenNotMatchedThenInsertTest()
@@ -28,7 +37,7 @@ namespace UnitTestProject1.MergeQueryBuildingTests
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("Person")
@@ -70,7 +79,7 @@ When Not Matched
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("Person")
@@ -112,7 +121,7 @@ When Not Matched
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("Person")
@@ -153,7 +162,7 @@ When Not Matched By Source
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("Person")

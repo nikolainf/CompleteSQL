@@ -12,6 +12,14 @@ namespace UnitTestProject1.MergeQueryBuildingTests
     [TestFixture]
     public class WhenNotMatchedThenInsert
     {
+        DataContext context;
+
+        [SetUp]
+        public void Init()
+        {
+            context = new DataContext("CompleteSQL");
+        }
+
         [Test]
         public void SingleMergePredicateInsertAllTest()
         {
@@ -25,7 +33,7 @@ namespace UnitTestProject1.MergeQueryBuildingTests
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
             .Target("TestTable")
@@ -59,7 +67,7 @@ When Not Matched
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
             .Target("TestTable")
@@ -94,7 +102,7 @@ When Not Matched
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                 .Target("TestTable")
@@ -129,7 +137,7 @@ When Not Matched
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                 .Target("Person")
@@ -164,7 +172,7 @@ When Not Matched
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                 .Target("Person")

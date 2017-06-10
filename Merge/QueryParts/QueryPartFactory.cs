@@ -17,17 +17,7 @@ namespace CompleteSQL.Merge.QueryPartsFactory
             return whenMatchedQueryPart;
         }
 
-        internal static AndTargetQueryPart CreateWhenMatchedAndQueryPart<TSource>(this QueryPartComponent queryComponent, Expression<Func<TSource, bool>> predicate)
-        {
-            var whenMatchedQueryPart = new WhenMatchedQueryPart();
-            whenMatchedQueryPart.QueryPartComponent = queryComponent;
-
-            var andQueryPart = new AndTargetQueryPart(predicate);
-            andQueryPart.QueryPartComponent = whenMatchedQueryPart;
-
-            return andQueryPart;
-        }
-
+        
         internal static WhenNotMatchedQueryPart CreateWNMByTargetQueryPart(this QueryPartComponent queryComponent)
         {
             var whenNotMatched = new WhenNotMatchedQueryPart(true);
@@ -104,6 +94,8 @@ namespace CompleteSQL.Merge.QueryPartsFactory
         }
 
 
+        #region WhenMatchedAnd
+
         public static AndTargetQueryPart CreateWMAndTargetQueryPart<TSource>(this QueryPartComponent queryComponent, Expression<Func<TSource, bool>> targetPredicate)
         {
             if (targetPredicate == null)
@@ -159,6 +151,8 @@ namespace CompleteSQL.Merge.QueryPartsFactory
 
         }
 
-       
+        #endregion
+
+
     }
 }

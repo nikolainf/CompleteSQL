@@ -11,6 +11,15 @@ namespace UnitTestProject1.MergeQueryBuildingTests.WhenMatched
     [TestFixture]
     public class WhenMatchedAndPredicates
     {
+
+        DataContext context;
+
+        [SetUp]
+        public void Init()
+        {
+            context = new DataContext("CompleteSQL");
+        }
+
         [Test]
         public void WhenMatchedAndTargetPredicateTest()
         {
@@ -23,7 +32,7 @@ namespace UnitTestProject1.MergeQueryBuildingTests.WhenMatched
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("TestTable")
@@ -56,7 +65,7 @@ When Matched And tgt.Name Like '%ay'
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("TestTable")
@@ -89,7 +98,7 @@ When Matched And src.Name Like 'N%'
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("TestTable")
@@ -122,7 +131,7 @@ When Matched And tgt.Name Like 'N%' And src.Id < 10005
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("TestTable")
@@ -160,7 +169,7 @@ When Matched And tgt.Name Like 'T%' And src.Id = 12
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("TestTable")
@@ -198,7 +207,7 @@ When Matched And tgt.Name Like 'N%' And src.Id < 10005
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("TestTable")
@@ -231,7 +240,7 @@ When Matched And tgt.Name Like '%ay' And tgt.Id < 100
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("TestTable")
@@ -264,7 +273,7 @@ When Matched And src.Name Like 'N%' And src.Id > 1000
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("TestTable")

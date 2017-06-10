@@ -10,6 +10,15 @@ namespace UnitTestProject1.MergeQueryBuildingTests
     [TestFixture]
     public class AndPredicatesTests
     {
+
+        DataContext context;
+
+        [SetUp]
+        public void Init()
+        {
+            context = new DataContext("CompleteSQL");
+        }
+
         static object[] AndParams =
     {
             new Tuple<string, Expression<Func<Person,bool>>>(">=", p=>p.Age>=17) ,
@@ -33,7 +42,7 @@ namespace UnitTestProject1.MergeQueryBuildingTests
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                 .Target("Person")
@@ -68,7 +77,7 @@ When Not Matched And src.Age " + tuple.Item1 + " 17" + Environment.NewLine + "\t
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                 .Target("Person")
@@ -103,7 +112,7 @@ When Not Matched And src.Name Like 'J%'
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                 .Target("Person")
@@ -138,7 +147,7 @@ When Not Matched And src.Name Like '%ing'
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                 .Target("Person")
@@ -176,7 +185,7 @@ When Not Matched And src.Name Like '%abc%'
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("Person")
@@ -214,7 +223,7 @@ When Not Matched And src.Name = 'Alex'
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("Person")
@@ -251,7 +260,7 @@ When Not Matched And src.Salary = 100
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("Person")
@@ -286,7 +295,7 @@ When Not Matched And src.Salary = 100
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             string[] names = new[] { "John", "Peter", "Mike", "Nikolai" };
 
@@ -323,7 +332,7 @@ When Not Matched And src.Name In('John', 'Peter', 'Mike', 'Nikolai')
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             List<string> names = new List<string>{ "John", "Peter", "Mike", "Nikolai" };
 
@@ -360,7 +369,7 @@ When Not Matched And src.Name In('John', 'Peter', 'Mike', 'Nikolai')
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             int[] numbers = new[] { 132, 789, 9, 5 };
 
@@ -399,7 +408,7 @@ When Not Matched And src.Number In(132, 789, 9, 5)
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                 .Target("Person")

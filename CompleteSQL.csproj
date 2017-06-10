@@ -66,6 +66,7 @@
     <Compile Include="Merge\QuerySteps\ActionContainers\WMAndUpdateOrDeleteWNMBySourceActionContainer.cs" />
     <Compile Include="Merge\QuerySteps\ActionContainers\WMAndUpdateOrDeleteWNMBySourceAndActionContainer.cs" />
     <Compile Include="Merge\QuerySteps\ActionContainers\WnmWmActionContainer.cs" />
+    <Compile Include="Merge\QuerySteps\ActionContainers\WnmWmAndActionContainer.cs" />
     <Compile Include="Merge\QuerySteps\ActionSteps\ActionStepBase.cs" />
     <Compile Include="Merge\QuerySteps\ActionSteps\WMAndDeleteActionStep.cs" />
     <Compile Include="Merge\QuerySteps\ActionSteps\WMAndUpdateActionStep.cs" />
@@ -86,7 +87,7 @@
     <Compile Include="Merge\QuerySteps\ActionContainers\WmWnmBySourceActionContainer.cs" />
     <Compile Include="Merge\QuerySteps\ActionContainers\WmWnmActionContainer.cs" />
     <Compile Include="Merge\QuerySteps\ActionContainers\WnmActionContainer.cs" />
-    <Compile Include="Merge\QuerySteps\ActionContainers\WNMBySourceFirstActionContainer.cs" />
+    <Compile Include="Merge\QuerySteps\ActionContainers\WnmBySrcActionContainer.cs" />
     <Compile Include="Merge\QuerySteps\ActionSteps\WNMThenDeleteActionStep.cs" />
     <Compile Include="Merge\QuerySteps\ActionSteps\WnmActionStep.cs" />
     <Compile Include="Merge\QuerySteps\ActionSteps\WnmWmActionStep.cs" />

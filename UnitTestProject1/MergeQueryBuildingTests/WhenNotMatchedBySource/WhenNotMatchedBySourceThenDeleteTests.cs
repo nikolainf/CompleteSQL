@@ -11,6 +11,14 @@ namespace UnitTestProject1.MergeQueryBuildingTests
     [TestFixture]
     public class WhenNotMatchedBySourceThenDeleteTests
     {
+        DataContext context;
+
+        [SetUp]
+        public void Init()
+        {
+            context = new DataContext("CompleteSQL");
+        }
+
         [Test]
         public void SingleMergePredicateTest()
         {
@@ -23,7 +31,7 @@ namespace UnitTestProject1.MergeQueryBuildingTests
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("TestTable")
@@ -55,12 +63,12 @@ When Not Matched By Source
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("TestTable")
                .On(p => p.Id)
-               .WhenNotMatcheBySourceAnd(p => p.Name.StartsWith("Jo"))
+               .WhenNotMatchedBySourceAnd(p => p.Name.StartsWith("Jo"))
                .ThenDelete();
 
 
@@ -91,12 +99,12 @@ When Not Matched By Source And tgt.Name Like 'Jo%'
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("TestTable")
                .On(p => p.Id)
-               .WhenNotMatcheBySourceAnd(p => p.Name.StartsWith("Jo") && p.Number < 200)
+               .WhenNotMatchedBySourceAnd(p => p.Name.StartsWith("Jo") && p.Number < 200)
                .ThenDelete();
 
 
@@ -127,7 +135,7 @@ When Not Matched By Source And tgt.Name Like 'Jo%' And tgt.Number < 200
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("TestTable")
@@ -161,12 +169,12 @@ When Not Matched By Source
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("TestTable")
                .On(p => new { p.Id, p.Number })
-               .WhenNotMatcheBySourceAnd(p => p.Name.StartsWith("Jo"))
+               .WhenNotMatchedBySourceAnd(p => p.Name.StartsWith("Jo"))
                .ThenDelete();
 
 
@@ -198,12 +206,12 @@ When Not Matched By Source And tgt.Name Like 'Jo%'
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("TestTable")
                .On(p => new { p.Id, p.Number })
-               .WhenNotMatcheBySourceAnd(p => p.Name.StartsWith("Jo") && p.Number < 200)
+               .WhenNotMatchedBySourceAnd(p => p.Name.StartsWith("Jo") && p.Number < 200)
                .ThenDelete();
 
 

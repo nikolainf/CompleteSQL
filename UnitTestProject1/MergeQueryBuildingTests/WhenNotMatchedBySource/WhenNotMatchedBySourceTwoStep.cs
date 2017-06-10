@@ -1,10 +1,10 @@
 ﻿using CompleteSQL;
 using NUnit.Framework;
 
-namespace UnitTestProject1.MergeQueryBuildingTests.WhenNotMatched
+namespace UnitTestProject1.MergeQueryBuildingTests.WhenNotMatchedBySource
 {
     [TestFixture]
-    public class WhenNotMatchedTwoStep
+    class WhenNotMatchedBySourceTwoStep
     {
         private DataContext context;
         [SetUp]
@@ -29,12 +29,12 @@ namespace UnitTestProject1.MergeQueryBuildingTests.WhenNotMatched
                 }
             };
 
-           
+
 
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("Person")
                .On(p => p.Number)
-               .WhenNotMatched()
+               .WhenNotMatchedBySource()
                .ThenInsert(p => new { p.Number, p.Name, p.Age })
                .WhenMatched()
                .ThenDelete();
@@ -70,15 +70,15 @@ When Matched
                 }
             };
 
-            
+
 
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("Person")
                .On(p => p.Number)
-               .WhenNotMatched()
+               .WhenNotMatchedBySource()
                .ThenInsert(p => new { p.Number, p.Name, p.Age })
                .WhenMatched()
-               .ThenUpdate((tgt, src)=> new { Salary = src.Salary + tgt.Salary});
+               .ThenUpdate((tgt, src) => new { Salary = src.Salary + tgt.Salary });
 
             string expectedQuery =
 @"Merge Into Person as tgt
@@ -112,11 +112,11 @@ When Matched
                 }
             };
 
-            
+
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("Person")
                .On(p => p.Number)
-               .WhenNotMatchedAnd(tgt => tgt.Age > 100)
+               .WhenNotMatchedBySourceAnd(tgt => tgt.Age > 100)
                .ThenInsert(p => new { p.Number, p.Name, p.Age })
                .WhenMatched()
                .ThenDelete();
@@ -152,12 +152,12 @@ When Matched
                 }
             };
 
-            
+
 
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("Person")
                .On(p => p.Number)
-               .WhenNotMatchedAnd(src => src.Name == "Alex")
+               .WhenNotMatchedBySourceAnd(src => src.Name == "Alex")
                .ThenInsert(p => new { p.Number, p.Name, p.Age })
                .WhenMatched()
                .ThenUpdate((tgt, src) => new { Salary = src.Salary + tgt.Salary });
@@ -199,7 +199,7 @@ When Matched
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("Person")
                .On(p => p.Number)
-               .WhenNotMatched()
+               .WhenNotMatchedBySource()
                .ThenInsert(p => new { p.Number, p.Name, p.Age })
                .WhenMatchedAnd(tgt => tgt.Name.StartsWith("N"), src => src.Number < 10005)
                .ThenDelete();
@@ -240,7 +240,7 @@ When Matched And tgt.Name Like 'N%' And src.Number < 10005
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("Person")
                .On(p => p.Number)
-               .WhenNotMatched()
+               .WhenNotMatchedBySource()
                .ThenInsert(p => new { p.Number, p.Name, p.Age })
                .WhenMatchedAndTarget(tgt => tgt.Name.StartsWith("N"))
                .ThenDelete();
@@ -281,7 +281,7 @@ When Matched And tgt.Name Like 'N%'
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("Person")
                .On(p => p.Number)
-               .WhenNotMatched()
+               .WhenNotMatchedBySource()
                .ThenInsert(p => new { p.Number, p.Name, p.Age })
                .WhenMatchedAndSource(src => src.Name.StartsWith("N"))
                .ThenDelete();
@@ -322,7 +322,7 @@ When Matched And src.Name Like 'N%'
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("Person")
                .On(p => p.Number)
-               .WhenNotMatched()
+               .WhenNotMatchedBySource()
                .ThenInsert(p => new { p.Number, p.Name, p.Age })
                .WhenMatchedAnd(tgt => tgt.Name.StartsWith("N"), src => src.Number < 10005)
                .ThenUpdate((tgt, src) => new { Salary = src.Salary + tgt.Salary });
@@ -364,7 +364,7 @@ When Matched And tgt.Name Like 'N%' And src.Number < 10005
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("Person")
                .On(p => p.Number)
-               .WhenNotMatched()
+               .WhenNotMatchedBySource()
                .ThenInsert(p => new { p.Number, p.Name, p.Age })
                .WhenMatchedAndTarget(tgt => tgt.Name.StartsWith("N"))
                .ThenUpdate((tgt, src) => new { Salary = src.Salary + tgt.Salary });
@@ -406,7 +406,7 @@ When Matched And tgt.Name Like 'N%'
             var mergeExpression = context.CreateMergeUsing(people)
                .Target("Person")
                .On(p => p.Number)
-               .WhenNotMatched()
+               .WhenNotMatchedBySource()
                .ThenInsert(p => new { p.Number, p.Name, p.Age })
                .WhenMatchedAndSource(src => src.Name.StartsWith("N"))
                .ThenUpdate((tgt, src) => new { Salary = src.Salary + tgt.Salary });
@@ -426,9 +426,6 @@ When Matched And src.Name Like 'N%'
 
             Assert.AreEqual(expectedQuery, query);
         }
-
-        
-
 
     }
 }

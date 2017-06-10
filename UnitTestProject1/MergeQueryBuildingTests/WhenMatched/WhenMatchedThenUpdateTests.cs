@@ -5,6 +5,14 @@ namespace UnitTestProject1.MergeQueryBuildingTests
 {
     public class WhenMatchedThenUpdateTests
     {
+        DataContext context;
+
+        [SetUp]
+        public void Init()
+        {
+            context = new DataContext("CompleteSQL");
+        }
+
         [Test]
         public void UpdateUsingOnlySrcColumnsTest()
         {
@@ -22,7 +30,7 @@ namespace UnitTestProject1.MergeQueryBuildingTests
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                 .Target("TestTable")
@@ -65,7 +73,7 @@ When Matched
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                 .Target("TestTable")
@@ -105,7 +113,7 @@ When Matched
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                 .Target("TestTable")
@@ -149,7 +157,7 @@ When Matched
                 }
             };
 
-            DataContext context = new DataContext("CompleteSQL");
+            
 
             var mergeExpression = context.CreateMergeUsing(people)
                 .Target("TestTable")

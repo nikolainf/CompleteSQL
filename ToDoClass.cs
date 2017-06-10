@@ -12,6 +12,6 @@ namespace CompleteSQL
         // and predicate IN TSQL - for Any()
         // Abandon TSource in classes
        
-        // WhenNotMatched Two steps
+        // WhenNotMatchedAnd Two Steps
     }
 }

@@ -58,19 +58,19 @@ namespace CompleteSQL.Merge
             return new WnmActionContainer<TSource>(whenNotMatchedAndByTarget);
         }
 
-        public WNMBySourceFirstActionContainer<TSource> WhenNotMatchedBySource()
+        public WnmBySrcActionContainer<TSource> WhenNotMatchedBySource()
         {
             var whenNotMatchedBySource = queryComponent.CreateWNMBySourceQueryPart();
 
-            return new WNMBySourceFirstActionContainer<TSource>(whenNotMatchedBySource);
+            return new WnmBySrcActionContainer<TSource>(whenNotMatchedBySource);
         }
 
-        public WNMBySourceFirstActionContainer<TSource> WhenNotMatcheBySourceAnd(Expression<Func<TSource, bool>> predicate)
+        public WnmBySrcActionContainer<TSource> WhenNotMatchedBySourceAnd(Expression<Func<TSource, bool>> predicate)
         {
            
             var whenNotMatchedAndBySource = queryComponent.CreateWNMBySourceAndQueryPart(predicate);
 
-            return new WNMBySourceFirstActionContainer<TSource>(whenNotMatchedAndBySource);
+            return new WnmBySrcActionContainer<TSource>(whenNotMatchedAndBySource);
         }
 
     }
